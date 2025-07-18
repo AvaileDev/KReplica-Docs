@@ -47,11 +47,12 @@ class ExamplesController(private val provider: ExampleDataProvider) {
     ): String {
         val example = provider.getExampleBySlug(slug)
         if (example != null) {
-            val code = if (fileName == "source") example.sourceCode
-            else example.generatedFiles[fileName] ?: ""
+            val code = if (fileName == "source") example.sourceCode else example.generatedFiles[fileName] ?: ""
+            model.addAttribute("example", example)
+            model.addAttribute("activeFile", fileName)
             model.addAttribute("language", "kotlin")
             model.addAttribute("code", code)
-            return "fragments/playground-file-content"
+            return "fragments/playground-file-swap"
         }
         return "fragments/example-not-found"
     }
