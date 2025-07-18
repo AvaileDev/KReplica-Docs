@@ -1,7 +1,8 @@
 @param java.util.List<io.availe.kreplicadocs.Example> allExamples
 @param String activeSlug
+@param boolean useOob = false
 
-<ul id="examples-sidebar-links" hx-swap-oob="outerHTML">
+<ul id="examples-sidebar-links" hx-swap-oob="${useOob ? "outerHTML" : null}">
     @for(var item : allExamples)
         <li>
             <a class="${item.getSlug().equals(activeSlug) ? "active" : ""}"
