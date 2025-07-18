@@ -11,7 +11,7 @@ content = @`
             <div class="sidebar-nav">
                 <h3>Examples</h3>
                 <div id="examples-sidebar-links">
-                    @template.fragments.examplesSidebarLinks(allExamples = allExamples, activeSlug = activeSlug)
+                    @template.fragments.examples-sidebar-links(allExamples = allExamples, activeSlug = activeSlug)
                 </div>
             </div>
         </aside>

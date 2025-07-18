@@ -10,34 +10,35 @@ class PageController(private val provider: ExampleDataProvider) {
 
     @GetMapping("/")
     fun index(): String {
-        return "index"
+        return "pages/index"
     }
 
     @GetMapping("/getting-started")
     fun gettingStarted(): String {
-        return "getting-started"
+        return "pages/getting-started"
     }
 
     @GetMapping("/concepts")
     fun concepts(): String {
-        return "concepts"
+        return "pages/concepts"
     }
 
     @GetMapping("/examples")
     fun examples(model: Model): String {
         model.addAttribute("allExamples", provider.getAllExamples())
-        return "examples"
+        return "pages/examples"
     }
 
     @GetMapping("/examples/{slug}")
     fun exampleBySlug(@PathVariable slug: String, model: Model): String {
         model.addAttribute("allExamples", provider.getAllExamples())
+        model.addAttribute("activeSlug", slug)
         model.addAttribute("example", provider.getExampleBySlug(slug))
-        return "examples"
+        return "pages/examples"
     }
 
     @GetMapping("/faq")
     fun faq(): String {
-        return "faq"
+        return "pages/faq"
     }
 }

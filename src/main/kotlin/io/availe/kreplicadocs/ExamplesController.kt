@@ -5,26 +5,21 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.servlet.ModelAndView
 
 @Controller
 class ExamplesController(private val provider: ExampleDataProvider) {
 
     @HxRequest
     @GetMapping("/examples/{slug}")
-    fun getExamplePlayground(@PathVariable slug: String, model: Model): Collection<ModelAndView> {
+    fun getExamplePlayground(@PathVariable slug: String, model: Model): String {
         val example = provider.getExampleBySlug(slug)
         if (example != null) {
-            val mainView = ModelAndView("tags/playground")
-            mainView.addObject("example", example)
-
-            val sidebarView = ModelAndView("fragments/examples-sidebar-links")
-            sidebarView.addObject("allExamples", provider.getAllExamples())
-            sidebarView.addObject("activeSlug", slug)
-
-            return listOf(mainView, sidebarView)
+            model.addAttribute("example", example)
+            model.addAttribute("allExamples", provider.getAllExamples())
+            model.addAttribute("activeSlug", slug)
+            return "partials/example-update"
         }
-        return listOf(ModelAndView("fragments/example-not-found"))
+        return "fragments/example-not-found"
     }
 
     @HxRequest
