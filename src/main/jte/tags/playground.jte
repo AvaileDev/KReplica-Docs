@@ -22,19 +22,6 @@
             @endfor
         </select>
     </div>
-    <div class="custom-select-wrapper">
-        <label for="file-select-mobile">View File:</label>
-        <select id="file-select-mobile"
-                hx-get="/examples/${example.getSlug()}/file-content/${example.getGeneratedFiles().isEmpty() ? "source" : "source"}"
-                hx-target="#playground-content-${example.getSlug()}"
-                hx-indicator="#playground-content-${example.getSlug()} .htmx-indicator"
-                onchange="this.setAttribute('hx-get', '/examples/${example.getSlug()}/file-content/' + this.value)">
-            <option value="source" selected>Source</option>
-            @for(var entry : example.getGeneratedFiles().entrySet())
-                <option value="${entry.getKey()}">${entry.getKey()}</option>
-            @endfor
-        </select>
-    </div>
 </div>
 
 
