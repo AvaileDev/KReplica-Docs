@@ -25,6 +25,7 @@ body {
     padding: 0;
     background-color: var(--bg-color);
     color: var(--text-color);
+    -webkit-text-size-adjust: 100%;
 }
 
 .page-wrapper {
@@ -63,6 +64,7 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
+    flex-wrap: wrap;
 }
 
 .nav-links a {
@@ -149,6 +151,7 @@ strong {
     position: sticky;
     top: 60px;
     z-index: 500;
+    -webkit-overflow-scrolling: touch;
 }
 
 .examples-tablist::-webkit-scrollbar {
@@ -217,6 +220,7 @@ pre[class*="language-"] {
     overflow-x: auto;
     font-family: var(--font-mono);
     font-size: .95rem;
+    max-width: 100%;
 }
 
 :not(pre) > code[class*="language-"] {
@@ -345,6 +349,7 @@ pre[class*="language-"] {
     border: 1px solid var(--border-color);
     border-radius: 8px 8px 0 0;
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .playground-tabs button {
@@ -380,6 +385,7 @@ pre[class*="language-"] {
 .playground-content > pre {
     margin: 0;
     border-radius: 0 0 8px 8px;
+    max-width: 100%;
 }
 
 .page-progress {
@@ -406,5 +412,81 @@ pre[class*="language-"] {
 @media (prefers-reduced-motion: reduce) {
     * {
         transition: none !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-links a {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .hero-section {
+        padding: 40px 15px;
+    }
+
+    .hero-section h1 {
+        font-size: clamp(2rem, 6vw, 2.4rem);
+    }
+
+    .hero-section p {
+        font-size: 1rem;
+    }
+
+    .example-banner {
+        padding: 3rem 1rem 1.5rem;
+    }
+
+    .playground-tabs button,
+    .examples-tablist button {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    h1 {
+        font-size: clamp(2rem, 7vw, 2.3rem);
+    }
+
+    h2 {
+        font-size: clamp(1.5rem, 5.5vw, 1.9rem);
+    }
+
+    h3 {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .nav-container {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+    }
+
+    .nav-links {
+        width: 100%;
+    }
+
+    .nav-links a {
+        padding: 8px 10px;
+        font-size: 0.85rem;
+        flex: 1 1 50%;
+        text-align: left;
+    }
+
+    .main-content {
+        padding: 30px 15px;
+    }
+
+    .hero-section h1 {
+        font-size: clamp(1.8rem, 8vw, 2rem);
+    }
+
+    .examples-tablist button {
+        padding: 0.6rem 0.8rem;
+    }
+
+    .playground-tabs button {
+        padding: 0.55rem 0.9rem;
     }
 }
