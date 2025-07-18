@@ -2,8 +2,9 @@
 @param io.availe.kreplicadocs.Example example = null
 @param String activeSlug = null
 
+@template.fragments.examples-tab-buttons(allExamples = allExamples, activeSlug = activeSlug)
+
 <div class="examples-shell">
-    @template.fragments.examples-tab-buttons(allExamples = allExamples, activeSlug = activeSlug)
     <div class="examples-main" id="examples-main">
         @if(example != null)
             @template.tags.playground(example = example)

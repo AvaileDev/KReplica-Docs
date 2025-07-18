@@ -1,6 +1,6 @@
 @param io.availe.kreplicadocs.Example example
 
-<div class="playground-intro">
+<div class="example-banner">
     <h2>${example.getName()}</h2>
     <p>${example.getDescription()}</p>
 </div>

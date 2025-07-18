@@ -138,27 +138,17 @@ strong {
     color: var(--primary-color);
 }
 
-.examples-shell {
-    background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
-    padding: 4rem 1rem;
-    border-radius: 12px;
-    margin-bottom: 3rem;
-}
-
-.examples-main {
-    margin-top: 2rem;
-}
-
 .examples-tablist {
     display: inline-flex;
     overflow-x: auto;
     background: var(--surface-color);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    margin: 0 auto;
+    border-bottom: 1px solid var(--border-color);
+    margin: 0 auto 1.5rem;
     max-width: 100%;
     scrollbar-width: none;
-    scroll-snap-type: x mandatory;
+    position: sticky;
+    top: 60px;
+    z-index: 500;
 }
 
 .examples-tablist::-webkit-scrollbar {
@@ -191,9 +181,22 @@ strong {
 
 .examples-tablist button.active,
 .examples-tablist button[aria-selected="true"] {
-    background: var(--secondary-color);
-    color: #fff;
+    color: var(--secondary-color);
     font-weight: 600;
+    border-bottom: 3px solid var(--secondary-color);
+}
+
+.examples-shell {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .06);
+    margin-bottom: 3rem;
+    overflow: hidden;
+}
+
+.examples-main {
+    margin-top: 0;
 }
 
 .alert {
@@ -321,12 +324,19 @@ pre[class*="language-"] {
     text-decoration: none;
 }
 
-.playground-intro {
-    margin-bottom: 2rem;
+.example-banner {
+    background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+    padding: 4rem 1.5rem 2rem;
+    border-bottom: 1px solid var(--border-color);
 }
 
-.playground-intro h2 {
-    margin-top: 0;
+.example-banner h2,
+.example-banner p {
+    color: #ffffff;
+}
+
+.example-banner p {
+    max-width: 60ch;
 }
 
 .playground-tabs {
