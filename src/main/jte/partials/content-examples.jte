@@ -24,12 +24,12 @@
 </div>
 
 <div class="nav-footer">
-    <a href="/why-kreplica"
+    <a href="/benefits"
        class="button-secondary"
-       hx-get="/why-kreplica"
+       hx-get="/benefits"
        hx-target=".main-content"
-       hx-push-url="/why-kreplica"
-       hx-indicator=".page-progress">&larr; Prev: Why KReplica?</a>
+       hx-push-url="/benefits"
+       hx-indicator=".page-progress">&larr; Prev: Benefits</a>
     <a href="/faq"
        class="button-secondary nav-item-next"
        hx-get="/faq"

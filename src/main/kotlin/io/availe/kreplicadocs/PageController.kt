@@ -23,6 +23,7 @@ class PageController(private val provider: ExampleDataProvider) {
     @GetMapping("/")
     fun indexHtmx(model: Model): FragmentsRendering {
         model.addAttribute("currentPage", "index")
+        model.addAttribute("featureExample", provider.getExampleBySlug("versioned"))
         return FragmentsRendering
             .with("partials/content-index")
             .fragment("fragments/nav-update-oob")
@@ -32,39 +33,24 @@ class PageController(private val provider: ExampleDataProvider) {
     @GetMapping("/")
     fun index(model: Model): String {
         model.addAttribute("currentPage", "index")
+        model.addAttribute("featureExample", provider.getExampleBySlug("versioned"))
         return "pages/index"
     }
 
     @HxRequest
-    @GetMapping("/getting-started")
-    fun gettingStartedHtmx(model: Model): FragmentsRendering {
-        model.addAttribute("currentPage", "getting-started")
+    @GetMapping("/benefits")
+    fun benefitsHtmx(model: Model): FragmentsRendering {
+        model.addAttribute("currentPage", "benefits")
         return FragmentsRendering
-            .with("partials/content-getting-started")
+            .with("partials/content-benefits")
             .fragment("fragments/nav-update-oob")
             .build()
     }
 
-    @GetMapping("/getting-started")
-    fun gettingStarted(model: Model): String {
-        model.addAttribute("currentPage", "getting-started")
-        return "pages/getting-started"
-    }
-
-    @HxRequest
-    @GetMapping("/why-kreplica")
-    fun whyKreplicaHtmx(model: Model): FragmentsRendering {
-        model.addAttribute("currentPage", "why-kreplica")
-        return FragmentsRendering
-            .with("partials/content-concepts")
-            .fragment("fragments/nav-update-oob")
-            .build()
-    }
-
-    @GetMapping("/why-kreplica")
-    fun whyKreplica(model: Model): String {
-        model.addAttribute("currentPage", "why-kreplica")
-        return "pages/why-kreplica"
+    @GetMapping("/benefits")
+    fun benefits(model: Model): String {
+        model.addAttribute("currentPage", "benefits")
+        return "pages/benefits"
     }
 
     @HxRequest
