@@ -2,19 +2,39 @@
 @param io.availe.kreplicadocs.Example example = null
 @param String activeSlug = null
 
-@template.fragments.examples-tab-buttons(allExamples = allExamples, activeSlug = activeSlug)
+<div class="examples-container">
+    <aside class="examples-sidebar">
+        <h4>Examples</h4>
+        @template.fragments.examples-sidebar-links(allExamples = allExamples, activeSlug = activeSlug)
+    </aside>
 
-<div class="examples-shell">
-    <div class="examples-main" id="examples-main">
-        @if(example != null)
-            @template.tags.playground(example = example)
-        @else
-            <h1>Interactive Examples</h1>
-            <p>Select an example from the tabs to see KReplica in action.</p>
-            <p>The source interface is on the left; the generated code is on the right. You can switch between generated
-                files using the tabs.</p>
-            <div id="primary-indicator" class="htmx-indicator">Loading...</div>
-        @endif
+    <div class="examples-main-content">
+        <div class="examples-mobile-nav">
+            <label for="example-select">Select an Example:</label>
+            <select id="example-select"
+                    hx-get="'/examples/' + this.value + '/playground'"
+                    hx-target="#examples-main"
+                    hx-push-url="'/examples/' + this.value"
+                    hx-indicator="#primary-indicator">
+                @for(var item : allExamples)
+                    <option value="${item.getSlug()}" selected="${item.getSlug().equals(activeSlug)}">
+                        ${item.getName()}
+                    </option>
+                @endfor
+            </select>
+        </div>
+
+        <div class="examples-shell">
+            <div class="examples-main" id="examples-main">
+                @if(example != null)
+                    @template.tags.playground(example = example)
+                @else
+                    <h1>Interactive Examples</h1>
+                    <p>Select an example from the sidebar to see KReplica in action.</p>
+                    <div id="primary-indicator" class="htmx-indicator">Loading...</div>
+                @endif
+            </div>
+        </div>
     </div>
 </div>
 
