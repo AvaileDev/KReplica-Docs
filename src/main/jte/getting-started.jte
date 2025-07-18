@@ -8,13 +8,13 @@ content = @`
 
     @template.tags.code(language = "kotlin", content = @`
         plugins {
-        id("com.google.devtools.ksp") version "2.1.21-2.0.1" // Use a KSP version that matches your Kotlin version
+        id("com.google.devtools.ksp") version "2.1.21-2.0.1"
         id("io.availe.kreplica") version "3.0.0"
         }
     `)
 
     <div class="nav-footer">
-        <a href="/concepts" class="button-secondary">Next: Understand the Core Concepts &rarr;</a>
+        <a href="/concepts" class="button-secondary">Next: Core Concepts &rarr;</a>
     </div>
 `
 )

@@ -1,5 +1,6 @@
 @param java.util.List<io.availe.kreplicadocs.Example> allExamples
 @param io.availe.kreplicadocs.Example example = null
+@param String activeSlug = null
 
 @template.layout.main(
 title = "Examples | KReplica Docs",
@@ -9,18 +10,9 @@ content = @`
         <aside class="examples-sidebar">
             <div class="sidebar-nav">
                 <h3>Examples</h3>
-                <ul>
-                    @for(var item : allExamples)
-                        <li>
-                            <a hx-get="/examples/${item.getSlug()}"
-                               hx-target="#examples-content"
-                               hx-push-url="/examples/${item.getSlug()}"
-                               hx-indicator="#primary-indicator">
-                                ${item.getName()}
-                            </a>
-                        </li>
-                    @endfor
-                </ul>
+                <div id="examples-sidebar-links">
+                    @template.fragments.examplesSidebarLinks(allExamples = allExamples, activeSlug = activeSlug)
+                </div>
             </div>
         </aside>
 
@@ -34,6 +26,11 @@ content = @`
                 <div id="primary-indicator" class="htmx-indicator">Loading...</div>
             @endif
         </div>
+    </div>
+
+    <div class="nav-footer">
+        <a href="/concepts" class="button-secondary">&larr; Prev: Core Concepts</a>
+        <a href="/faq" class="button-secondary">Next: FAQ &rarr;</a>
     </div>
 `
 )

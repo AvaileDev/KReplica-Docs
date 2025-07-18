@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
 <div class="page-wrapper">
@@ -34,7 +35,17 @@
     </main>
 
     <footer class="main-footer">
-        <p>&copy; ${java.time.Year.now().getValue()} KReplica Project. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <a href="/" class="nav-logo">KReplica</a>
+                <p>&copy; ${java.time.Year.now().getValue()} KReplica Project. All rights reserved.</p>
+            </div>
+            <div class="footer-links">
+                <a href="https://github.com/your-repo/kreplica" target="_blank">GitHub</a>
+                <a href="/concepts">Core Concepts</a>
+                <a href="/examples">Examples</a>
+            </div>
+        </div>
     </footer>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>

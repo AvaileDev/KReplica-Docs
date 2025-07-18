@@ -21,11 +21,8 @@ content = @`
     <p>For example, if you define <code>V1</code> and <code>V2</code> interfaces, KReplica generates a structure like this:</p>
     @template.tags.code(language="kotlin", content=@`
         public sealed interface UserAccountSchema {
-        // V1 variants will be nested here
-        public sealed interface V1 : UserAccountSchema { ... }
-
-        // V2 variants will be nested here
-        public sealed interface V2 : UserAccountSchema { ... }
+        public sealed interface V1 : UserAccountSchema { /* ... */ }
+        public sealed interface V2 : UserAccountSchema { /* ... */ }
         }
     `)
 
@@ -37,16 +34,16 @@ content = @`
         is UserAccountSchema.V1.Data -> println("Handling a V1 user")
         is UserAccountSchema.V2.Data -> println("Handling a V2 user")
         is UserAccountSchema.V2.PatchRequest -> println("Handling a V2 patch")
-        // The compiler will force you to handle all cases!
         }
         }
     `)
 
     <h2>Nominal Typing</h2>
-    <p>To improve type safety, KReplica can automatically wrap primitive types like <code>String</code> or <code>Int</code> in dedicated <code>value class</code> types. This prevents accidentally mixing up different kinds of IDs or values (e.g., assigning a <code>ProductId</code> to a <code>UserId</code> field).</p>
+    <p>To improve type safety, KReplica can automatically wrap primitive types like <code>String</code> or <code>Int</code> in dedicated <code>value class</code> types. This prevents accidentally mixing up different kinds of IDs or values.</p>
 
     <div class="nav-footer">
-        <a href="/examples" class="button-secondary">Next: See it in Action &rarr;</a>
+        <a href="/getting-started" class="button-secondary">&larr; Prev: Getting Started</a>
+        <a href="/examples" class="button-secondary">Next: Examples &rarr;</a>
     </div>
 `
 )
