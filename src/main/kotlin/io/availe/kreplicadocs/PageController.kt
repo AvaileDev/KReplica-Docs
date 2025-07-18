@@ -9,6 +9,16 @@ import org.springframework.web.bind.annotation.PathVariable
 @Controller
 class PageController(private val provider: ExampleDataProvider) {
 
+    private fun prepareExamplesModel(model: Model) {
+        val allExamples = provider.getAllExamples()
+        val firstExample = allExamples.firstOrNull()
+        model.addAttribute("allExamples", allExamples)
+        if (firstExample != null) {
+            model.addAttribute("example", firstExample)
+            model.addAttribute("activeSlug", firstExample.slug)
+        }
+    }
+
     @HxRequest
     @GetMapping("/")
     fun indexHtmx(): String {
@@ -45,13 +55,13 @@ class PageController(private val provider: ExampleDataProvider) {
     @HxRequest
     @GetMapping("/examples")
     fun examplesHtmx(model: Model): String {
-        model.addAttribute("allExamples", provider.getAllExamples())
+        prepareExamplesModel(model)
         return "partials/content-examples"
     }
 
     @GetMapping("/examples")
     fun examples(model: Model): String {
-        model.addAttribute("allExamples", provider.getAllExamples())
+        prepareExamplesModel(model)
         return "pages/examples"
     }
 
