@@ -26,7 +26,7 @@
        hx-push-url="/concepts"
        hx-indicator=".page-progress">&larr; Prev: Core Concepts</a>
     <a href="/faq"
-       class="button-secondary"
+       class="button-secondary nav-item-next"
        hx-get="/faq"
        hx-target=".main-content"
        hx-push-url="/faq"
