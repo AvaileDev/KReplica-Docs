@@ -318,6 +318,38 @@ strong {
     color: #0c5460;
 }
 
+.code-block-wrapper {
+    position: relative;
+}
+
+.copy-code-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #4a4a4a;
+    color: #ccc;
+    border: 1px solid #666;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity .2s ease-in-out;
+}
+
+.copy-code-button:hover {
+    opacity: 1;
+}
+
+.copy-code-button:disabled {
+    opacity: 1;
+    cursor: default;
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: #fff;
+}
+
 pre[class*="language-"] {
     background: var(--code-bg);
     color: var(--code-text);

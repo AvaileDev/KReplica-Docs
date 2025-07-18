@@ -1,4 +1,11 @@
 @param String language
 @param gg.jte.Content content
 
-<pre><code class="language-${language}">${content}</code></pre>
+<div class="code-block-wrapper" x-data="{ copied: false }">
+    <button class="copy-code-button"
+            :disabled="copied"
+            @click="navigator.clipboard.writeText($el.nextElementSibling.textContent); copied = true; setTimeout(() => copied = false, 2000)">
+        <span x-text="copied ? 'Copied!' : 'Copy'"></span>
+    </button>
+    <pre><code class="language-${language}">${content}</code></pre>
+</div>
