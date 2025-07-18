@@ -150,6 +150,7 @@ strong {
     border-left: 3px solid transparent;
     padding-left: 15px;
     transition: all 0.2s;
+    cursor: pointer;
 }
 
 .sidebar-nav li a:hover {
@@ -201,5 +202,108 @@ pre[class*="language-"] {
     }
     .examples-sidebar {
         margin-top: 0;
+    }
+}
+
+.playground-intro {
+    margin-bottom: 2rem;
+}
+.playground-intro h2 {
+    margin-top: 0;
+    border-bottom: none;
+}
+
+.playground-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background-color: var(--surface-color);
+    overflow: hidden;
+}
+
+.playground-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.panel-title {
+    font-size: 1.1rem !important;
+    margin: 0 !important;
+    padding: 1rem 1.5rem;
+    border: none !important;
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.source-panel .panel-title {
+    border-right: 1px solid var(--border-color);
+}
+
+.playground-panel pre[class*="language-"] {
+    margin-top: 0;
+    border-radius: 0;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.panel-tabs {
+    display: flex;
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+    overflow-x: auto;
+}
+
+.panel-tabs button {
+    padding: 0.75rem 1.25rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.panel-tabs button:hover {
+    color: var(--primary-color);
+}
+
+.panel-tabs button.active {
+    color: var(--secondary-color);
+    font-weight: bold;
+    border-bottom-color: var(--secondary-color);
+}
+
+.panel-content {
+    flex-grow: 1;
+}
+
+.panel-content > pre {
+    border-top: none;
+}
+
+.htmx-indicator {
+    opacity:0;
+    transition: opacity 200ms ease-in;
+}
+.htmx-request .htmx-indicator {
+    opacity:1
+}
+.htmx-request.htmx-indicator {
+    opacity:1
+}
+
+@media (min-width: 992px) {
+    .playground-container {
+        flex-direction: row;
+        min-height: 600px;
+    }
+    .playground-panel {
+        flex: 1;
+        min-width: 0;
     }
 }
