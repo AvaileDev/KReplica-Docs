@@ -23,18 +23,17 @@ class ExamplesController(private val provider: ExampleDataProvider) {
     }
 
     @HxRequest
-    @GetMapping("/examples/{slug}/generated/{fileName}")
-    fun getGeneratedFile(
+    @GetMapping("/examples/{slug}/generated-panel/{fileName}")
+    fun getGeneratedPanelContent(
         @PathVariable slug: String,
         @PathVariable fileName: String,
         model: Model
     ): String {
         val example = provider.getExampleBySlug(slug)
-        val code = example?.generatedFiles?.get(fileName)
-        if (code != null) {
-            model.addAttribute("language", "kotlin")
-            model.addAttribute("content", code)
-            return "tags/code"
+        if (example != null) {
+            model.addAttribute("example", example)
+            model.addAttribute("activeFile", fileName)
+            return "fragments/generated-panel-content"
         }
         return "fragments/example-not-found"
     }
