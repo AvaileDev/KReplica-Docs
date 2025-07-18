@@ -36,7 +36,11 @@
                 </svg>
             </button>
 
-            <div class="nav-menu-container" x-show="isOpen" @click.outside="isOpen = false" style="display: none;">
+            <div class="nav-menu-container"
+                 x-show="isOpen"
+                 x-transition
+                 @click.outside="isOpen = false"
+                 style="display: none;">
                 <nav class="main-nav" id="mobile-nav-links">
                     @template.fragments.nav-links(currentPage = currentPage, isMobile = true)
                 </nav>
