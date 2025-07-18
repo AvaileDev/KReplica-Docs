@@ -65,9 +65,8 @@
                 <p>&copy; ${java.time.Year.now().getValue()} KReplica Project. All rights reserved.</p>
             </div>
             <div class="footer-links">
-                <a href="https://github.com/your-repo/kreplica" target="_blank">GitHub</a>
-                <a href="/concepts">Core Concepts</a>
-                <a href="/examples">Examples</a>
+                <a href="https://www.availe.io" target="_blank" rel="noreferrer">Personal Website</a>
+                <a href="https://github.com/AvaileLabs/KReplica" target="_blank" rel="noreferrer">KReplica GitHub</a>
             </div>
         </div>
     </footer>
