@@ -5,63 +5,83 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.servlet.view.FragmentsRendering
 
 @Controller
 class PageController(private val provider: ExampleDataProvider) {
 
     private fun prepareExamplesModel(model: Model) {
-        val allExamples = provider.getAllExamples()
-        val firstExample = allExamples.firstOrNull()
-        model.addAttribute("allExamples", allExamples)
-        if (firstExample != null) {
-            model.addAttribute("example", firstExample)
-            model.addAttribute("activeSlug", firstExample.slug)
+        val all = provider.getAllExamples()
+        model.addAttribute("allExamples", all)
+        all.firstOrNull()?.let {
+            model.addAttribute("example", it)
+            model.addAttribute("activeSlug", it.slug)
         }
     }
 
     @HxRequest
     @GetMapping("/")
-    fun indexHtmx(): String {
-        return "partials/content-index"
+    fun indexHtmx(model: Model): FragmentsRendering {
+        model.addAttribute("currentPage", "index")
+        return FragmentsRendering
+            .with("partials/content-index")
+            .fragment("fragments/nav-update-oob")
+            .build()
     }
 
     @GetMapping("/")
-    fun index(): String {
+    fun index(model: Model): String {
+        model.addAttribute("currentPage", "index")
         return "pages/index"
     }
 
     @HxRequest
     @GetMapping("/getting-started")
-    fun gettingStartedHtmx(): String {
-        return "partials/content-getting-started"
+    fun gettingStartedHtmx(model: Model): FragmentsRendering {
+        model.addAttribute("currentPage", "getting-started")
+        return FragmentsRendering
+            .with("partials/content-getting-started")
+            .fragment("fragments/nav-update-oob")
+            .build()
     }
 
     @GetMapping("/getting-started")
-    fun gettingStarted(): String {
+    fun gettingStarted(model: Model): String {
+        model.addAttribute("currentPage", "getting-started")
         return "pages/getting-started"
     }
 
     @HxRequest
     @GetMapping("/concepts")
-    fun conceptsHtmx(): String {
-        return "partials/content-concepts"
+    fun conceptsHtmx(model: Model): FragmentsRendering {
+        model.addAttribute("currentPage", "concepts")
+        return FragmentsRendering
+            .with("partials/content-concepts")
+            .fragment("fragments/nav-update-oob")
+            .build()
     }
 
     @GetMapping("/concepts")
-    fun concepts(): String {
+    fun concepts(model: Model): String {
+        model.addAttribute("currentPage", "concepts")
         return "pages/concepts"
     }
 
     @HxRequest
     @GetMapping("/examples")
-    fun examplesHtmx(model: Model): String {
+    fun examplesHtmx(model: Model): FragmentsRendering {
         prepareExamplesModel(model)
-        return "partials/content-examples"
+        model.addAttribute("currentPage", "examples")
+        return FragmentsRendering
+            .with("partials/content-examples")
+            .fragment("fragments/nav-update-oob")
+            .build()
     }
 
     @GetMapping("/examples")
     fun examples(model: Model): String {
         prepareExamplesModel(model)
+        model.addAttribute("currentPage", "examples")
         return "pages/examples"
     }
 
@@ -70,17 +90,23 @@ class PageController(private val provider: ExampleDataProvider) {
         model.addAttribute("allExamples", provider.getAllExamples())
         model.addAttribute("activeSlug", slug)
         model.addAttribute("example", provider.getExampleBySlug(slug))
+        model.addAttribute("currentPage", "examples")
         return "pages/examples"
     }
 
     @HxRequest
     @GetMapping("/faq")
-    fun faqHtmx(): String {
-        return "partials/content-faq"
+    fun faqHtmx(model: Model): FragmentsRendering {
+        model.addAttribute("currentPage", "faq")
+        return FragmentsRendering
+            .with("partials/content-faq")
+            .fragment("fragments/nav-update-oob")
+            .build()
     }
 
     @GetMapping("/faq")
-    fun faq(): String {
+    fun faq(model: Model): String {
+        model.addAttribute("currentPage", "faq")
         return "pages/faq"
     }
 }

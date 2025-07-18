@@ -37,75 +37,13 @@
             </button>
 
             <div class="nav-menu-container" x-show="isOpen" @click.outside="isOpen = false" style="display: none;">
-                <nav class="main-nav">
-                    <ul class="nav-links">
-                        <li><a href="/"
-                               class="${currentPage == "index" ? "active" : ""}"
-                               hx-get="/"
-                               hx-target=".main-content"
-                               hx-push-url="true"
-                               hx-indicator=".page-progress">Home</a></li>
-                        <li><a href="/getting-started"
-                               class="${currentPage == "getting-started" ? "active" : ""}"
-                               hx-get="/getting-started"
-                               hx-target=".main-content"
-                               hx-push-url="true"
-                               hx-indicator=".page-progress">Getting Started</a></li>
-                        <li><a href="/concepts"
-                               class="${currentPage == "concepts" ? "active" : ""}"
-                               hx-get="/concepts"
-                               hx-target=".main-content"
-                               hx-push-url="true"
-                               hx-indicator=".page-progress">Core Concepts</a></li>
-                        <li><a href="/examples"
-                               class="${currentPage == "examples" ? "active" : ""}"
-                               hx-get="/examples"
-                               hx-target=".main-content"
-                               hx-push-url="true"
-                               hx-indicator=".page-progress">Examples</a></li>
-                        <li><a href="/faq"
-                               class="${currentPage == "faq" ? "active" : ""}"
-                               hx-get="/faq"
-                               hx-target=".main-content"
-                               hx-push-url="true"
-                               hx-indicator=".page-progress">FAQ</a></li>
-                    </ul>
+                <nav class="main-nav" id="mobile-nav-links">
+                    @template.fragments.nav-links(currentPage = currentPage, isMobile = true)
                 </nav>
             </div>
 
-            <nav class="desktop-nav">
-                <ul class="nav-links">
-                    <li><a href="/"
-                           class="${currentPage == "index" ? "active" : ""}"
-                           hx-get="/"
-                           hx-target=".main-content"
-                           hx-push-url="true"
-                           hx-indicator=".page-progress">Home</a></li>
-                    <li><a href="/getting-started"
-                           class="${currentPage == "getting-started" ? "active" : ""}"
-                           hx-get="/getting-started"
-                           hx-target=".main-content"
-                           hx-push-url="true"
-                           hx-indicator=".page-progress">Getting Started</a></li>
-                    <li><a href="/concepts"
-                           class="${currentPage == "concepts" ? "active" : ""}"
-                           hx-get="/concepts"
-                           hx-target=".main-content"
-                           hx-push-url="true"
-                           hx-indicator=".page-progress">Core Concepts</a></li>
-                    <li><a href="/examples"
-                           class="${currentPage == "examples" ? "active" : ""}"
-                           hx-get="/examples"
-                           hx-target=".main-content"
-                           hx-push-url="true"
-                           hx-indicator=".page-progress">Examples</a></li>
-                    <li><a href="/faq"
-                           class="${currentPage == "faq" ? "active" : ""}"
-                           hx-get="/faq"
-                           hx-target=".main-content"
-                           hx-push-url="true"
-                           hx-indicator=".page-progress">FAQ</a></li>
-                </ul>
+            <nav class="desktop-nav" id="desktop-nav-links">
+                @template.fragments.nav-links(currentPage = currentPage, isMobile = false)
             </nav>
 
         </div>

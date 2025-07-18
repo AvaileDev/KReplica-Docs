@@ -2,7 +2,7 @@
 
 <div class="example-banner">
     <h2>${example.getName()}</h2>
-    <p>${example.getDescription()}</p>
+    <p>{example.getDescription()}</p>
 </div>
 
 <div class="playground-tabs" id="playground-tabs-${example.getSlug()}" role="tablist">
