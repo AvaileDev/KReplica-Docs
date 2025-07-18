@@ -52,5 +52,5 @@
 
 <div class="nav-footer">
     <a href="/getting-started" class="button-secondary">&larr; Prev: Getting Started</a>
-    <a href="/examples" class="button-secondary nav-item-next">Next: Examples &rarr;</a>
+    <a href="/guides" class="button-secondary nav-item-next">Next: Guides &rarr;</a>
 </div>

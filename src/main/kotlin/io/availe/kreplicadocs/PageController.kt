@@ -10,7 +10,7 @@ import org.springframework.web.servlet.view.FragmentsRendering
 @Controller
 class PageController(private val provider: ExampleDataProvider) {
 
-    private fun prepareExamplesModel(model: Model) {
+    private fun prepareGuidesModel(model: Model) {
         val all = provider.getAllExamples()
         model.addAttribute("allExamples", all)
         all.firstOrNull()?.let {
@@ -52,46 +52,46 @@ class PageController(private val provider: ExampleDataProvider) {
     }
 
     @HxRequest
-    @GetMapping("/concepts")
-    fun conceptsHtmx(model: Model): FragmentsRendering {
-        model.addAttribute("currentPage", "concepts")
+    @GetMapping("/why-kreplica")
+    fun whyKreplicaHtmx(model: Model): FragmentsRendering {
+        model.addAttribute("currentPage", "why-kreplica")
         return FragmentsRendering
             .with("partials/content-concepts")
             .fragment("fragments/nav-update-oob")
             .build()
     }
 
-    @GetMapping("/concepts")
-    fun concepts(model: Model): String {
-        model.addAttribute("currentPage", "concepts")
-        return "pages/concepts"
+    @GetMapping("/why-kreplica")
+    fun whyKreplica(model: Model): String {
+        model.addAttribute("currentPage", "why-kreplica")
+        return "pages/why-kreplica"
     }
 
     @HxRequest
-    @GetMapping("/examples")
-    fun examplesHtmx(model: Model): FragmentsRendering {
-        prepareExamplesModel(model)
-        model.addAttribute("currentPage", "examples")
+    @GetMapping("/guides")
+    fun guidesHtmx(model: Model): FragmentsRendering {
+        prepareGuidesModel(model)
+        model.addAttribute("currentPage", "guides")
         return FragmentsRendering
             .with("partials/content-examples")
             .fragment("fragments/nav-update-oob")
             .build()
     }
 
-    @GetMapping("/examples")
-    fun examples(model: Model): String {
-        prepareExamplesModel(model)
-        model.addAttribute("currentPage", "examples")
-        return "pages/examples"
+    @GetMapping("/guides")
+    fun guides(model: Model): String {
+        prepareGuidesModel(model)
+        model.addAttribute("currentPage", "guides")
+        return "pages/guides"
     }
 
-    @GetMapping("/examples/{slug}")
-    fun exampleBySlug(@PathVariable slug: String, model: Model): String {
+    @GetMapping("/guides/{slug}")
+    fun guideBySlug(@PathVariable slug: String, model: Model): String {
         model.addAttribute("allExamples", provider.getAllExamples())
         model.addAttribute("activeSlug", slug)
         model.addAttribute("example", provider.getExampleBySlug(slug))
-        model.addAttribute("currentPage", "examples")
-        return "pages/examples"
+        model.addAttribute("currentPage", "guides")
+        return "pages/guides"
     }
 
     @HxRequest
@@ -108,5 +108,21 @@ class PageController(private val provider: ExampleDataProvider) {
     fun faq(model: Model): String {
         model.addAttribute("currentPage", "faq")
         return "pages/faq"
+    }
+
+    @HxRequest
+    @GetMapping("/playground")
+    fun playgroundHtmx(model: Model): FragmentsRendering {
+        model.addAttribute("currentPage", "playground")
+        return FragmentsRendering
+            .with("partials/content-playground")
+            .fragment("fragments/nav-update-oob")
+            .build()
+    }
+
+    @GetMapping("/playground")
+    fun playground(model: Model): String {
+        model.addAttribute("currentPage", "playground")
+        return "pages/playground"
     }
 }

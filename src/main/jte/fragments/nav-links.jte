@@ -9,27 +9,27 @@
            hx-push-url="true"
            hx-indicator=".page-progress"
            hx-on::before-request="${isMobile ? "isOpen = false" : null}">Home</a></li>
-    <li><a href="/getting-started"
-           class="${currentPage == "getting-started" ? "active" : ""}"
-           hx-get="/getting-started"
+    <li><a href="/playground"
+           class="${currentPage == "playground" ? "active" : ""}"
+           hx-get="/playground"
            hx-target=".main-content"
            hx-push-url="true"
            hx-indicator=".page-progress"
-           hx-on::before-request="${isMobile ? "isOpen = false" : null}">Getting Started</a></li>
-    <li><a href="/concepts"
-           class="${currentPage == "concepts" ? "active" : ""}"
-           hx-get="/concepts"
+           hx-on::before-request="${isMobile ? "isOpen = false" : null}">Playground</a></li>
+    <li><a href="/why-kreplica"
+           class="${currentPage == "why-kreplica" ? "active" : ""}"
+           hx-get="/why-kreplica"
            hx-target=".main-content"
            hx-push-url="true"
            hx-indicator=".page-progress"
-           hx-on::before-request="${isMobile ? "isOpen = false" : null}">Core Concepts</a></li>
-    <li><a href="/examples"
-           class="${currentPage == "examples" ? "active" : ""}"
-           hx-get="/examples"
+           hx-on::before-request="${isMobile ? "isOpen = false" : null}">Why KReplica?</a></li>
+    <li><a href="/guides"
+           class="${currentPage == "guides" ? "active" : ""}"
+           hx-get="/guides"
            hx-target=".main-content"
            hx-push-url="true"
            hx-indicator=".page-progress"
-           hx-on::before-request="${isMobile ? "isOpen = false" : null}">Examples</a></li>
+           hx-on::before-request="${isMobile ? "isOpen = false" : null}">Guides</a></li>
     <li><a href="/faq"
            class="${currentPage == "faq" ? "active" : ""}"
            hx-get="/faq"
