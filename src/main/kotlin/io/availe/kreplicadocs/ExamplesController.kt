@@ -37,4 +37,22 @@ class ExamplesController(private val provider: ExampleDataProvider) {
         }
         return "fragments/example-not-found"
     }
+
+    @HxRequest
+    @GetMapping("/examples/{slug}/file/{fileName}")
+    fun getFileContent(
+        @PathVariable slug: String,
+        @PathVariable fileName: String,
+        model: Model
+    ): String {
+        val example = provider.getExampleBySlug(slug)
+        if (example != null) {
+            val code = if (fileName == "source") example.sourceCode
+            else example.generatedFiles[fileName] ?: ""
+            model.addAttribute("language", "kotlin")
+            model.addAttribute("code", code)
+            return "fragments/playground-file-content"
+        }
+        return "fragments/example-not-found"
+    }
 }

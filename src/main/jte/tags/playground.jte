@@ -5,19 +5,28 @@
     <p>${example.getDescription()}</p>
 </div>
 
-<div class="playground-container">
-    <div class="playground-panel source-panel">
-        <div class="panel-tabs">
-            <button class="active" type="button">Source</button>
-        </div>
-        @template.tags.code(language="kotlin", content=@`
-            ${example.getSourceCode()}
-        `)
-    </div>
-    <div class="playground-panel generated-panel" id="generated-panel-${example.getSlug()}">
-        @template.fragments.generated-panel-content(
-        example = example,
-        activeFile = example.getGeneratedFiles().keySet().stream().findFirst().orElse(null)
-        )
-    </div>
+<div class="playground-tabs" role="tablist">
+    <button role="tab"
+            aria-selected="true"
+            class="active"
+            hx-get="/examples/${example.getSlug()}/file/source"
+            hx-target="#playground-content-${example.getSlug()}"
+            hx-swap="innerHTML">
+        Source
+    </button>
+    @for(var entry : example.getGeneratedFiles().entrySet())
+        <button role="tab"
+                aria-selected="false"
+                hx-get="/examples/${example.getSlug()}/file/${entry.getKey()}"
+                hx-target="#playground-content-${example.getSlug()}"
+                hx-swap="innerHTML">
+            ${entry.getKey()}
+        </button>
+    @endfor
+</div>
+
+<div class="playground-content" id="playground-content-${example.getSlug()}">
+    @template.tags.code(language="kotlin", content=@`
+        ${example.getSourceCode()}
+    `)
 </div>
