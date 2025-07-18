@@ -396,10 +396,14 @@ pre[class*="language-"] {
     font-size: .9rem;
 }
 
+.footer-links {
+    display: flex;
+    gap: 20px;
+}
+
 .footer-links a {
     color: var(--primary-color);
     text-decoration: none;
-    margin-left: 20px;
     font-weight: 500;
 }
 
@@ -511,6 +515,10 @@ pre[class*="language-"] {
     position: relative;
 }
 
+.playground-content-fixed-height {
+    overflow-y: auto;
+}
+
 .playground-content > .htmx-indicator {
     position: absolute;
     top: 1rem;
@@ -550,6 +558,16 @@ pre[class*="language-"] {
 
 .nav-item-next {
     margin-left: auto;
+}
+
+.technical-notes {
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+}
+
+.technical-notes h3 {
+    margin-top: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

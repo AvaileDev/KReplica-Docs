@@ -23,6 +23,24 @@
     </div>
 </div>
 
+<div class="technical-notes">
+    <h3>Technical Notes & Best Practices</h3>
+
+    <h4>Why use the <code>private</code> keyword on source interfaces?</h4>
+    <p>The <code>private</code> keyword is not required. However, the KReplica source interfaces are only used by the
+        processor and are not intended for direct use in application code. Using <code>private</code> prevents them from
+        polluting the global namespace.</p>
+
+    <h4>Does compilation order matter for nested models?</h4>
+    <p>No. KReplica cleans the build folder at the start of each run to ensure no stale data. To handle nested models
+        correctly, KReplica uses two-pass compilation. It first creates stub files of all <code>Replicate.Model</code>
+        declarations and then deletes them after the main compilation to avoid redeclaration errors.</p>
+
+    <h4>Can a <code>Replication.Property</code> be broader than its <code>Replication.Model</code>?</h4>
+    <p>No. The replication of all children must be a subset of the parent (⊆), including for nested models. Otherwise,
+        KReplica will fail the build and log the offending fields. This ensures fail-fast feedback.</p>
+</div>
+
 <div class="nav-footer">
     <a href="/benefits"
        class="button-secondary"
@@ -30,10 +48,4 @@
        hx-target=".main-content"
        hx-push-url="/benefits"
        hx-indicator=".page-progress">&larr; Prev: Benefits</a>
-    <a href="/faq"
-       class="button-secondary nav-item-next"
-       hx-get="/faq"
-       hx-target=".main-content"
-       hx-push-url="/faq"
-       hx-indicator=".page-progress">Next: FAQ &rarr;</a>
 </div>

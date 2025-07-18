@@ -30,11 +30,4 @@
            hx-push-url="true"
            hx-indicator=".page-progress"
            hx-on::before-request="${isMobile ? "isOpen = false" : null}">Guides</a></li>
-    <li><a href="/faq"
-           class="${currentPage == "faq" ? "active" : ""}"
-           hx-get="/faq"
-           hx-target=".main-content"
-           hx-push-url="true"
-           hx-indicator=".page-progress"
-           hx-on::before-request="${isMobile ? "isOpen = false" : null}">FAQ</a></li>
 </ul>

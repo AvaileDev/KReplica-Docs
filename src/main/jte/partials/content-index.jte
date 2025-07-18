@@ -14,22 +14,11 @@
 
 @if(featureExample != null)
     <div class="feature-highlight">
-        <h2>Define Once, Generate Everywhere</h2>
-        <p>Stop writing and maintaining separate classes for your different API needs. With KReplica, one simple
-            interface definition is all you need.</p>
-        <div class="side-by-side-code">
-            <div class="code-panel">
-                <h3>Your Definition</h3>
-                @template.tags.code(language="kotlin", content=@`
-                    ${featureExample.getSourceCode()}
-                `)
-            </div>
-            <div class="code-panel">
-                <h3>KReplica's Output</h3>
-                @template.tags.code(language="kotlin", content=@`
-                    ${featureExample.getGeneratedFiles().values().stream().findFirst().orElse("")}
-                `)
-            </div>
+        <h2>Define Once, Use Everywhere</h2>
+        <p>From a simple interface, KReplica generates not just the DTOs, but enables powerful, type-safe patterns like
+            exhaustive <code>when</code> expressions.</p>
+        <div class="feature-playground-wrapper">
+            @template.tags.feature-playground(featureExample = featureExample)
         </div>
     </div>
 @endif

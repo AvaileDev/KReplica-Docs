@@ -81,22 +81,6 @@ class PageController(private val provider: ExampleDataProvider) {
     }
 
     @HxRequest
-    @GetMapping("/faq")
-    fun faqHtmx(model: Model): FragmentsRendering {
-        model.addAttribute("currentPage", "faq")
-        return FragmentsRendering
-            .with("partials/content-faq")
-            .fragment("fragments/nav-update-oob")
-            .build()
-    }
-
-    @GetMapping("/faq")
-    fun faq(model: Model): String {
-        model.addAttribute("currentPage", "faq")
-        return "pages/faq"
-    }
-
-    @HxRequest
     @GetMapping("/playground")
     fun playgroundHtmx(model: Model): FragmentsRendering {
         model.addAttribute("currentPage", "playground")
