@@ -15,14 +15,65 @@
 </head>
 <body>
 <div class="page-wrapper">
-    <header class="main-header">
+    <header class="main-header" x-data="{ isOpen: false }" @keydown.escape.window="isOpen = false">
         <div class="nav-container">
             <a href="/" class="nav-logo"
                hx-get="/"
                hx-target=".main-content"
                hx-push-url="true"
                hx-indicator=".page-progress">KReplica</a>
-            <nav>
+
+            <button type="button" class="hamburger-button" @click="isOpen = !isOpen" aria-label="Toggle Menu">
+                <svg x-show="!isOpen" class="hamburger-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
+                     viewBox="0 0 24 24" width="24px">
+                    <path d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                </svg>
+                <svg x-show="isOpen" class="hamburger-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
+                     viewBox="0 0 24 24" width="24px" style="display: none;">
+                    <path d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+
+            <div class="nav-menu-container" x-show="isOpen" @click.outside="isOpen = false" style="display: none;">
+                <nav class="main-nav">
+                    <ul class="nav-links">
+                        <li><a href="/"
+                               class="${currentPage == "index" ? "active" : ""}"
+                               hx-get="/"
+                               hx-target=".main-content"
+                               hx-push-url="true"
+                               hx-indicator=".page-progress">Home</a></li>
+                        <li><a href="/getting-started"
+                               class="${currentPage == "getting-started" ? "active" : ""}"
+                               hx-get="/getting-started"
+                               hx-target=".main-content"
+                               hx-push-url="true"
+                               hx-indicator=".page-progress">Getting Started</a></li>
+                        <li><a href="/concepts"
+                               class="${currentPage == "concepts" ? "active" : ""}"
+                               hx-get="/concepts"
+                               hx-target=".main-content"
+                               hx-push-url="true"
+                               hx-indicator=".page-progress">Core Concepts</a></li>
+                        <li><a href="/examples"
+                               class="${currentPage == "examples" ? "active" : ""}"
+                               hx-get="/examples"
+                               hx-target=".main-content"
+                               hx-push-url="true"
+                               hx-indicator=".page-progress">Examples</a></li>
+                        <li><a href="/faq"
+                               class="${currentPage == "faq" ? "active" : ""}"
+                               hx-get="/faq"
+                               hx-target=".main-content"
+                               hx-push-url="true"
+                               hx-indicator=".page-progress">FAQ</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <nav class="desktop-nav">
                 <ul class="nav-links">
                     <li><a href="/"
                            class="${currentPage == "index" ? "active" : ""}"
@@ -56,6 +107,7 @@
                            hx-indicator=".page-progress">FAQ</a></li>
                 </ul>
             </nav>
+
         </div>
         <div class="page-progress htmx-indicator"></div>
     </header>

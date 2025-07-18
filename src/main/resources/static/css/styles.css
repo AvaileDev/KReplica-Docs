@@ -57,6 +57,7 @@ body {
     font-size: 1.5rem;
     color: var(--primary-color);
     text-decoration: none;
+    z-index: 1010;
 }
 
 .nav-links {
@@ -64,12 +65,10 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    flex-wrap: wrap;
 }
 
 .nav-links a {
     display: block;
-    padding: 0 15px;
     text-decoration: none;
     color: var(--primary-color);
     font-weight: 500;
@@ -79,6 +78,49 @@ body {
 .nav-links a:hover,
 .nav-links a.active {
     color: var(--secondary-color);
+}
+
+.desktop-nav {
+    display: none;
+}
+
+.hamburger-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    z-index: 1010;
+}
+
+.hamburger-icon {
+    fill: var(--primary-color);
+}
+
+.nav-menu-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(5px);
+    z-index: 1005;
+    padding-top: 80px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.nav-menu-container .nav-links {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-menu-container .nav-links a {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    font-weight: 600;
 }
 
 .main-content {
@@ -432,12 +474,26 @@ pre[class*="language-"] {
     }
 }
 
-@media (max-width: 768px) {
-    .nav-links a {
-        padding: 10px;
-        font-size: 0.9rem;
+@media (min-width: 769px) {
+    .desktop-nav {
+        display: block;
     }
 
+    .desktop-nav .nav-links a {
+        padding: 0 15px;
+        font-size: 1rem;
+    }
+
+    .hamburger-button {
+        display: none;
+    }
+
+    .nav-menu-container {
+        display: none !important;
+    }
+}
+
+@media (max-width: 768px) {
     .hero-section {
         padding: 40px 15px;
     }
@@ -480,23 +536,6 @@ pre[class*="language-"] {
 }
 
 @media (max-width: 480px) {
-    .nav-container {
-        flex-direction: column;
-        align-items: flex-start;
-        height: auto;
-    }
-
-    .nav-links {
-        width: 100%;
-    }
-
-    .nav-links a {
-        padding: 8px 10px;
-        font-size: 0.85rem;
-        flex: 1 1 50%;
-        text-align: left;
-    }
-
     .main-content {
         padding: 30px 15px;
     }
