@@ -17,17 +17,47 @@
 <div class="page-wrapper">
     <header class="main-header">
         <div class="nav-container">
-            <a href="/" class="nav-logo">KReplica</a>
+            <a href="/" class="nav-logo"
+               hx-get="/"
+               hx-target=".main-content"
+               hx-push-url="true"
+               hx-indicator=".page-progress">KReplica</a>
             <nav>
                 <ul class="nav-links">
-                    <li><a href="/" class="${currentPage == "index" ? "active" : ""}">Home</a></li>
-                    <li><a href="/getting-started" class="${currentPage == "getting-started" ? "active" : ""}">Getting Started</a></li>
-                    <li><a href="/concepts" class="${currentPage == "concepts" ? "active" : ""}">Core Concepts</a></li>
-                    <li><a href="/examples" class="${currentPage == "examples" ? "active" : ""}">Examples</a></li>
-                    <li><a href="/faq" class="${currentPage == "faq" ? "active" : ""}">FAQ</a></li>
+                    <li><a href="/"
+                           class="${currentPage == "index" ? "active" : ""}"
+                           hx-get="/"
+                           hx-target=".main-content"
+                           hx-push-url="true"
+                           hx-indicator=".page-progress">Home</a></li>
+                    <li><a href="/getting-started"
+                           class="${currentPage == "getting-started" ? "active" : ""}"
+                           hx-get="/getting-started"
+                           hx-target=".main-content"
+                           hx-push-url="true"
+                           hx-indicator=".page-progress">Getting Started</a></li>
+                    <li><a href="/concepts"
+                           class="${currentPage == "concepts" ? "active" : ""}"
+                           hx-get="/concepts"
+                           hx-target=".main-content"
+                           hx-push-url="true"
+                           hx-indicator=".page-progress">Core Concepts</a></li>
+                    <li><a href="/examples"
+                           class="${currentPage == "examples" ? "active" : ""}"
+                           hx-get="/examples"
+                           hx-target=".main-content"
+                           hx-push-url="true"
+                           hx-indicator=".page-progress">Examples</a></li>
+                    <li><a href="/faq"
+                           class="${currentPage == "faq" ? "active" : ""}"
+                           hx-get="/faq"
+                           hx-target=".main-content"
+                           hx-push-url="true"
+                           hx-indicator=".page-progress">FAQ</a></li>
                 </ul>
             </nav>
         </div>
+        <div class="page-progress htmx-indicator"></div>
     </header>
 
     <main class="main-content">

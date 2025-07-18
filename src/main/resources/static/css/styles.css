@@ -375,6 +375,13 @@ pre[class*="language-"] {
     border-top: none;
 }
 
+.page-progress {
+    height: 3px;
+    background-color: var(--secondary-color);
+    width: 0;
+    transition: width 0.3s ease-out;
+}
+
 .htmx-indicator {
     opacity:0;
     transition: opacity 200ms ease-in;
@@ -384,6 +391,9 @@ pre[class*="language-"] {
 }
 .htmx-request.htmx-indicator {
     opacity:1
+}
+.htmx-request .page-progress {
+    width: 100%;
 }
 
 @media (min-width: 992px) {

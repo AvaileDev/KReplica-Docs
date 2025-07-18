@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.PathVariable
 class ExamplesController(private val provider: ExampleDataProvider) {
 
     @HxRequest
-    @GetMapping("/examples/{slug}")
+    @GetMapping("/examples/{slug}/playground")
     fun getExamplePlayground(@PathVariable slug: String, model: Model): String {
         val example = provider.getExampleBySlug(slug)
         if (example != null) {
             model.addAttribute("example", example)
             model.addAttribute("allExamples", provider.getAllExamples())
             model.addAttribute("activeSlug", slug)
-            return "partials/example-update"
+            return "partials/example-playground-update"
         }
         return "fragments/example-not-found"
     }

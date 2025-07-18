@@ -5,8 +5,8 @@
     @for(var item : allExamples)
         <li>
             <a class="${item.getSlug().equals(activeSlug) ? "active" : ""}"
-               hx-get="/examples/${item.getSlug()}"
-               hx-target="#examples-content"
+               hx-get="/examples/${item.getSlug()}/playground"
+               hx-target="#examples-main"
                hx-push-url="/examples/${item.getSlug()}"
                hx-indicator="#primary-indicator">
                 ${item.getName()}

@@ -1,5 +1,6 @@
 package io.availe.kreplicadocs
 
+import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -8,9 +9,21 @@ import org.springframework.web.bind.annotation.PathVariable
 @Controller
 class PageController(private val provider: ExampleDataProvider) {
 
+    @HxRequest
+    @GetMapping("/")
+    fun indexHtmx(): String {
+        return "partials/content-index"
+    }
+
     @GetMapping("/")
     fun index(): String {
         return "pages/index"
+    }
+
+    @HxRequest
+    @GetMapping("/getting-started")
+    fun gettingStartedHtmx(): String {
+        return "partials/content-getting-started"
     }
 
     @GetMapping("/getting-started")
@@ -18,9 +31,22 @@ class PageController(private val provider: ExampleDataProvider) {
         return "pages/getting-started"
     }
 
+    @HxRequest
+    @GetMapping("/concepts")
+    fun conceptsHtmx(): String {
+        return "partials/content-concepts"
+    }
+
     @GetMapping("/concepts")
     fun concepts(): String {
         return "pages/concepts"
+    }
+
+    @HxRequest
+    @GetMapping("/examples")
+    fun examplesHtmx(model: Model): String {
+        model.addAttribute("allExamples", provider.getAllExamples())
+        return "partials/content-examples"
     }
 
     @GetMapping("/examples")
@@ -35,6 +61,12 @@ class PageController(private val provider: ExampleDataProvider) {
         model.addAttribute("activeSlug", slug)
         model.addAttribute("example", provider.getExampleBySlug(slug))
         return "pages/examples"
+    }
+
+    @HxRequest
+    @GetMapping("/faq")
+    fun faqHtmx(): String {
+        return "partials/content-faq"
     }
 
     @GetMapping("/faq")
