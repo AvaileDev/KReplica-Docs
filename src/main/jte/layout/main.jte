@@ -10,6 +10,7 @@
     <title>${title}</title>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
 </head>
 <body>
 <div class="page-wrapper">

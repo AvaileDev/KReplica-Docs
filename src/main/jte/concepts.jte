@@ -2,58 +2,51 @@
 title = "Core Concepts | KReplica Docs",
 currentPage = "concepts",
 content = @`
-    <h1>Core Concept: Sealed Hierarchies</h1>
-    <p>KReplica generates sealed interfaces, allowing you to leverage exhaustive <code>when</code> expressions for robust and type-safe code. This makes handling different versions or variants straightforward and ensures you don't miss cases.</p>
-    <p>In <strong>example 2 (versioned schema)</strong>, if you check the generated code, here is a short snippet of what you will see:</p>
+    <h1>Core Concepts</h1>
+    <p>Understanding the core concepts of KReplica is key to using it effectively. This guide will walk you through the main ideas, from the basic model definition to the power of schema versioning.</p>
 
+    <h2>The Basic Idea: Model from Interface</h2>
+    <p>At its heart, KReplica generates DTOs from a simple Kotlin <code>interface</code> that you define. You use annotations to tell KReplica what to build.</p>
+
+    <h2>Variants: DATA, CREATE, and PATCH</h2>
+    <p>A single source interface can generate multiple DTO variants for different use cases:</p>
+    <ul>
+        <li><code>DATA</code>: The primary, read-only representation of your model.</li>
+        <li><code>CREATE</code>: A variant used for object creation requests. You can exclude server-generated fields like <code>id</code>.</li>
+        <li><code>PATCH</code>: A variant for update requests, where every property is wrapped in a <code>Patchable</code> type to distinguish between changed and unchanged values.</li>
+    </ul>
+
+    <h2>Schema Versioning & Sealed Hierarchies</h2>
+    <p>For models that evolve over time, KReplica supports schema versioning. You define a base interface and then extend it with versioned interfaces (e.g., <code>V1</code>, <code>V2</code>). KReplica uses this structure to generate a top-level <strong>sealed hierarchy</strong>.</p>
+    <p>For example, if you define <code>V1</code> and <code>V2</code> interfaces, KReplica generates a structure like this:</p>
     @template.tags.code(language="kotlin", content=@`
-        public sealed interface V2 : UserAccountSchema {
-        public data class Data(
-        public val id: Int,
-        public val name: String,
-        public val schemaVersion: Int = 2,
-        ) : V2,
-        DataVariant
+        public sealed interface UserAccountSchema {
+        // V1 variants will be nested here
+        public sealed interface V1 : UserAccountSchema { ... }
+
+        // V2 variants will be nested here
+        public sealed interface V2 : UserAccountSchema { ... }
+        }
     `)
 
-    <p>This code snippet might seem a bit complex for a single DTO, but it's key to enabling powerful, type-safe pattern matching across different schema versions and variants.</p>
-
-    <h3>Example: Exhaustively handle all schema versions and variants</h3>
+    <h2>The Payoff: Exhaustive <code>when</code> Expressions</h2>
+    <p>Because KReplica generates a sealed hierarchy, the Kotlin compiler can ensure your <code>when</code> expressions are exhaustive. This provides compile-time safety, guaranteeing you handle every possible version and variant of your model.</p>
     @template.tags.code(language="kotlin", content=@`
         fun handleUser(user: UserAccountSchema) {
         when (user) {
-        is UserAccountSchema.V1.Data -> TODO()
-        is UserAccountSchema.V2.Data -> TODO()
-        is UserAccountSchema.V2.PatchRequest -> TODO()
+        is UserAccountSchema.V1.Data -> println("Handling a V1 user")
+        is UserAccountSchema.V2.Data -> println("Handling a V2 user")
+        is UserAccountSchema.V2.PatchRequest -> println("Handling a V2 patch")
+        // The compiler will force you to handle all cases!
         }
         }
     `)
 
-    <h3>Example: Exhaustively handle only a specific schema version</h3>
-    @template.tags.code(language="kotlin", content=@`
-        fun handleUser(user: UserAccountSchema.V2) {
-        when (user) {
-        is UserAccountSchema.V2.Data -> TODO()
-        is UserAccountSchema.V2.PatchRequest -> TODO()
-        }
-        }
-    `)
+    <h2>Nominal Typing</h2>
+    <p>To improve type safety, KReplica can automatically wrap primitive types like <code>String</code> or <code>Int</code> in dedicated <code>value class</code> types. This prevents accidentally mixing up different kinds of IDs or values (e.g., assigning a <code>ProductId</code> to a <code>UserId</code> field).</p>
 
-    <h3>Example: Exhaustively handle only a specific kind of variant</h3>
-    @template.tags.code(language="kotlin", content=@`
-        fun handleUser(user: UserAccountSchema.DataVariant) {
-        when (user) {
-        is UserAccountSchema.V1.Data -> TODO()
-        is UserAccountSchema.V2.Data -> TODO()
-        }
-        }
-    `)
-
-    <h3>Example: Target only a specific schema version and specific variant</h3>
-    @template.tags.code(language="kotlin", content=@`
-        fun handleUser(user: UserAccountSchema.V1.Data) {
-        print(user.id)
-        }
-    `)
+    <div class="nav-footer">
+        <a href="/examples" class="button-secondary">Next: See it in Action &rarr;</a>
+    </div>
 `
 )

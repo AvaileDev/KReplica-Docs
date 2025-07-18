@@ -12,5 +12,9 @@ content = @`
         id("io.availe.kreplica") version "3.0.0"
         }
     `)
+
+    <div class="nav-footer">
+        <a href="/concepts" class="button-secondary">Next: Understand the Core Concepts &rarr;</a>
+    </div>
 `
 )
