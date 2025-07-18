@@ -1,0 +1,10 @@
+{
+  "non-versioned": {
+    "name": "Non-Versioned Model",
+    "description": "This example covers how to use the <code>@Replicate.Model</code> and <code>@Replicate.Property</code> annotations for a simple, non-versioned model."
+  },
+  "versioned": {
+    "name": "Versioned Model",
+    "description": "This example demonstrates how to create evolving models with versioning. KReplica generates a sealed hierarchy to handle different versions gracefully."
+  }
+}
