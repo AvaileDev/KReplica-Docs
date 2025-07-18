@@ -141,6 +141,7 @@ strong {
 }
 
 .examples-tablist {
+    position: relative;
     display: inline-flex;
     overflow-x: auto;
     background: var(--surface-color);
@@ -153,6 +154,18 @@ strong {
     z-index: 500;
     -webkit-overflow-scrolling: touch;
 }
+
+.examples-tablist::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 1px;
+    width: 30px;
+    background: linear-gradient(to left, var(--surface-color), transparent);
+    pointer-events: none;
+}
+
 
 .examples-tablist::-webkit-scrollbar {
     display: none;
@@ -329,7 +342,7 @@ pre[class*="language-"] {
 }
 
 .example-banner {
-    background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #5dade2 100%);
     padding: 4rem 1.5rem 2rem;
     border-bottom: 1px solid var(--border-color);
 }
@@ -380,11 +393,12 @@ pre[class*="language-"] {
     border: 1px solid var(--border-color);
     border-top: none;
     background-color: var(--surface-color);
+    padding: 1rem;
 }
 
 .playground-content > pre {
     margin: 0;
-    border-radius: 0 0 8px 8px;
+    border-radius: 8px;
     max-width: 100%;
 }
 
