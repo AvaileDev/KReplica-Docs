@@ -3,4 +3,4 @@
 @param String activeSlug
 
 @template.tags.playground(example = example)
-@template.fragments.examples-sidebar-links(allExamples = allExamples, activeSlug = activeSlug, useOob = true)
+@template.fragments.examples-tab-buttons(allExamples = allExamples, activeSlug = activeSlug, useOob = true)

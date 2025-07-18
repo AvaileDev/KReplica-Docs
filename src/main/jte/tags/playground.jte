@@ -7,7 +7,9 @@
 
 <div class="playground-container">
     <div class="playground-panel source-panel">
-        <h3 class="panel-title">Source Interface</h3>
+        <div class="panel-tabs">
+            <button class="active" type="button">Source</button>
+        </div>
         @template.tags.code(language="kotlin", content=@`
             ${example.getSourceCode()}
         `)

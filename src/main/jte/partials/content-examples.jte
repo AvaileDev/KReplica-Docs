@@ -2,20 +2,14 @@
 @param io.availe.kreplicadocs.Example example = null
 @param String activeSlug = null
 
-<div class="examples-layout">
-    <aside class="examples-sidebar">
-        <div class="sidebar-nav">
-            <h3>Examples</h3>
-            @template.fragments.examples-sidebar-links(allExamples = allExamples, activeSlug = activeSlug)
-        </div>
-    </aside>
-
+<div class="examples-shell">
+    @template.fragments.examples-tab-buttons(allExamples = allExamples, activeSlug = activeSlug)
     <div class="examples-main" id="examples-main">
         @if(example != null)
             @template.tags.playground(example = example)
         @else
             <h1>Interactive Examples</h1>
-            <p>Select an example from the sidebar to see KReplica in action.</p>
+            <p>Select an example from the tabs to see KReplica in action.</p>
             <p>The source interface is on the left; the generated code is on the right. You can switch between generated
                 files using the tabs.</p>
             <div id="primary-indicator" class="htmx-indicator">Loading...</div>
