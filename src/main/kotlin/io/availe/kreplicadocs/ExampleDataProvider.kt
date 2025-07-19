@@ -46,12 +46,21 @@ class ExampleDataProvider(
                 filename to content
             }
 
+        val usageFiles = resourcePatternResolver.getResources("classpath:examples/$slug/usage/*.kt")
+            .filter { it.exists() }
+            .associate {
+                val filename = it.filename ?: "unknown.kt"
+                val content = it.inputStream.bufferedReader().use { reader -> reader.readText() }
+                filename to content
+            }
+
         return Example(
             name = metadata.name,
             slug = slug,
             description = metadata.description,
             sourceCode = sourceCode,
-            generatedFiles = generatedFiles
+            generatedFiles = generatedFiles,
+            usageFiles = usageFiles
         )
     }
 

@@ -23,7 +23,7 @@ class PageController(private val provider: ExampleDataProvider) {
     @GetMapping("/")
     fun indexHtmx(model: Model): FragmentsRendering {
         model.addAttribute("currentPage", "index")
-        model.addAttribute("featureExample", provider.getExampleBySlug("versioned"))
+        model.addAttribute("featureExample", provider.getExampleBySlug("user-profile"))
         return FragmentsRendering
             .with("partials/content-index")
             .fragment("fragments/nav-update-oob")
@@ -33,24 +33,8 @@ class PageController(private val provider: ExampleDataProvider) {
     @GetMapping("/")
     fun index(model: Model): String {
         model.addAttribute("currentPage", "index")
-        model.addAttribute("featureExample", provider.getExampleBySlug("versioned"))
+        model.addAttribute("featureExample", provider.getExampleBySlug("user-profile"))
         return "pages/index"
-    }
-
-    @HxRequest
-    @GetMapping("/benefits")
-    fun benefitsHtmx(model: Model): FragmentsRendering {
-        model.addAttribute("currentPage", "benefits")
-        return FragmentsRendering
-            .with("partials/content-benefits")
-            .fragment("fragments/nav-update-oob")
-            .build()
-    }
-
-    @GetMapping("/benefits")
-    fun benefits(model: Model): String {
-        model.addAttribute("currentPage", "benefits")
-        return "pages/benefits"
     }
 
     @HxRequest

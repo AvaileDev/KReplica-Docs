@@ -5,5 +5,6 @@ data class Example(
     val slug: String,
     val description: String,
     val sourceCode: String,
-    val generatedFiles: Map<String, String>
+    val generatedFiles: Map<String, String>,
+    val usageFiles: Map<String, String>
 )

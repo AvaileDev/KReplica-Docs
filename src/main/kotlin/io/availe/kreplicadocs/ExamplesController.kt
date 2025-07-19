@@ -58,6 +58,23 @@ class ExamplesController(private val provider: ExampleDataProvider) {
     }
 
     @HxRequest
+    @GetMapping("/examples/{slug}/usage/{fileName}")
+    fun getUsageFileContent(
+        @PathVariable slug: String,
+        @PathVariable fileName: String,
+        model: Model
+    ): String {
+        val example = provider.getExampleBySlug(slug)
+        if (example != null) {
+            val code = example.usageFiles[fileName] ?: ""
+            model.addAttribute("language", "kotlin")
+            model.addAttribute("code", code)
+            return "fragments/playground-file-content"
+        }
+        return "fragments/example-not-found"
+    }
+
+    @HxRequest
     @GetMapping("/examples/{slug}/file-content/{fileName}")
     fun getFileContentOnly(
         @PathVariable slug: String,
