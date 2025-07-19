@@ -23,6 +23,28 @@ class ExamplesController(private val provider: ExampleDataProvider) {
     }
 
     @HxRequest
+    @GetMapping("/examples/{slug}/playground-file-swap/{fileName}")
+    fun getPlaygroundFileSwap(
+        @PathVariable slug: String,
+        @PathVariable fileName: String,
+        model: Model
+    ): String {
+        val example = provider.getExampleBySlug(slug)
+        if (example != null) {
+            val code =
+                if (fileName == "source") example.sourceCode else example.generatedFiles.getOrDefault(fileName, "")
+            val active = if (fileName == "source") "source" else fileName
+
+            model.addAttribute("example", example)
+            model.addAttribute("activeFile", active)
+            model.addAttribute("language", "kotlin")
+            model.addAttribute("code", code)
+            return "fragments/playground-file-swap"
+        }
+        return "fragments/example-not-found"
+    }
+
+    @HxRequest
     @GetMapping("/examples/{slug}/generated-panel/{fileName}")
     fun getGeneratedPanelContent(
         @PathVariable slug: String,

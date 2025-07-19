@@ -30,7 +30,7 @@
         <button role="tab"
                 aria-selected="true"
                 class="active"
-                hx-get="/examples/${example.getSlug()}/file/source"
+                hx-get="/examples/${example.getSlug()}/playground-file-swap/source"
                 hx-target="#playground-content-${example.getSlug()}"
                 hx-swap="innerHTML">
             Source
@@ -38,7 +38,7 @@
         @for(var entry : example.getGeneratedFiles().entrySet())
             <button role="tab"
                     aria-selected="false"
-                    hx-get="/examples/${example.getSlug()}/file/${entry.getKey()}"
+                    hx-get="/examples/${example.getSlug()}/playground-file-swap/${entry.getKey()}"
                     hx-target="#playground-content-${example.getSlug()}"
                     hx-swap="innerHTML">
                 ${entry.getKey()}

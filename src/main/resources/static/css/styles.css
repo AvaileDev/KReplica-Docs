@@ -351,13 +351,11 @@ strong {
 }
 
 pre[class*="language-"] {
-    background: var(--code-bg);
-    color: var(--code-text);
     padding: 20px;
     border-radius: 8px;
     overflow-x: auto;
     font-family: var(--font-mono);
-    font-size: .95rem;
+    /*font-size: 14px;*/
     max-width: 100%;
 }
 
