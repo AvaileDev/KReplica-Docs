@@ -80,5 +80,17 @@
         Prism.highlightAllUnder(evt.detail.elt);
     });
 </script>
+<script>
+    document.addEventListener('click', function (e) {
+        const link = e.target.closest('#examples-sidebar-links a[href^="#"]');
+        if (!link) return;
+        const container = document.getElementById('examples-sidebar-links');
+        if (!container) return;
+        container.querySelectorAll('a.active').forEach(function (a) {
+            a.classList.remove('active');
+        });
+        link.classList.add('active');
+    });
+</script>
 </body>
 </html>
