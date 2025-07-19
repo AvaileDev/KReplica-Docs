@@ -31,7 +31,9 @@ class PageController(private val provider: ExampleDataProvider) {
     @HxRequest
     @GetMapping("/guides")
     fun guidesHtmx(model: Model): FragmentsRendering {
+        val defaultExample = provider.getAllExamples().firstOrNull()
         model.addAttribute("allExamples", provider.getAllExamples())
+        model.addAttribute("example", defaultExample)
         model.addAttribute("currentPage", "guides")
         return FragmentsRendering
             .with("partials/content-examples")
@@ -41,7 +43,9 @@ class PageController(private val provider: ExampleDataProvider) {
 
     @GetMapping("/guides")
     fun guides(model: Model): String {
+        val defaultExample = provider.getAllExamples().firstOrNull()
         model.addAttribute("allExamples", provider.getAllExamples())
+        model.addAttribute("example", defaultExample)
         model.addAttribute("currentPage", "guides")
         return "pages/guides"
     }
