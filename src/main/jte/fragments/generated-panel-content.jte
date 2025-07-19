@@ -17,8 +17,6 @@
 @endif
 <div class="panel-content">
     @if(activeFile != null)
-        @template.tags.code(language="kotlin", content=@`
-            ${example.getGeneratedFiles().get(activeFile)}
-        `)
+        @template.tags.code(language="kotlin", content=@`${example.getGeneratedFiles().get(activeFile)}`)
     @endif
 </div>

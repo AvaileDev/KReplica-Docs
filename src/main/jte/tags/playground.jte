@@ -4,7 +4,7 @@
 
 <div class="playground-header">
     <h2>${example.getName()}</h2>
-    <p>{example.getDescription()}</p>
+    <p>${example.getDescription()}</p>
 </div>
 
 <div class="playground-mobile-controls">
@@ -49,7 +49,5 @@
 
 <div class="playground-content" id="playground-content-${example.getSlug()}">
     <div class="htmx-indicator">Loading...</div>
-    @template.tags.code(language="kotlin", content=@`
-        ${example.getSourceCode()}
-    `)
+    @template.tags.code(language="kotlin", content=@`${example.getSourceCode()}`)
 </div>

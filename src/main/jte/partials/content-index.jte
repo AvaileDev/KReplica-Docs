@@ -28,9 +28,7 @@
                 @template.fragments.feature-playground-tabs(featureExample = featureExample, activeFile = "source")
             `,
             initialContent = @`
-                @template.tags.code(language="kotlin", content=@`
-                    ${featureExample.getSourceCode()}
-                `)
+                @template.tags.code(language="kotlin", content=@`${featureExample.getSourceCode()}`)
             `
             )
         </div>
