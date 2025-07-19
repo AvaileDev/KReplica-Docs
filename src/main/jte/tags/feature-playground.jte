@@ -1,14 +1,15 @@
-@param io.availe.kreplicadocs.Example featureExample
-@param gg.jte.Content tabs
-@param gg.jte.Content initialContent
+@param gg.jte.Content controls
+@param gg.jte.Content content
 
-<div class="examples-shell" id="feature-playground">
-    <div class="playground-tabs-wrapper">
-        ${tabs}
+<div class="examples-shell feature-playground" id="feature-playground">
+    <div class="feature-playground-controls">
+        ${controls}
     </div>
-    <div id="feature-playground-content-wrapper" class="playground-content-fixed-height">
-        <div class="playground-content">
-            ${initialContent}
+    <div class="feature-playground-content-area">
+        <div id="feature-playground-content-wrapper" class="playground-content-fixed-height">
+            <div class="playground-content">
+                ${content}
+            </div>
         </div>
     </div>
 </div>

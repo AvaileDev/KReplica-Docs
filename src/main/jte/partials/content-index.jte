@@ -1,4 +1,5 @@
 @param io.availe.kreplicadocs.Example featureExample
+@param String activeFile = "source"
 
 <div class="hero-section">
     <h1>Evolve Your Kotlin DTOs with Confidence</h1>
@@ -20,14 +21,41 @@
 @if(featureExample != null)
     <div class="feature-highlight">
         <h2>Take the Interactive Tour</h2>
-        @template.fragments.feature-tour-description(activeFile = "source")
         <div class="feature-playground-wrapper">
             @template.tags.feature-playground(
-            featureExample = featureExample,
-            tabs = @`
-                @template.fragments.feature-playground-tabs(featureExample = featureExample, activeFile = "source")
+            controls = @`
+                <div class="feature-playground-mobile-controls">
+                    <div class="custom-select-wrapper">
+                        <label for="tour-select-mobile">Tour Step:</label>
+                        <select id="tour-select-mobile"
+                                hx-get="this.value"
+                                hx-target="#feature-playground-content-wrapper .playground-content"
+                                hx-swap="innerHTML"
+                                hx-indicator="#feature-playground-content-wrapper .htmx-indicator">
+                            <option value="/examples/${featureExample.getSlug()}/file/source" selected>1. Define
+                                Interface
+                            </option>
+                            <option value="/examples/${featureExample.getSlug()}/file/UserAccountSchema.kt">2. Generate
+                                DTOs
+                            </option>
+                            <option value="/examples/${featureExample.getSlug()}/usage/WhenStatements.kt">3. Ensure
+                                Exhaustive Handling
+                            </option>
+                            <option value="/examples/${featureExample.getSlug()}/usage/ApiSchemaMapper.kt">4. The
+                                Generic Pattern
+                            </option>
+                            <option value="/examples/${featureExample.getSlug()}/usage/Mapper.kt">5. The
+                                Implementation
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="feature-playground-desktop-controls">
+                    @template.fragments.feature-tour-description(activeFile = activeFile)
+                    @template.fragments.feature-playground-tabs(featureExample = featureExample, activeFile = activeFile)
+                </div>
             `,
-            initialContent = @`
+            content = @`
                 @template.tags.code(language="kotlin", content=@`${featureExample.getSourceCode()}`)
             `
             )
