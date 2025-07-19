@@ -10,15 +10,6 @@ import org.springframework.web.servlet.view.FragmentsRendering
 @Controller
 class PageController(private val provider: ExampleDataProvider) {
 
-    private fun prepareGuidesModel(model: Model) {
-        val all = provider.getAllExamples()
-        model.addAttribute("allExamples", all)
-        all.firstOrNull()?.let {
-            model.addAttribute("example", it)
-            model.addAttribute("activeSlug", it.slug)
-        }
-    }
-
     @HxRequest
     @GetMapping("/")
     fun indexHtmx(model: Model): FragmentsRendering {
@@ -40,7 +31,7 @@ class PageController(private val provider: ExampleDataProvider) {
     @HxRequest
     @GetMapping("/guides")
     fun guidesHtmx(model: Model): FragmentsRendering {
-        prepareGuidesModel(model)
+        model.addAttribute("allExamples", provider.getAllExamples())
         model.addAttribute("currentPage", "guides")
         return FragmentsRendering
             .with("partials/content-examples")
@@ -50,7 +41,7 @@ class PageController(private val provider: ExampleDataProvider) {
 
     @GetMapping("/guides")
     fun guides(model: Model): String {
-        prepareGuidesModel(model)
+        model.addAttribute("allExamples", provider.getAllExamples())
         model.addAttribute("currentPage", "guides")
         return "pages/guides"
     }
