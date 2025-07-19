@@ -1,7 +1,9 @@
 @param io.availe.kreplicadocs.Example featureExample
 @param String activeFile
+@param boolean oob = false
 
-<div class="playground-tabs" role="tablist" id="feature-playground-tabs" hx-swap-oob="outerHTML">
+<div class="playground-tabs" role="tablist" id="feature-playground-tabs"
+     hx-swap-oob="${oob ? "outerHTML" : null}">
     <button role="tab"
             aria-selected="${"source".equals(activeFile)}"
             class="${"source".equals(activeFile) ? "active" : ""}"
