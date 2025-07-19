@@ -42,10 +42,10 @@
 </div>
 
 <div class="nav-footer">
-    <a href="/benefits"
+    <a href="/"
        class="button-secondary"
-       hx-get="/benefits"
+       hx-get="/"
        hx-target=".main-content"
-       hx-push-url="/benefits"
-       hx-indicator=".page-progress">&larr; Prev: Benefits</a>
+       hx-push-url="/"
+       hx-indicator=".page-progress">&larr; Prev: Home</a>
 </div>

@@ -14,11 +14,44 @@
 
 @if(featureExample != null)
     <div class="feature-highlight">
-        <h2>Define Once, Use Everywhere</h2>
-        <p>From a simple interface, KReplica generates not just the DTOs, but enables powerful, type-safe patterns like
-            exhaustive <code>when</code> expressions.</p>
+        <h2>From Interface to Type-Safe API</h2>
+        <p>See how KReplica transforms a simple definition into a robust, versioned, and easy-to-use API model. Click
+            through the tabs to follow the journey.</p>
         <div class="feature-playground-wrapper">
-            @template.tags.feature-playground(featureExample = featureExample)
+            @template.tags.feature-playground(
+            featureExample = featureExample,
+            tabs = @`
+                <button role="tab" aria-selected="true" class="active"
+                        hx-get="/examples/${featureExample.getSlug()}/file/source"
+                        hx-target="#feature-playground-content-wrapper .playground-content"
+                        hx-swap="innerHTML">
+                    1. Define Interface
+                </button>
+                <button role="tab" aria-selected="false"
+                        hx-get="/examples/${featureExample.getSlug()}/file/${featureExample.getGeneratedFiles().keySet().iterator().next()}"
+                        hx-target="#feature-playground-content-wrapper .playground-content"
+                        hx-swap="innerHTML">
+                    2. Generate DTOs
+                </button>
+                <button role="tab" aria-selected="false"
+                        hx-get="/examples/${featureExample.getSlug()}/usage/Mapper.kt"
+                        hx-target="#feature-playground-content-wrapper .playground-content"
+                        hx-swap="innerHTML">
+                    3. Integrate Mapper
+                </button>
+                <button role="tab" aria-selected="false"
+                        hx-get="/examples/${featureExample.getSlug()}/usage/Evolve.kt"
+                        hx-target="#feature-playground-content-wrapper .playground-content"
+                        hx-swap="innerHTML">
+                    4. Evolve with &#96;when&#96;
+                </button>
+            `,
+            initialContent = @`
+                @template.tags.code(language="kotlin", content=@`
+                    ${featureExample.getSourceCode()}
+                `)
+            `
+            )
         </div>
     </div>
 @endif

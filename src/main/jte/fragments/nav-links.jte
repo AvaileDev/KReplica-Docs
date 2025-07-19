@@ -16,13 +16,6 @@
            hx-push-url="true"
            hx-indicator=".page-progress"
            hx-on::before-request="${isMobile ? "isOpen = false" : null}">Playground</a></li>
-    <li><a href="/benefits"
-           class="${currentPage == "benefits" ? "active" : ""}"
-           hx-get="/benefits"
-           hx-target=".main-content"
-           hx-push-url="true"
-           hx-indicator=".page-progress"
-           hx-on::before-request="${isMobile ? "isOpen = false" : null}">Benefits</a></li>
     <li><a href="/guides"
            class="${currentPage == "guides" ? "active" : ""}"
            hx-get="/guides"
