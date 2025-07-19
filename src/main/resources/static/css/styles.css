@@ -437,7 +437,7 @@ pre[class*="language-"] {
 
 .hero-section {
     text-align: center;
-    padding: 60px 20px;
+    padding: 60px 20px 0;
 }
 
 .hero-section h1 {
@@ -517,6 +517,7 @@ pre[class*="language-"] {
 
 .playground-content-fixed-height {
     overflow-y: auto;
+    max-height: 550px;
 }
 
 .playground-content > .htmx-indicator {
@@ -568,6 +569,29 @@ pre[class*="language-"] {
 
 .technical-notes h3 {
     margin-top: 0;
+}
+
+.feature-highlight {
+    margin-top: 60px;
+}
+
+.feature-highlight h2 {
+    text-align: center;
+}
+
+#feature-tour-description p {
+    text-align: center;
+    font-size: 1.1rem;
+    color: var(--text-light);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    min-height: 58px;
+}
+
+.tour-cta {
+    text-align: center;
+    margin-top: 30px;
 }
 
 @media (prefers-reduced-motion: reduce) {
