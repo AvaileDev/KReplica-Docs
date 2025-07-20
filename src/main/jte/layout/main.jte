@@ -1,5 +1,5 @@
 @param gg.jte.Content content
-@param io.availe.kreplicadocs.PageViewModel vm
+@param io.availe.kreplicadocs.model.PageViewModel vm
 @param String title = "KReplica Docs"
 
 <!DOCTYPE html>
@@ -13,7 +13,7 @@
     <script src="https://unpkg.com/htmx.org@1.9.12"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
-<body>
+<body x-data>
 <div class="page-wrapper">
     <header class="main-header" x-data="{ isOpen: false }" @keydown.escape.window="isOpen = false">
         <div class="nav-container">
@@ -29,8 +29,8 @@
                     <path d="M0 0h24v24H0z" fill="none"/>
                     <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
                 </svg>
-                <svg x-show="isOpen" class="hamburger-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
-                     viewBox="0 0 24 24" width="24px" style="display: none;">
+                <svg x-show="isOpen" x-cloak class="hamburger-icon" xmlns="http://www.w3.org/2000/svg" height="24px"
+                     viewBox="0 0 24 24" width="24px">
                     <path d="M0 0h24v24H0z" fill="none"/>
                     <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
                 </svg>
@@ -40,7 +40,7 @@
                  x-show="isOpen"
                  x-transition
                  @click.outside="isOpen = false"
-                 style="display: none;">
+                 x-cloak>
                 <nav class="main-nav" id="mobile-nav-links">
                     @template.fragments.nav-links(vm = vm, isMobile = true)
                 </nav>

@@ -62,7 +62,7 @@ class ExampleDataProvider(
         if (!sourceResource.exists()) return null
         val sourceCode = sourceResource.inputStream.bufferedReader().use { it.readText() }
 
-        return _root_ide_package_.io.availe.kreplicadocs.model.Example(
+        return Example(
             name = metadata.name,
             slug = slug.value,
             description = metadata.description,

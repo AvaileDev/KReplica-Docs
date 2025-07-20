@@ -8,8 +8,7 @@
     <div class="examples-main-content">
         @template.partials.guide-content()
 
-        <h2 id="interactive-examples"
-            style="margin-top: 40px; border-top: 1px solid var(--border-color); padding-top: 40px;">
+        <h2 id="interactive-examples" class="section-divider">
             Interactive Examples
         </h2>
         <p>Select an example from the sidebar to load an interactive playground below.</p>
@@ -19,7 +18,7 @@
                 @if (vm.getExample() != null)
                     @template.tags.playground(example = vm.getExample(), exampleSelectOptions = vm.getExampleSelectOptions())
                 @else
-                    <div style="padding: 2rem; text-align: center; color: var(--text-light);">
+                    <div class="placeholder-text">
                         <p>Select an example to get started.</p>
                         <div id="primary-indicator" class="htmx-indicator">Loading...</div>
                     </div>

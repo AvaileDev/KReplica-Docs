@@ -23,7 +23,7 @@ class ViewModelFactory(
             )
         } ?: emptyList()
 
-        return _root_ide_package_.io.availe.kreplicadocs.model.IndexViewModel(
+        return IndexViewModel(
             navLinks = navLinks,
             properties = appProperties,
             currentPage = "index",
@@ -46,7 +46,7 @@ class ViewModelFactory(
             )
         }
 
-        return _root_ide_package_.io.availe.kreplicadocs.model.GuidesViewModel(
+        return GuidesViewModel(
             navLinks = provider.getNavLinks(),
             properties = appProperties,
             currentPage = pageId,
@@ -63,7 +63,7 @@ class ViewModelFactory(
 
     fun createPlaygroundViewModel(): PlaygroundViewModel {
         val examplesViewModel = createExamplesPageViewModel("playground")
-        return _root_ide_package_.io.availe.kreplicadocs.model.PlaygroundViewModel(
+        return PlaygroundViewModel(
             navLinks = examplesViewModel.navLinks,
             properties = examplesViewModel.properties,
             currentPage = "playground",

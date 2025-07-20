@@ -1,11 +1,11 @@
-@param io.availe.kreplicadocs.PlaygroundViewModel vm
+@param io.availe.kreplicadocs.model.PlaygroundViewModel vm
 
 @template.tags.playground(
 example = vm.getExample(),
 exampleSelectOptions = vm.getExampleSelectOptions(),
 content = @`
-    <div id="kreplica-editor" style="height:400px;"></div>
-    <textarea name="source" style="display:none">${vm.getExample().getSourceCode()}</textarea>
+    <div id="kreplica-editor"></div>
+    <textarea name="source" hidden>${vm.getExample().getSourceCode()}</textarea>
     <button id="playground-submit"
             hx-post="/playground/compile"
             hx-trigger="click"

@@ -11,6 +11,10 @@
     box-sizing: border-box;
 }
 
+[x-cloak] {
+    display: none !important;
+}
+
 .page-wrapper {
     display: flex;
     flex-direction: column;
@@ -88,6 +92,18 @@
 
 .technical-notes h3 {
     margin-top: 0;
+}
+
+.section-divider {
+    margin-top: 40px;
+    border-top: 1px solid var(--border-color);
+    padding-top: 40px;
+}
+
+.placeholder-text {
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-light);
 }
 
 @media (prefers-reduced-motion: reduce) {
