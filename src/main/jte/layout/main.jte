@@ -74,10 +74,11 @@
     </footer>
 </div>
 
-<script src="https://unpkg.com/monaco-editor@0.45.0/min/vs/loader.js"></script>
-<script src="/js/playground.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
-<script src="/js/main.js"></script>
+<script src="https://unpkg.com/monaco-editor@0.45.0/min/vs/loader.js" defer></script>
+<script src="/js/playground.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js"
+        defer></script>
+<script src="/js/main.js" defer></script>
 </body>
 </html>
