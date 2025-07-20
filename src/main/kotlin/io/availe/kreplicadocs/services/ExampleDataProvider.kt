@@ -21,6 +21,7 @@ class ExampleDataProvider(
 ) {
 
     private val examples = mutableListOf<Example>()
+    private val guideSnippets = mutableMapOf<String, String>()
     private val navLinks = listOf(
         NavLink("/", "index", "Home"),
         NavLink("/playground", "playground", "Playground"),
@@ -45,6 +46,8 @@ class ExampleDataProvider(
                 loadExample(ExampleSlug(slug), metadata)
             }
         )
+
+        guideSnippets.putAll(loadFilesFrom("guide-snippets/*.kt"))
     }
 
     private fun loadFilesFrom(path: String): Map<String, String> {
@@ -76,6 +79,7 @@ class ExampleDataProvider(
 
     fun getAllExamples(): List<Example> = examples
     fun getNavLinks(): List<NavLink> = navLinks
+    fun getGuideSnippets(): Map<String, String> = guideSnippets
     fun getExampleBySlug(slug: ExampleSlug): Example? =
         examples.find { it.slug == slug.value }
 }

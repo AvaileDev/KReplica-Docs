@@ -25,7 +25,8 @@ data class GuidesViewModel(
     val allExamples: List<Example>,
     val example: Example?,
     val activeSlug: String?,
-    val exampleSelectOptions: List<SelectOption>
+    val exampleSelectOptions: List<SelectOption>,
+    val guideSnippets: Map<String, String>
 ) : PageViewModel
 
 data class PlaygroundViewModel(

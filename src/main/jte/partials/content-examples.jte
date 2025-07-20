@@ -6,7 +6,7 @@
     </aside>
 
     <div class="examples-main-content">
-        @template.partials.guide-content()
+        @template.partials.guide-content(snippets = vm.getGuideSnippets())
 
         <h2 id="interactive-examples" class="section-divider">
             Interactive Examples

@@ -54,7 +54,8 @@ class ViewModelFactory(
             allExamples = allExamples,
             example = activeExample,
             activeSlug = activeExample?.slug,
-            exampleSelectOptions = exampleOptions
+            exampleSelectOptions = exampleOptions,
+            guideSnippets = provider.getGuideSnippets()
         )
     }
 
