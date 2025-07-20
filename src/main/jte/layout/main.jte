@@ -84,6 +84,12 @@
     });
 </script>
 <script>
+    document.body.addEventListener('htmx:beforeSwap', function (evt) {
+        if (window.kreplicaEditor) {
+            window.kreplicaEditor.dispose();
+            window.kreplicaEditor = null;
+        }
+    });
     document.body.addEventListener('htmx:afterSwap', function (e) {
         if (document.getElementById('kreplica-editor') && !window.kreplicaEditor && typeof window.initKReplicaPlayground === 'function') {
             window.initKReplicaPlayground();

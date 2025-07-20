@@ -92,8 +92,11 @@
                     kind: monaco.languages.CompletionItemKind.Interface
                 }
             ];
+            var hidden = document.querySelector('textarea[name="source"]');
+            var initialCode = hidden ? hidden.value : '';
+
             window.kreplicaEditor = monaco.editor.create(document.getElementById('kreplica-editor'), {
-                value: '',
+                value: initialCode,
                 language: 'kotlin',
                 automaticLayout: true
             });
@@ -103,7 +106,6 @@
                     return {suggestions: KREPLICA_COMPLETIONS};
                 }
             });
-            var hidden = document.querySelector('textarea[name="source"]');
             if (hidden) {
                 var sync = function () {
                     hidden.value = window.kreplicaEditor.getValue();
