@@ -45,6 +45,7 @@ object WebApp {
     }
 
     object ViewModelAttributes {
+        const val NAV_LINKS = "navLinks"
         const val CURRENT_PAGE = "currentPage"
         const val ALL_EXAMPLES = "allExamples"
         const val EXAMPLE = "example"

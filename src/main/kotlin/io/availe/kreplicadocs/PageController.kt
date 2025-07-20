@@ -13,12 +13,18 @@ import io.availe.kreplicadocs.WebApp.ViewModelAttributes as Attributes
 @Controller
 class PageController(private val provider: ExampleDataProvider) {
 
+    private fun addCommonAttributes(model: Model) {
+        model.addAttribute(Attributes.NAV_LINKS, provider.getNavLinks())
+    }
+
     private fun prepareIndexModel(model: Model) {
+        addCommonAttributes(model)
         model.addAttribute(Attributes.CURRENT_PAGE, "index")
         model.addAttribute(Attributes.FEATURE_EXAMPLE, provider.getExampleBySlug(ExampleSlug("user-profile")))
     }
 
     private fun prepareGuidesModel(model: Model, slug: ExampleSlug? = null) {
+        addCommonAttributes(model)
         val allExamples = provider.getAllExamples()
         val activeExample = slug?.let { provider.getExampleBySlug(it) } ?: allExamples.firstOrNull()
 
@@ -29,6 +35,7 @@ class PageController(private val provider: ExampleDataProvider) {
     }
 
     private fun preparePlaygroundModel(model: Model) {
+        addCommonAttributes(model)
         val allExamples = provider.getAllExamples()
         val defaultExample = allExamples.firstOrNull()
 
@@ -71,8 +78,8 @@ class PageController(private val provider: ExampleDataProvider) {
     }
 
     @GetMapping(Endpoints.Pages.GUIDES_BY_SLUG)
-    fun guideBySlug(@PathVariable slug: ExampleSlug, model: Model): String {
-        prepareGuidesModel(model, slug)
+    fun guideBySlug(@PathVariable slug: String, model: Model): String {
+        prepareGuidesModel(model, ExampleSlug(slug))
         return Templates.Pages.GUIDES
     }
 

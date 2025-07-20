@@ -1,6 +1,7 @@
 @param gg.jte.Content content
 @param String title = "KReplica Docs"
 @param String currentPage = null
+@param java.util.List<io.availe.kreplicadocs.NavLink> navLinks
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,12 +43,12 @@
                  @click.outside="isOpen = false"
                  style="display: none;">
                 <nav class="main-nav" id="mobile-nav-links">
-                    @template.fragments.nav-links(currentPage = currentPage, isMobile = true)
+                    @template.fragments.nav-links(navLinks = navLinks, currentPage = currentPage, isMobile = true)
                 </nav>
             </div>
 
             <nav class="desktop-nav" id="desktop-nav-links">
-                @template.fragments.nav-links(currentPage = currentPage, isMobile = false)
+                @template.fragments.nav-links(navLinks = navLinks, currentPage = currentPage, isMobile = false)
             </nav>
 
         </div>

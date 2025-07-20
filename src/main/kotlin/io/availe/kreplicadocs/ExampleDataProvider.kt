@@ -6,6 +6,7 @@ import jakarta.annotation.PostConstruct
 import org.springframework.core.io.Resource
 import org.springframework.core.io.support.ResourcePatternResolver
 import org.springframework.stereotype.Service
+import org.springframework.web.util.UriComponentsBuilder
 
 @Service
 class ExampleDataProvider(
@@ -14,6 +15,11 @@ class ExampleDataProvider(
 ) {
 
     private val examples = mutableListOf<Example>()
+    private val navLinks = listOf(
+        NavLink("/", "index", "Home"),
+        NavLink("/playground", "playground", "Playground"),
+        NavLink("/guides", "guides", "Guides")
+    )
 
     private data class ExampleMetadata(val name: String, val description: String)
 
@@ -69,46 +75,51 @@ class ExampleDataProvider(
                 title = "1. Define Interface",
                 description = "Everything starts with a simple Kotlin interface. No boilerplate or complex base classes required.",
                 file = FileName("source"),
-                endpoint = WebApp.Endpoints.Examples.FILE_CONTENT.replace("{slug}", slug.value)
-                    .replace("{fileName}", "source"),
+                endpoint = UriComponentsBuilder.fromPath(WebApp.Endpoints.Examples.FILE_CONTENT)
+                    .buildAndExpand(mapOf("slug" to slug.value, "fileName" to "source"))
+                    .toUriString(),
                 part = 1
             ),
             FeatureTourStep(
                 title = "2. Generate DTOs",
                 description = "KReplica generates powerful, variant-aware DTOs, including a sealed hierarchy that enables advanced, type-safe patterns.",
                 file = FileName("UserAccountSchema.kt"),
-                endpoint = WebApp.Endpoints.Examples.FILE_CONTENT.replace("{slug}", slug.value)
-                    .replace("{fileName}", "UserAccountSchema.kt"),
+                endpoint = UriComponentsBuilder.fromPath(WebApp.Endpoints.Examples.FILE_CONTENT)
+                    .buildAndExpand(mapOf("slug" to slug.value, "fileName" to "UserAccountSchema.kt"))
+                    .toUriString(),
                 part = 1
             ),
             FeatureTourStep(
                 title = "3. Ensure Exhaustive Handling",
                 description = "The generated sealed hierarchy enables exhaustive `when` expressions, forcing you to handle every version and variant at compile time. This eliminates entire classes of runtime errors as your API evolves.",
                 file = FileName("WhenStatements.kt"),
-                endpoint = WebApp.Endpoints.Examples.USAGE_CONTENT.replace("{slug}", slug.value)
-                    .replace("{fileName}", "WhenStatements.kt"),
+                endpoint = UriComponentsBuilder.fromPath(WebApp.Endpoints.Examples.USAGE_CONTENT)
+                    .buildAndExpand(mapOf("slug" to slug.value, "fileName" to "WhenStatements.kt"))
+                    .toUriString(),
                 part = 1
             ),
             FeatureTourStep(
                 title = "4. The Generic Pattern",
                 description = "Here is the key: KReplica generates global variant interfaces. You can use them to define a generic, reusable `ApiSchemaMapper` that is type-safe across all your models and versions.",
                 file = FileName("ApiSchemaMapper.kt"),
-                endpoint = WebApp.Endpoints.Examples.USAGE_CONTENT.replace("{slug}", slug.value)
-                    .replace("{fileName}", "ApiSchemaMapper.kt"),
+                endpoint = UriComponentsBuilder.fromPath(WebApp.Endpoints.Examples.USAGE_CONTENT)
+                    .buildAndExpand(mapOf("slug" to slug.value, "fileName" to "ApiSchemaMapper.kt"))
+                    .toUriString(),
                 part = 2
             ),
             FeatureTourStep(
                 title = "5. The Implementation",
                 description = "With the generic pattern in place, implementing a mapper for a specific schema version is clean, simple, and compile-time checked, cleanly decoupling your API layer from your domain models.",
                 file = FileName("Mapper.kt"),
-                endpoint = WebApp.Endpoints.Examples.USAGE_CONTENT.replace("{slug}", slug.value)
-                    .replace("{fileName}", "Mapper.kt"),
+                endpoint = UriComponentsBuilder.fromPath(WebApp.Endpoints.Examples.USAGE_CONTENT)
+                    .buildAndExpand(mapOf("slug" to slug.value, "fileName" to "Mapper.kt"))
+                    .toUriString(),
                 part = 2
             )
         )
     }
 
     fun getAllExamples(): List<Example> = examples
-
+    fun getNavLinks(): List<NavLink> = navLinks
     fun getExampleBySlug(slug: ExampleSlug): Example? = examples.find { it.slug == slug.value }
 }
