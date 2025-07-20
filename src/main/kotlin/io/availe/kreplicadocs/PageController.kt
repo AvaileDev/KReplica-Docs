@@ -62,6 +62,11 @@ class PageController(private val provider: ExampleDataProvider) {
     @HxRequest
     @GetMapping("/playground")
     fun playgroundHtmx(model: Model): FragmentsRendering {
+        val allExamples = provider.getAllExamples()
+        val defaultExample = allExamples.firstOrNull()
+        model.addAttribute("allExamples", allExamples)
+        model.addAttribute("example", defaultExample)
+        model.addAttribute("activeSlug", defaultExample?.slug)
         model.addAttribute("currentPage", "playground")
         return FragmentsRendering
             .with("partials/content-playground")
@@ -71,6 +76,11 @@ class PageController(private val provider: ExampleDataProvider) {
 
     @GetMapping("/playground")
     fun playground(model: Model): String {
+        val allExamples = provider.getAllExamples()
+        val defaultExample = allExamples.firstOrNull()
+        model.addAttribute("allExamples", allExamples)
+        model.addAttribute("example", defaultExample)
+        model.addAttribute("activeSlug", defaultExample?.slug)
         model.addAttribute("currentPage", "playground")
         return "pages/playground"
     }
