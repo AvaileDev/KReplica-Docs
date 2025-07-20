@@ -1,7 +1,5 @@
 package io.availe.kreplicadocs
 
-import io.availe.kreplicadocs.WebApp.Endpoints
-import io.availe.kreplicadocs.WebApp.Templates
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -61,57 +59,57 @@ class PageController(
         prepareExamplesPageModel(model, "playground")
     }
 
-    @GetMapping(Endpoints.Pages.INDEX)
+    @GetMapping(WebApp.Endpoints.Pages.INDEX)
     fun index(model: Model): String {
         prepareIndexModel(model)
-        return Templates.Pages.INDEX
+        return PageTemplate.INDEX.path
     }
 
     @HxRequest
-    @GetMapping(Endpoints.Pages.INDEX)
+    @GetMapping(WebApp.Endpoints.Pages.INDEX)
     fun indexHtmx(model: Model): FragmentsRendering {
         prepareIndexModel(model)
         return FragmentsRendering
-            .with(Templates.Partials.CONTENT_INDEX)
-            .fragment(Templates.Fragments.NAV_UPDATE_OOB)
+            .with(PartialTemplate.CONTENT_INDEX.path)
+            .fragment(FragmentTemplate.NAV_UPDATE_OOB.path)
             .build()
     }
 
-    @GetMapping(Endpoints.Pages.GUIDES)
+    @GetMapping(WebApp.Endpoints.Pages.GUIDES)
     fun guides(model: Model): String {
         prepareGuidesModel(model)
-        return Templates.Pages.GUIDES
+        return PageTemplate.GUIDES.path
     }
 
     @HxRequest
-    @GetMapping(Endpoints.Pages.GUIDES)
+    @GetMapping(WebApp.Endpoints.Pages.GUIDES)
     fun guidesHtmx(model: Model): FragmentsRendering {
         prepareGuidesModel(model)
         return FragmentsRendering
-            .with(Templates.Partials.CONTENT_EXAMPLES)
-            .fragment(Templates.Fragments.NAV_UPDATE_OOB)
+            .with(PartialTemplate.CONTENT_EXAMPLES.path)
+            .fragment(FragmentTemplate.NAV_UPDATE_OOB.path)
             .build()
     }
 
-    @GetMapping(Endpoints.Pages.GUIDES_BY_SLUG)
-    fun guideBySlug(@PathVariable slug: String, model: Model): String {
-        prepareGuidesModel(model, ExampleSlug(slug))
-        return Templates.Pages.GUIDES
+    @GetMapping(WebApp.Endpoints.Pages.GUIDES_BY_SLUG)
+    fun guideBySlug(@PathVariable slug: ExampleSlug, model: Model): String {
+        prepareGuidesModel(model, slug)
+        return PageTemplate.GUIDES.path
     }
 
-    @GetMapping(Endpoints.Pages.PLAYGROUND)
+    @GetMapping(WebApp.Endpoints.Pages.PLAYGROUND)
     fun playground(model: Model): String {
         preparePlaygroundModel(model)
-        return Templates.Pages.PLAYGROUND
+        return PageTemplate.PLAYGROUND.path
     }
 
     @HxRequest
-    @GetMapping(Endpoints.Pages.PLAYGROUND)
+    @GetMapping(WebApp.Endpoints.Pages.PLAYGROUND)
     fun playgroundHtmx(model: Model): FragmentsRendering {
         preparePlaygroundModel(model)
         return FragmentsRendering
-            .with(Templates.Partials.CONTENT_PLAYGROUND)
-            .fragment(Templates.Fragments.NAV_UPDATE_OOB)
+            .with(PartialTemplate.CONTENT_PLAYGROUND.path)
+            .fragment(FragmentTemplate.NAV_UPDATE_OOB.path)
             .build()
     }
 }
