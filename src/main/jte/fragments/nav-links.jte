@@ -1,4 +1,4 @@
-@param io.availe.kreplicadocs.PageViewModel vm
+@param io.availe.kreplicadocs.model.PageViewModel vm
 @param boolean isMobile = false
 
 <ul class="nav-links">

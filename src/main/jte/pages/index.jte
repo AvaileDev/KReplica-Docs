@@ -1,4 +1,4 @@
-@param io.availe.kreplicadocs.IndexViewModel vm
+@param io.availe.kreplicadocs.model.IndexViewModel vm
 
 @template.layout.main(
 vm = vm,

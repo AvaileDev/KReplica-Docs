@@ -1,6 +1,6 @@
 @param boolean isFeatureTour = false
-@param io.availe.kreplicadocs.Example example = null
-@param java.util.List<io.availe.kreplicadocs.SelectOption> exampleSelectOptions = null
+@param io.availe.kreplicadocs.model.Example example = null
+@param java.util.List<io.availe.kreplicadocs.model.SelectOption> exampleSelectOptions = null
 @param gg.jte.Content controls = null
 @param gg.jte.Content content = null
 

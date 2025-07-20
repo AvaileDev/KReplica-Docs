@@ -1,4 +1,4 @@
-@param io.availe.kreplicadocs.Example example
+@param io.availe.kreplicadocs.model.Example example
 @param String activeFile
 @param boolean useOob = false
 

@@ -1,4 +1,4 @@
-@param java.util.List<io.availe.kreplicadocs.Example> allExamples
+@param java.util.List<io.availe.kreplicadocs.model.Example> allExamples
 @param String activeSlug
 @param boolean useOob = false
 
