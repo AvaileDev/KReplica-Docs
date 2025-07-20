@@ -1,4 +1,4 @@
-@param io.availe.kreplicadocs.Example featureExample
+@param io.availe.kreplicadocs.ExampleViewModel featureExample
 @param String activeFile
 @param boolean oob = false
 
@@ -10,8 +10,8 @@
             <div class="playground-tabs" role="tablist">
                 @for(var step : entry.getValue())
                     <button role="tab"
-                            aria-selected="${step.getFile().getValue().equals(activeFile)}"
-                            class="${step.getFile().getValue().equals(activeFile) ? "active" : ""}"
+                            aria-selected="${step.getFileName().equals(activeFile)}"
+                            class="${step.getFileName().equals(activeFile) ? "active" : ""}"
                             hx-get="${step.getEndpoint()}"
                             hx-target="#feature-playground-content-wrapper .playground-content"
                             hx-swap="innerHTML">

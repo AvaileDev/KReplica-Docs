@@ -24,7 +24,8 @@ class PageController(
     private fun prepareIndexModel(model: Model) {
         addCommonAttributes(model)
         model.addAttribute(Attributes.CURRENT_PAGE, "index")
-        model.addAttribute(Attributes.FEATURE_EXAMPLE, provider.getExampleBySlug(ExampleSlug("user-profile")))
+        provider.getExampleBySlug(ExampleSlug("user-profile"))
+            ?.let { model.addAttribute(Attributes.FEATURE_EXAMPLE, it.toViewModel()) }
     }
 
     private fun prepareGuidesModel(model: Model, slug: ExampleSlug? = null) {

@@ -1,4 +1,4 @@
-@param io.availe.kreplicadocs.Example featureExample
+@param io.availe.kreplicadocs.ExampleViewModel featureExample
 @param String activeFile = "source"
 
 <div class="hero-section">
@@ -34,7 +34,7 @@
                                 hx-indicator="#feature-playground-content-wrapper .htmx-indicator">
                             @for(var step : featureExample.getFeatureTourSteps())
                                 <option value="${step.getEndpoint()}"
-                                        selected="${step.getFile().getValue().equals(activeFile)}">
+                                        selected="${step.getFileName().equals(activeFile)}">
                                     ${step.getTitle()}
                                 </option>
                             @endfor

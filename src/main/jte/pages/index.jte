@@ -1,4 +1,4 @@
-@param io.availe.kreplicadocs.Example featureExample = null
+@param io.availe.kreplicadocs.ExampleViewModel featureExample = null
 @param java.util.List<io.availe.kreplicadocs.NavLink> navLinks
 @param io.availe.kreplicadocs.AppProperties properties
 

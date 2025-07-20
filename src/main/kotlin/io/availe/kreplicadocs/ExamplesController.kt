@@ -61,7 +61,7 @@ class ExamplesController(private val provider: ExampleDataProvider) {
     @GetMapping(Endpoints.Examples.FILE_CONTENT)
     fun getFileContent(@PathVariable slug: ExampleSlug, @PathVariable fileName: FileName, model: Model): String {
         return withExample(slug) { example ->
-            model.addAttribute(Attributes.FEATURE_EXAMPLE, example)
+            model.addAttribute(Attributes.FEATURE_EXAMPLE, example.toViewModel())
             model.addAttribute(Attributes.ACTIVE_FILE, fileName.value)
             model.addAttribute(Attributes.LANGUAGE, "kotlin")
             model.addAttribute(Attributes.CODE, example.getContent(fileName) ?: "")
@@ -73,7 +73,7 @@ class ExamplesController(private val provider: ExampleDataProvider) {
     @GetMapping(Endpoints.Examples.USAGE_CONTENT)
     fun getUsageFileContent(@PathVariable slug: ExampleSlug, @PathVariable fileName: FileName, model: Model): String {
         return withExample(slug) { example ->
-            model.addAttribute(Attributes.FEATURE_EXAMPLE, example)
+            model.addAttribute(Attributes.FEATURE_EXAMPLE, example.toViewModel())
             model.addAttribute(Attributes.ACTIVE_FILE, fileName.value)
             model.addAttribute(Attributes.LANGUAGE, "kotlin")
             model.addAttribute(Attributes.CODE, example.getContent(fileName) ?: "")
