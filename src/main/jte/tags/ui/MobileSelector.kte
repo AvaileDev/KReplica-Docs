@@ -1,0 +1,22 @@
+@param label: String
+@param selectId: String
+@param items: List<io.availe.kreplicadocs.Example>
+@param activeValue: String
+@param hxGetUrlTemplate: String
+@param hxTarget: String
+@param hxPushUrlTemplate: String
+
+<div class="custom-select-wrapper">
+    <label for="${selectId}">${label}</label>
+    <select id="${selectId}"
+            hx-get="${hxGetUrlTemplate}"
+            hx-target="${hxTarget}"
+            hx-push-url="${hxPushUrlTemplate}"
+            hx-indicator="#primary-indicator">
+        @for (item in items)
+            <option value="${item.slug}" selected="${item.slug == activeValue}">
+                ${item.name}
+            </option>
+        @endfor
+    </select>
+</div>

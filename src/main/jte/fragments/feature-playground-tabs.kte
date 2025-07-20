@@ -1,0 +1,24 @@
+@param featureExample: io.availe.kreplicadocs.Example
+@param activeFile: String
+@param oob: Boolean = false
+
+<div id="feature-playground-tabs" hx-swap-oob="@if(oob)outerHTML@endif">
+    @for (part in featureExample.featureTourSteps.map { it.part }.distinct().sorted())
+        <div class="tour-part">
+            <h3 class="tour-part-header">Part ${part}
+                : @if(part == 1) Core Feature - Compile-Time Safety @else Advanced Pattern - Type-Safe Mappers @endif</h3>
+            <div class="playground-tabs" role="tablist">
+                @for (step in featureExample.featureTourSteps.filter { it.part == part })
+                    <button role="tab"
+                            aria-selected="${step.file.value == activeFile}"
+                            class="@if(step.file.value == activeFile)active@endif"
+                            hx-get="${step.endpoint}"
+                            hx-target="#feature-playground-content-wrapper .playground-content"
+                            hx-swap="innerHTML">
+                        ${step.title.replaceFirst(Regex("^\\d+\\.\\s*"), "")}
+                    </button>
+                @endfor
+            </div>
+        </div>
+    @endfor
+</div>
