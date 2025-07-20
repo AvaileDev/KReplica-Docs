@@ -13,3 +13,9 @@ data class FeatureTourStep(
     val part: Int,
     var endpoint: String = ""
 )
+
+data class PlaygroundTemplate(
+    val slug: String,
+    val name: String,
+    val description: String
+)

@@ -2,25 +2,21 @@ package io.availe.kreplicadocs.services
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
-import io.availe.kreplicadocs.config.AppProperties
-import io.availe.kreplicadocs.model.Example
-import io.availe.kreplicadocs.model.ExampleSlug
-import io.availe.kreplicadocs.model.FeatureTourStep
-import io.availe.kreplicadocs.model.NavLink
+import io.availe.kreplicadocs.model.*
 import jakarta.annotation.PostConstruct
-import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.core.io.Resource
 import org.springframework.core.io.support.ResourcePatternResolver
 import org.springframework.stereotype.Service
+import java.io.FileNotFoundException
 
 @Service
-@EnableConfigurationProperties(AppProperties::class)
 class ExampleDataProvider(
     private val resourcePatternResolver: ResourcePatternResolver,
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
 ) {
 
-    private val examples = mutableListOf<Example>()
+    private var featureTourExample: Example? = null
+    private val playgroundTemplates = mutableListOf<PlaygroundTemplate>()
     private val guideSnippets = mutableMapOf<String, String>()
     private val navLinks = listOf(
         NavLink("/", "index", "Home"),
@@ -28,7 +24,7 @@ class ExampleDataProvider(
         NavLink("/guides", "guides", "Guides")
     )
 
-    private data class ExampleMetadata(
+    private data class TourMetadata(
         val name: String,
         val description: String,
         val featureTourSteps: List<FeatureTourStep> = emptyList(),
@@ -37,18 +33,32 @@ class ExampleDataProvider(
 
     @PostConstruct
     fun init() {
-        val metadataResource = resourcePatternResolver.getResource("classpath:examples.json")
-        val metadataMap: Map<String, ExampleMetadata> = metadataResource.inputStream.use {
-            objectMapper.readValue(it, object : TypeReference<Map<String, ExampleMetadata>>() {})
+        loadFeatureTourExample()
+        loadPlaygroundTemplates()
+        guideSnippets.putAll(loadFilesFrom("guide-snippets/*.kt"))
+    }
+
+    private fun loadFeatureTourExample() {
+        val metadataResource = resourcePatternResolver.getResource("classpath:metadata/tour.json")
+        if (!metadataResource.exists()) return
+
+        val metadataMap: Map<String, TourMetadata> = metadataResource.inputStream.use {
+            objectMapper.readValue(it, object : TypeReference<Map<String, TourMetadata>>() {})
         }
 
-        examples.addAll(
-            metadataMap.mapNotNull { (slug, metadata) ->
-                loadExample(ExampleSlug(slug), metadata)
-            }
-        )
+        metadataMap.entries.firstOrNull()?.let { (slug, metadata) ->
+            featureTourExample = loadExample(ExampleSlug(slug), metadata)
+        }
+    }
 
-        guideSnippets.putAll(loadFilesFrom("guide-snippets/*.kt"))
+    private fun loadPlaygroundTemplates() {
+        val templatesResource = resourcePatternResolver.getResource("classpath:metadata/playground-templates.json")
+        if (!templatesResource.exists()) return
+
+        val templates: List<PlaygroundTemplate> = templatesResource.inputStream.use {
+            objectMapper.readValue(it, object : TypeReference<List<PlaygroundTemplate>>() {})
+        }
+        playgroundTemplates.addAll(templates)
     }
 
     private fun loadFilesFrom(path: String): Map<String, String> {
@@ -61,7 +71,7 @@ class ExampleDataProvider(
             }
     }
 
-    private fun loadExample(slug: ExampleSlug, metadata: ExampleMetadata): Example? {
+    private fun loadExample(slug: ExampleSlug, metadata: TourMetadata): Example? {
         val sourceResource = resourcePatternResolver.getResource("classpath:examples/${slug.value}/Source.kt")
         if (!sourceResource.exists()) return null
         val sourceCode = sourceResource.inputStream.bufferedReader().use { it.readText() }
@@ -79,9 +89,19 @@ class ExampleDataProvider(
         )
     }
 
-    fun getAllExamples(): List<Example> = examples
+    fun getFeatureTourExample(): Example? = featureTourExample
+
+    fun getAllExamples(): List<Example> = featureTourExample?.let { listOf(it) } ?: emptyList()
+
+    fun getPlaygroundTemplates(): List<PlaygroundTemplate> = playgroundTemplates
+
+    fun getPlaygroundTemplateSource(slug: String): String {
+        val resource = resourcePatternResolver.getResource("classpath:playground-templates/$slug.kt")
+        if (!resource.exists()) throw FileNotFoundException("Playground template not found: $slug")
+        return resource.inputStream.bufferedReader().use { it.readText() }
+    }
+
     fun getNavLinks(): List<NavLink> = navLinks
+
     fun getGuideSnippets(): Map<String, String> = guideSnippets
-    fun getExampleBySlug(slug: ExampleSlug): Example? =
-        examples.find { it.slug == slug.value }
 }

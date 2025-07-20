@@ -5,13 +5,16 @@ object WebApp {
         object Pages {
             const val INDEX = "/"
             const val GUIDES = "/guides"
-            const val GUIDES_BY_SLUG = "/guides/{slug}"
             const val PLAYGROUND = "/playground"
+        }
+
+        object Playground {
+            const val TEMPLATE_SWAP = "/playground/templates/{slug}"
+            const val COMPILE = "/playground/compile"
         }
 
         object Examples {
             private const val BASE = "/examples/{slug}"
-            const val PLAYGROUND = "$BASE/playground"
             const val PLAYGROUND_FILE_SWAP = "$BASE/playground-file-swap/{fileName}"
             const val GENERATED_PANEL = "$BASE/generated-panel/{fileName}"
             const val FILE_CONTENT = "$BASE/file/{fileName}"

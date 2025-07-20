@@ -15,26 +15,28 @@
                         insertTextRules: monaco.languages.CompletionItemInsertTextRule.InsertAsSnippet
                     }));
 
-                    var hidden = document.querySelector('textarea[name="source"]');
-                    var initialCode = hidden ? hidden.value : '';
+                    const hiddenTextarea = document.querySelector('textarea[name="source"]');
+                    const initialCode = hiddenTextarea ? hiddenTextarea.value : '';
 
                     window.kreplicaEditor = monaco.editor.create(document.getElementById('kreplica-editor'), {
                         value: initialCode,
                         language: 'kotlin',
-                        automaticLayout: true
+                        automaticLayout: true,
+                        theme: 'vs-dark',
+                        minimap: {enabled: false}
                     });
+
                     monaco.languages.registerCompletionItemProvider('kotlin', {
                         triggerCharacters: ['@', '.'],
                         provideCompletionItems: function () {
                             return {suggestions: KREPLICA_COMPLETIONS};
                         }
                     });
-                    if (hidden) {
-                        var sync = function () {
-                            hidden.value = window.kreplicaEditor.getValue();
-                        };
-                        window.kreplicaEditor.onDidChangeModelContent(sync);
-                        sync();
+
+                    if (hiddenTextarea) {
+                        window.kreplicaEditor.onDidChangeModelContent(function () {
+                            hiddenTextarea.value = window.kreplicaEditor.getValue();
+                        });
                     }
                 });
         });

@@ -1,17 +1,41 @@
 @param io.availe.kreplicadocs.model.view.PlaygroundViewModel vm
 
-@template.tags.playground(
-example = vm.getExample(),
-exampleSelectOptions = vm.getExampleSelectOptions(),
-content = @`
-    <div id="kreplica-editor"></div>
-    <textarea name="source" hidden>${vm.getExample().getSourceCode()}</textarea>
-    <button id="playground-submit"
-            hx-post="/playground/compile"
-            hx-trigger="click"
-            hx-indicator="#primary-indicator"
-            hx-target="#examples-main">
-        Submit
-    </button>
-`
-)
+<div class="playground-container">
+    <div class="playground-controls">
+        @template.tags.custom-select(
+        label = "Starter Template:",
+        id = "template-select",
+        options = vm.getAvailableTemplates(),
+        hxGet = "'/playground/templates/' + this.value",
+        hxTarget = "#editor-source-container",
+        hxPushUrl = "false",
+        hxIndicator = ".htmx-indicator",
+        hxSwap = "innerHTML"
+        )
+    </div>
+
+    <form class="playground-form"
+          hx-post="/playground/compile"
+          hx-target="#playground-output"
+          hx-indicator="#playground-output .htmx-indicator">
+
+        <div class="playground-editor-area">
+            <div id="editor-source-container">
+                <textarea name="source" hidden>${vm.getInitialSourceCode()}</textarea>
+            </div>
+            <div id="kreplica-editor"></div>
+        </div>
+
+        <div class="playground-actions">
+            <button type="submit" class="button-primary">Run</button>
+            <div class="htmx-indicator">Compiling...</div>
+        </div>
+    </form>
+
+    <div class="playground-output-area">
+        <h3>Output</h3>
+        <div id="playground-output">
+            <div class="placeholder-text">Click "Run" to see the generated code.</div>
+        </div>
+    </div>
+</div>

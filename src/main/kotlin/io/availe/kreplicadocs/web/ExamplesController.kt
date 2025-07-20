@@ -5,7 +5,6 @@ import io.availe.kreplicadocs.common.WebApp
 import io.availe.kreplicadocs.model.Example
 import io.availe.kreplicadocs.model.ExampleSlug
 import io.availe.kreplicadocs.model.FileName
-import io.availe.kreplicadocs.model.view.SelectOption
 import io.availe.kreplicadocs.model.view.toViewModel
 import io.availe.kreplicadocs.services.ExampleDataProvider
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest
@@ -13,34 +12,17 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.servlet.view.FragmentsRendering
 
 @Controller
 class ExamplesController(private val provider: ExampleDataProvider) {
 
     private fun withExample(slug: ExampleSlug, action: (Example) -> String): String {
-        return provider.getExampleBySlug(slug)?.let(action) ?: FragmentTemplate.EXAMPLE_NOT_FOUND.path
-    }
-
-    @HxRequest
-    @GetMapping(WebApp.Endpoints.Examples.PLAYGROUND)
-    fun getExamplePlayground(@PathVariable slug: ExampleSlug, model: Model): FragmentsRendering {
-        val example = provider.getExampleBySlug(slug)
-            ?: return FragmentsRendering.with(FragmentTemplate.EXAMPLE_NOT_FOUND.path).build()
-
-        val allExamples = provider.getAllExamples()
-        val exampleSelectOptions = allExamples.map {
-            SelectOption(it.slug, it.name, it.slug == example.slug)
+        val tourExample = provider.getFeatureTourExample()
+        return if (tourExample != null && tourExample.slug == slug.value) {
+            action(tourExample)
+        } else {
+            FragmentTemplate.EXAMPLE_NOT_FOUND.path
         }
-
-        model.addAttribute(WebApp.ViewModelAttributes.EXAMPLE, example)
-        model.addAttribute(WebApp.ViewModelAttributes.ALL_EXAMPLES, allExamples)
-        model.addAttribute(WebApp.ViewModelAttributes.ACTIVE_SLUG, slug.value)
-        model.addAttribute(WebApp.ViewModelAttributes.EXAMPLE_SELECT_OPTIONS, exampleSelectOptions)
-
-        return FragmentsRendering.with("fragments/playground-main")
-            .fragment("fragments/examples-sidebar-links")
-            .build()
     }
 
     @HxRequest

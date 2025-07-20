@@ -23,9 +23,6 @@ data class GuidesViewModel(
     override val properties: AppProperties,
     override val currentPage: String,
     val allExamples: List<Example>,
-    val example: Example?,
-    val activeSlug: String?,
-    val exampleSelectOptions: List<SelectOption>,
     val guideSnippets: Map<String, String>
 ) : PageViewModel
 
@@ -33,6 +30,7 @@ data class PlaygroundViewModel(
     override val navLinks: List<NavLink>,
     override val properties: AppProperties,
     override val currentPage: String,
-    val example: Example,
-    val exampleSelectOptions: List<SelectOption>
+    val availableTemplates: List<SelectOption>,
+    val initialSourceCode: String,
+    val activeTemplateSlug: String
 ) : PageViewModel
