@@ -1,5 +1,5 @@
-@param featureExample: io.availe.kreplicadocs.Example?
-@param activeFile: String = "source"
+@param io.availe.kreplicadocs.Example featureExample
+@param String activeFile = "source"
 
 <div class="hero-section">
     <h1>Evolve Your Kotlin DTOs with Confidence</h1>
@@ -32,21 +32,31 @@
                                 hx-target="#feature-playground-content-wrapper .playground-content"
                                 hx-swap="innerHTML"
                                 hx-indicator="#feature-playground-content-wrapper .htmx-indicator">
-                            @for (step in featureExample.featureTourSteps)
-                                <option value="${step.endpoint}" selected="${step.file.value == activeFile}">
-                                    ${step.title}
-                                </option>
-                            @endfor
+                            <option value="/examples/${featureExample.getSlug()}/file/source" selected>1. Define
+                                Interface
+                            </option>
+                            <option value="/examples/${featureExample.getSlug()}/file/UserAccountSchema.kt">2. Generate
+                                DTOs
+                            </option>
+                            <option value="/examples/${featureExample.getSlug()}/usage/WhenStatements.kt">3. Ensure
+                                Exhaustive Handling
+                            </option>
+                            <option value="/examples/${featureExample.getSlug()}/usage/ApiSchemaMapper.kt">4. The
+                                Generic Pattern
+                            </option>
+                            <option value="/examples/${featureExample.getSlug()}/usage/Mapper.kt">5. The
+                                Implementation
+                            </option>
                         </select>
                     </div>
                 </div>
                 <div class="feature-playground-desktop-controls">
-                    @template.fragments.feature-tour-description(activeFile = activeFile, tourSteps = featureExample.featureTourSteps)
+                    @template.fragments.feature-tour-description(activeFile = activeFile)
                     @template.fragments.feature-playground-tabs(featureExample = featureExample, activeFile = activeFile)
                 </div>
             `,
             content = @`
-                @template.tags.code(language="kotlin", content=@`${featureExample.sourceCode}`)
+                @template.tags.code(language="kotlin", content=@`${featureExample.getSourceCode()}`)
             `
             )
         </div>

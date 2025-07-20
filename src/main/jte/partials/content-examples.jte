@@ -1,6 +1,6 @@
-@param allExamples: List<io.availe.kreplicadocs.Example>
-@param example: io.availe.kreplicadocs.Example? = null
-@param activeSlug: String? = null
+@param java.util.List<io.availe.kreplicadocs.Example> allExamples
+@param io.availe.kreplicadocs.Example example = null
+@param String activeSlug = null
 
 <div class="examples-container">
     <aside class="examples-sidebar">
@@ -18,7 +18,7 @@
 
         <div class="examples-shell">
             <div class="examples-main" id="examples-main">
-                @if (example != null && activeSlug != null)
+                @if (example != null)
                     @template.tags.playground(example = example, allExamples = allExamples, activeSlug = activeSlug)
                 @else
                     <div style="padding: 2rem; text-align: center; color: var(--text-light);">

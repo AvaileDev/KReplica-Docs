@@ -1,6 +1,0 @@
-@param example: io.availe.kreplicadocs.Example
-@param allExamples: List<io.availe.kreplicadocs.Example>
-@param activeSlug: String
-
-@template.tags.playground(example = example, allExamples = allExamples, activeSlug = activeSlug)
-@template.fragments.examples-sidebar-links(allExamples = allExamples, activeSlug = activeSlug, useOob = true)

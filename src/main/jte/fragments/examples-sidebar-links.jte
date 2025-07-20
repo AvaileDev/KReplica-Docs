@@ -1,8 +1,8 @@
-@param allExamples: List<io.availe.kreplicadocs.Example>
-@param activeSlug: String?
-@param useOob: Boolean = false
+@param java.util.List<io.availe.kreplicadocs.Example> allExamples
+@param String activeSlug
+@param boolean useOob = false
 
-<div id="examples-sidebar-links" hx-swap-oob="@if(useOob)outerHTML@endif">
+<div id="examples-sidebar-links" hx-swap-oob="${useOob ? "outerHTML" : null}">
     <h4>Guide Sections</h4>
     <ul>
         <li><a href="#top" class="">Top</a></li>
@@ -13,14 +13,14 @@
 
     <h4>Interactive Examples</h4>
     <ul>
-        @for (item in allExamples)
+        @for(var item : allExamples)
             <li>
                 <a href="#interactive-examples"
-                   class="@if(item.slug == activeSlug)active@endif"
-                   hx-get="/examples/${item.slug}/playground"
+                   class="${item.getSlug().equals(activeSlug) ? "active" : ""}"
+                   hx-get="/examples/${item.getSlug()}/playground"
                    hx-target="#examples-main"
                    hx-indicator="#primary-indicator">
-                    ${item.name}
+                    ${item.getName()}
                 </a>
             </li>
         @endfor

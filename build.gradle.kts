@@ -24,7 +24,6 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("gg.jte:jte-spring-boot-starter-3:3.1.16")
-    implementation("gg.jte:jte-kotlin:3.1.16")
     implementation("io.github.wimdeblauwe:htmx-spring-boot:4.0.1")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
