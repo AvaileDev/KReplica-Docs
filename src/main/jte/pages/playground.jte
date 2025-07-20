@@ -1,17 +1,14 @@
-@param io.availe.kreplicadocs.Example example
-@param java.util.List<io.availe.kreplicadocs.SelectOption> exampleSelectOptions
-@param java.util.List<io.availe.kreplicadocs.NavLink> navLinks
-@param io.availe.kreplicadocs.AppProperties properties
+@param io.availe.kreplicadocs.PlaygroundViewModel vm
 
 @template.layout.main(
 title = "Playground | KReplica Docs",
-currentPage = "playground",
-navLinks = navLinks,
-properties = properties,
+currentPage = vm.getCurrentPage(),
+navLinks = vm.getNavLinks(),
+properties = vm.getProperties(),
 content = @`
     @template.partials.content-playground(
-    example = example,
-    exampleSelectOptions = exampleSelectOptions
+    example = vm.getExample(),
+    exampleSelectOptions = vm.getExampleSelectOptions()
     )
 `
 )

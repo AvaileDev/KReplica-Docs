@@ -1,21 +1,11 @@
-@param java.util.List<io.availe.kreplicadocs.Example> allExamples
-@param io.availe.kreplicadocs.Example example = null
-@param String activeSlug = null
-@param java.util.List<io.availe.kreplicadocs.SelectOption> exampleSelectOptions
-@param java.util.List<io.availe.kreplicadocs.NavLink> navLinks
-@param io.availe.kreplicadocs.AppProperties properties
+@param io.availe.kreplicadocs.GuidesViewModel vm
 
 @template.layout.main(
 title = "Guides | KReplica Docs",
-currentPage = "guides",
-navLinks = navLinks,
-properties = properties,
+currentPage = vm.getCurrentPage(),
+navLinks = vm.getNavLinks(),
+properties = vm.getProperties(),
 content = @`
-    @template.partials.content-examples(
-    allExamples = allExamples,
-    example = example,
-    activeSlug = activeSlug,
-    exampleSelectOptions = exampleSelectOptions
-    )
+    @template.partials.content-examples(vm = vm)
 `
 )

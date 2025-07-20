@@ -1,5 +1,4 @@
-@param io.availe.kreplicadocs.ExampleViewModel featureExample = null
-@param java.util.List<io.availe.kreplicadocs.SelectOption> tourSelectOptions
+@param io.availe.kreplicadocs.IndexViewModel vm
 @param String activeFile = "source"
 
 <div class="hero-section">
@@ -19,7 +18,7 @@
     }
 `)
 
-@if(featureExample != null)
+@if(vm.getFeatureExample() != null)
     <div class="feature-highlight">
         <h2>Take the Interactive Tour</h2>
         <div class="feature-playground-wrapper">
@@ -29,7 +28,7 @@
                     @template.tags.custom-select(
                     label = "Tour Step:",
                     id = "tour-select-mobile",
-                    options = tourSelectOptions,
+                    options = vm.getTourSelectOptions(),
                     hxGet = "this.value",
                     hxTarget = "#feature-playground-content-wrapper .playground-content",
                     hxPushUrl = null,
@@ -37,12 +36,12 @@
                     )
                 </div>
                 <div class="feature-playground-desktop-controls">
-                    @template.fragments.feature-tour-description(featureExample = featureExample, activeFile = activeFile)
-                    @template.fragments.feature-playground-tabs(featureExample = featureExample, activeFile = activeFile)
+                    @template.fragments.feature-tour-description(featureExample = vm.getFeatureExample(), activeFile = activeFile)
+                    @template.fragments.feature-playground-tabs(featureExample = vm.getFeatureExample(), activeFile = activeFile)
                 </div>
             `,
             content = @`
-                @template.tags.code(language="kotlin", content=@`${featureExample.getSourceCode()}`)
+                @template.tags.code(language="kotlin", content=@`${vm.getFeatureExample().getSourceCode()}`)
             `
             )
         </div>

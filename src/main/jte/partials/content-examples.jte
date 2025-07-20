@@ -1,11 +1,8 @@
-@param java.util.List<io.availe.kreplicadocs.Example> allExamples
-@param io.availe.kreplicadocs.Example example = null
-@param String activeSlug = null
-@param java.util.List<io.availe.kreplicadocs.SelectOption> exampleSelectOptions
+@param io.availe.kreplicadocs.GuidesViewModel vm
 
 <div class="examples-container">
     <aside class="examples-sidebar">
-        @template.fragments.examples-sidebar-links(allExamples = allExamples, activeSlug = activeSlug)
+        @template.fragments.examples-sidebar-links(allExamples = vm.getAllExamples(), activeSlug = vm.getActiveSlug())
     </aside>
 
     <div class="examples-main-content">
@@ -19,8 +16,8 @@
 
         <div class="examples-shell">
             <div class="examples-main" id="examples-main">
-                @if (example != null)
-                    @template.tags.playground(example = example, exampleSelectOptions = exampleSelectOptions)
+                @if (vm.getExample() != null)
+                    @template.tags.playground(example = vm.getExample(), exampleSelectOptions = vm.getExampleSelectOptions())
                 @else
                     <div style="padding: 2rem; text-align: center; color: var(--text-light);">
                         <p>Select an example to get started.</p>
