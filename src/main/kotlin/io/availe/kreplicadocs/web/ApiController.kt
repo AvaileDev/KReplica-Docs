@@ -1,4 +1,4 @@
-package io.availe.web
+package io.availe.kreplicadocs.web
 
 import io.availe.kreplicadocs.common.WebApp
 import io.availe.kreplicadocs.model.CompletionItem

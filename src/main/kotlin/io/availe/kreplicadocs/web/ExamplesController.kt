@@ -1,4 +1,4 @@
-package io.availe.web
+package io.availe.kreplicadocs.web
 
 import io.availe.kreplicadocs.common.FragmentTemplate
 import io.availe.kreplicadocs.common.PartialTemplate
