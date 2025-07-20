@@ -1,4 +1,5 @@
-@param io.availe.kreplicadocs.ExampleViewModel featureExample
+@param io.availe.kreplicadocs.ExampleViewModel featureExample = null
+@param java.util.List<io.availe.kreplicadocs.SelectOption> tourSelectOptions
 @param String activeFile = "source"
 
 <div class="hero-section">
@@ -25,21 +26,15 @@
             @template.tags.feature-playground(
             controls = @`
                 <div class="feature-playground-mobile-controls">
-                    <div class="custom-select-wrapper">
-                        <label for="tour-select-mobile">Tour Step:</label>
-                        <select id="tour-select-mobile"
-                                hx-get="this.value"
-                                hx-target="#feature-playground-content-wrapper .playground-content"
-                                hx-swap="innerHTML"
-                                hx-indicator="#feature-playground-content-wrapper .htmx-indicator">
-                            @for(var step : featureExample.getFeatureTourSteps())
-                                <option value="${step.getEndpoint()}"
-                                        selected="${step.getFileName().equals(activeFile)}">
-                                    ${step.getTitle()}
-                                </option>
-                            @endfor
-                        </select>
-                    </div>
+                    @template.tags.custom-select(
+                    label = "Tour Step:",
+                    id = "tour-select-mobile",
+                    options = tourSelectOptions,
+                    hxGet = "this.value",
+                    hxTarget = "#feature-playground-content-wrapper .playground-content",
+                    hxPushUrl = null,
+                    hxIndicator = "#feature-playground-content-wrapper .htmx-indicator"
+                    )
                 </div>
                 <div class="feature-playground-desktop-controls">
                     @template.fragments.feature-tour-description(featureExample = featureExample, activeFile = activeFile)

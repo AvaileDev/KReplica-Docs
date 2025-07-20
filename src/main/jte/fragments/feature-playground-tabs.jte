@@ -9,14 +9,12 @@
                 : ${entry.getKey() == 1 ? "Core Feature - Compile-Time Safety" : "Advanced Pattern - Type-Safe Mappers"}</h3>
             <div class="playground-tabs" role="tablist">
                 @for(var step : entry.getValue())
-                    <button role="tab"
-                            aria-selected="${step.getFileName().equals(activeFile)}"
-                            class="${step.getFileName().equals(activeFile) ? "active" : ""}"
-                            hx-get="${step.getEndpoint()}"
-                            hx-target="#feature-playground-content-wrapper .playground-content"
-                            hx-swap="innerHTML">
-                        ${step.getTitle()}
-                    </button>
+                    @template.tags.tab-button(
+                    label = step.getTitle(),
+                    isActive = step.getFileName().equals(activeFile),
+                    hxGet = step.getEndpoint(),
+                    hxTarget = "#feature-playground-content-wrapper .playground-content"
+                    )
                 @endfor
             </div>
         </div>

@@ -8,6 +8,12 @@ data class CompletionItem(
     val kind: String
 )
 
+data class SelectOption(
+    val value: String,
+    val label: String,
+    val selected: Boolean
+)
+
 data class ExampleViewModel(
     val slug: String,
     val sourceCode: String,

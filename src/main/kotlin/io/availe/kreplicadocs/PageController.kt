@@ -24,18 +24,32 @@ class PageController(
     private fun prepareIndexModel(model: Model) {
         addCommonAttributes(model)
         model.addAttribute(Attributes.CURRENT_PAGE, "index")
-        provider.getExampleBySlug(ExampleSlug("user-profile"))
-            ?.let { model.addAttribute(Attributes.FEATURE_EXAMPLE, it.toViewModel()) }
+        val featureExample = provider.getExampleBySlug(ExampleSlug("user-profile"))
+        if (featureExample != null) {
+            val viewModel = featureExample.toViewModel()
+            model.addAttribute(Attributes.FEATURE_EXAMPLE, viewModel)
+            val tourOptions = viewModel.featureTourSteps.map { step ->
+                SelectOption(step.endpoint, step.title, step.fileName == "source")
+            }
+            model.addAttribute("tourSelectOptions", tourOptions)
+        } else {
+            model.addAttribute(Attributes.FEATURE_EXAMPLE, null)
+            model.addAttribute("tourSelectOptions", emptyList<SelectOption>())
+        }
     }
 
     private fun prepareGuidesModel(model: Model, slug: ExampleSlug? = null) {
         addCommonAttributes(model)
         val allExamples = provider.getAllExamples()
         val activeExample = slug?.let { provider.getExampleBySlug(it) } ?: allExamples.firstOrNull()
+        val exampleOptions = allExamples.map {
+            SelectOption(it.slug, it.name, it.slug == activeExample?.slug)
+        }
 
         model.addAttribute(Attributes.ALL_EXAMPLES, allExamples)
         model.addAttribute(Attributes.EXAMPLE, activeExample)
         model.addAttribute(Attributes.ACTIVE_SLUG, activeExample?.slug)
+        model.addAttribute("exampleSelectOptions", exampleOptions)
         model.addAttribute(Attributes.CURRENT_PAGE, "guides")
     }
 
@@ -43,10 +57,14 @@ class PageController(
         addCommonAttributes(model)
         val allExamples = provider.getAllExamples()
         val defaultExample = allExamples.firstOrNull()
+        val exampleOptions = allExamples.map {
+            SelectOption(it.slug, it.name, it.slug == defaultExample?.slug)
+        }
 
         model.addAttribute(Attributes.ALL_EXAMPLES, allExamples)
         model.addAttribute(Attributes.EXAMPLE, defaultExample)
         model.addAttribute(Attributes.ACTIVE_SLUG, defaultExample?.slug)
+        model.addAttribute("exampleSelectOptions", exampleOptions)
         model.addAttribute(Attributes.CURRENT_PAGE, "playground")
     }
 

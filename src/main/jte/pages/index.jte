@@ -1,4 +1,5 @@
 @param io.availe.kreplicadocs.ExampleViewModel featureExample = null
+@param java.util.List<io.availe.kreplicadocs.SelectOption> tourSelectOptions
 @param java.util.List<io.availe.kreplicadocs.NavLink> navLinks
 @param io.availe.kreplicadocs.AppProperties properties
 
@@ -7,6 +8,6 @@ currentPage = "index",
 navLinks = navLinks,
 properties = properties,
 content = @`
-    @template.partials.content-index(featureExample = featureExample)
+    @template.partials.content-index(featureExample = featureExample, tourSelectOptions = tourSelectOptions)
 `
 )

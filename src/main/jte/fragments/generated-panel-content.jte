@@ -4,14 +4,12 @@
 @if(example.getGeneratedFiles().size() > 1)
     <div class="panel-tabs">
         @for (var entry : example.getGeneratedFiles().entrySet())
-            <button
-                    class="${entry.getKey().equals(activeFile) ? "active" : ""}"
-                    hx-get="/examples/${example.getSlug()}/generated-panel/${entry.getKey()}"
-                    hx-target="#generated-panel-${example.getSlug()}"
-                    hx-swap="innerHTML"
-            >
-                ${entry.getKey()}
-            </button>
+            @template.tags.tab-button(
+            label = entry.getKey(),
+            isActive = entry.getKey().equals(activeFile),
+            hxGet = "/examples/${example.getSlug()}/generated-panel/${entry.getKey()}",
+            hxTarget = "#generated-panel-${example.getSlug()}"
+            )
         @endfor
     </div>
 @endif
