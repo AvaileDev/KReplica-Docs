@@ -1,0 +1,21 @@
+.code-block-wrapper {
+    position: relative;
+}
+
+pre[class*="language-"] {
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    max-width: 100%;
+    margin: 0;
+}
+
+:not(pre) > code[class*="language-"] {
+    background: #e9ecef;
+    color: var(--primary-color);
+    padding: .2em .4em;
+    border-radius: 3px;
+    font-family: var(--font-mono);
+}
