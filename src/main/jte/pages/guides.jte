@@ -2,9 +2,7 @@
 
 @template.layout.main(
 title = "Guides | KReplica Docs",
-currentPage = vm.getCurrentPage(),
-navLinks = vm.getNavLinks(),
-properties = vm.getProperties(),
+vm = vm,
 content = @`
     @template.partials.content-examples(vm = vm)
 `

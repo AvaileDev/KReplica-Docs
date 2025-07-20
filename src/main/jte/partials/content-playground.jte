@@ -1,6 +1,6 @@
 @param io.availe.kreplicadocs.PlaygroundViewModel vm
 
-@template.tags.playground-shell(
+@template.tags.playground(
 example = vm.getExample(),
 exampleSelectOptions = vm.getExampleSelectOptions(),
 content = @`

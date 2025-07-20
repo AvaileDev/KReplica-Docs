@@ -1,9 +1,8 @@
-@param java.util.List<io.availe.kreplicadocs.NavLink> navLinks
-@param String currentPage
+@param io.availe.kreplicadocs.PageViewModel vm
 @param boolean isMobile = false
 
 <ul class="nav-links">
-    @for(var link : navLinks)
-        @template.tags.nav-link(link = link, currentPage = currentPage, isMobile = isMobile)
+    @for(var link : vm.getNavLinks())
+        @template.tags.nav-link(link = link, currentPage = vm.getCurrentPage(), isMobile = isMobile)
     @endfor
 </ul>

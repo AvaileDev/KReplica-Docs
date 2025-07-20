@@ -1,8 +1,6 @@
 @param gg.jte.Content content
+@param io.availe.kreplicadocs.PageViewModel vm
 @param String title = "KReplica Docs"
-@param String currentPage = null
-@param java.util.List<io.availe.kreplicadocs.NavLink> navLinks
-@param io.availe.kreplicadocs.AppProperties properties
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,12 +42,12 @@
                  @click.outside="isOpen = false"
                  style="display: none;">
                 <nav class="main-nav" id="mobile-nav-links">
-                    @template.fragments.nav-links(navLinks = navLinks, currentPage = currentPage, isMobile = true)
+                    @template.fragments.nav-links(vm = vm, isMobile = true)
                 </nav>
             </div>
 
             <nav class="desktop-nav" id="desktop-nav-links">
-                @template.fragments.nav-links(navLinks = navLinks, currentPage = currentPage, isMobile = false)
+                @template.fragments.nav-links(vm = vm, isMobile = false)
             </nav>
 
         </div>
@@ -67,9 +65,9 @@
                 <p>&copy; ${java.time.Year.now().getValue()} KReplica Project. All rights reserved.</p>
             </div>
             <div class="footer-links">
-                <a href="${properties.getRepoUrl()}" target="_blank" rel="noreferrer">GitHub</a>
-                <a href="${properties.getIssuesUrl()}" target="_blank" rel="noreferrer">Report an Issue</a>
-                <a href="${properties.getPersonalUrl()}" target="_blank" rel="noreferrer">Personal Website</a>
+                <a href="${vm.getProperties().getRepoUrl()}" target="_blank" rel="noreferrer">GitHub</a>
+                <a href="${vm.getProperties().getIssuesUrl()}" target="_blank" rel="noreferrer">Report an Issue</a>
+                <a href="${vm.getProperties().getPersonalUrl()}" target="_blank" rel="noreferrer">Personal Website</a>
             </div>
         </div>
     </footer>

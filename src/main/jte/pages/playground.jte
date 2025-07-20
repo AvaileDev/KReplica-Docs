@@ -2,13 +2,10 @@
 
 @template.layout.main(
 title = "Playground | KReplica Docs",
-currentPage = vm.getCurrentPage(),
-navLinks = vm.getNavLinks(),
-properties = vm.getProperties(),
+vm = vm,
 content = @`
     @template.partials.content-playground(
-    example = vm.getExample(),
-    exampleSelectOptions = vm.getExampleSelectOptions()
+    vm = vm
     )
 `
 )

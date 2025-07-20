@@ -22,7 +22,8 @@
     <div class="feature-highlight">
         <h2>Take the Interactive Tour</h2>
         <div class="feature-playground-wrapper">
-            @template.tags.feature-playground(
+            @template.tags.playground(
+            isFeatureTour = true,
             controls = @`
                 <div class="feature-playground-mobile-controls">
                     @template.tags.custom-select(

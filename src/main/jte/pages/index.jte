@@ -1,9 +1,7 @@
 @param io.availe.kreplicadocs.IndexViewModel vm
 
 @template.layout.main(
-currentPage = vm.getCurrentPage(),
-navLinks = vm.getNavLinks(),
-properties = vm.getProperties(),
+vm = vm,
 content = @`
     @template.partials.content-index(vm = vm)
 `
