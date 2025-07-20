@@ -1,0 +1,27 @@
+[
+  {
+    "slug": "basic-replication",
+    "name": "Basic Replication",
+    "description": "A starter template demonstrating core control over variants and properties using @Replicate.Model and @Replicate.Property."
+  },
+  {
+    "slug": "schema-versioning",
+    "name": "Schema Versioning",
+    "description": "A starter template showing how to evolve models safely using a versioned, sealed hierarchy."
+  },
+  {
+    "slug": "serializable-integration",
+    "name": "Serializable Integration",
+    "description": "A starter template illustrating how to apply `kotlinx.serialization` annotations to generated DTOs."
+  },
+  {
+    "slug": "contextual-nesting",
+    "name": "Contextual Nesting",
+    "description": "A starter template showing how KReplica intelligently handles nested replicated models across different variants."
+  },
+  {
+    "slug": "hide-annotation",
+    "name": "Hide Annotation",
+    "description": "A starter template demonstrating how to use @Replicate.Hide to temporarily disable code generation for a model."
+  }
+]
