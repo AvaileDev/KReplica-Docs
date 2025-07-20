@@ -31,17 +31,17 @@ class PageController(
             val tourOptions = viewModel.featureTourSteps.map { step ->
                 SelectOption(step.endpoint, step.title, step.fileName == "source")
             }
-            model.addAttribute("tourSelectOptions", tourOptions)
+            model.addAttribute(Attributes.TOUR_SELECT_OPTIONS, tourOptions)
         } else {
             model.addAttribute(Attributes.FEATURE_EXAMPLE, null)
-            model.addAttribute("tourSelectOptions", emptyList<SelectOption>())
+            model.addAttribute(Attributes.TOUR_SELECT_OPTIONS, emptyList<SelectOption>())
         }
     }
 
-    private fun prepareGuidesModel(model: Model, slug: ExampleSlug? = null) {
+    private fun prepareExamplesPageModel(model: Model, pageId: String, activeSlug: ExampleSlug? = null) {
         addCommonAttributes(model)
         val allExamples = provider.getAllExamples()
-        val activeExample = slug?.let { provider.getExampleBySlug(it) } ?: allExamples.firstOrNull()
+        val activeExample = activeSlug?.let { provider.getExampleBySlug(it) } ?: allExamples.firstOrNull()
         val exampleOptions = allExamples.map {
             SelectOption(it.slug, it.name, it.slug == activeExample?.slug)
         }
@@ -49,23 +49,16 @@ class PageController(
         model.addAttribute(Attributes.ALL_EXAMPLES, allExamples)
         model.addAttribute(Attributes.EXAMPLE, activeExample)
         model.addAttribute(Attributes.ACTIVE_SLUG, activeExample?.slug)
-        model.addAttribute("exampleSelectOptions", exampleOptions)
-        model.addAttribute(Attributes.CURRENT_PAGE, "guides")
+        model.addAttribute(Attributes.EXAMPLE_SELECT_OPTIONS, exampleOptions)
+        model.addAttribute(Attributes.CURRENT_PAGE, pageId)
+    }
+
+    private fun prepareGuidesModel(model: Model, slug: ExampleSlug? = null) {
+        prepareExamplesPageModel(model, "guides", slug)
     }
 
     private fun preparePlaygroundModel(model: Model) {
-        addCommonAttributes(model)
-        val allExamples = provider.getAllExamples()
-        val defaultExample = allExamples.firstOrNull()
-        val exampleOptions = allExamples.map {
-            SelectOption(it.slug, it.name, it.slug == defaultExample?.slug)
-        }
-
-        model.addAttribute(Attributes.ALL_EXAMPLES, allExamples)
-        model.addAttribute(Attributes.EXAMPLE, defaultExample)
-        model.addAttribute(Attributes.ACTIVE_SLUG, defaultExample?.slug)
-        model.addAttribute("exampleSelectOptions", exampleOptions)
-        model.addAttribute(Attributes.CURRENT_PAGE, "playground")
+        prepareExamplesPageModel(model, "playground")
     }
 
     @GetMapping(Endpoints.Pages.INDEX)

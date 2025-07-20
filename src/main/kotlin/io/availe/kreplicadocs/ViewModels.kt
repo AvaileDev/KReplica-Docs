@@ -17,8 +17,13 @@ data class SelectOption(
 data class ExampleViewModel(
     val slug: String,
     val sourceCode: String,
-    val featureTourParts: Map<Int, List<FeatureTourStepViewModel>>,
+    val featureTourParts: List<FeatureTourPartViewModel>,
     val featureTourSteps: List<FeatureTourStepViewModel>
+)
+
+data class FeatureTourPartViewModel(
+    val title: String,
+    val steps: List<FeatureTourStepViewModel>
 )
 
 data class FeatureTourStepViewModel(
@@ -44,10 +49,23 @@ fun Example.toViewModel(): ExampleViewModel {
             fileName = step.file.value
         )
     }
+
+    val tourPartTitles = mapOf(
+        1 to "Core Feature - Compile-Time Safety",
+        2 to "Advanced Pattern - Type-Safe Mappers"
+    )
+
+    val partsViewModel = stepViewModels.groupBy { it.part }
+        .map { (partNumber, steps) ->
+            val title = "Part $partNumber: ${tourPartTitles.getOrDefault(partNumber, "Extra Part")}"
+            FeatureTourPartViewModel(title, steps)
+        }
+        .sortedBy { it.steps.first().part }
+
     return ExampleViewModel(
         slug = this.slug,
         sourceCode = this.sourceCode,
-        featureTourParts = stepViewModels.groupBy { it.part },
+        featureTourParts = partsViewModel,
         featureTourSteps = stepViewModels
     )
 }

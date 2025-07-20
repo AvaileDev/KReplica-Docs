@@ -58,5 +58,7 @@ object WebApp {
         const val LANGUAGE = "language"
         const val CODE = "code"
         const val PROPERTIES = "properties"
+        const val TOUR_SELECT_OPTIONS = "tourSelectOptions"
+        const val EXAMPLE_SELECT_OPTIONS = "exampleSelectOptions"
     }
 }

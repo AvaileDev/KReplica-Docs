@@ -3,12 +3,11 @@
 @param boolean oob = false
 
 <div id="feature-playground-tabs" hx-swap-oob="${oob ? "outerHTML" : null}">
-    @for(var entry : featureExample.getFeatureTourParts().entrySet())
+    @for(var part : featureExample.getFeatureTourParts())
         <div class="tour-part">
-            <h3 class="tour-part-header">Part ${entry.getKey()}
-                : ${entry.getKey() == 1 ? "Core Feature - Compile-Time Safety" : "Advanced Pattern - Type-Safe Mappers"}</h3>
+            <h3 class="tour-part-header">${part.getTitle()}</h3>
             <div class="playground-tabs" role="tablist">
-                @for(var step : entry.getValue())
+                @for(var step : part.getSteps())
                     @template.tags.tab-button(
                     label = step.getTitle(),
                     isActive = step.getFileName().equals(activeFile),
