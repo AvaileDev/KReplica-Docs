@@ -1,87 +1,94 @@
 package io.availe.kreplicadocs
 
+import io.availe.kreplicadocs.WebApp.Endpoints
+import io.availe.kreplicadocs.WebApp.Templates
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.servlet.view.FragmentsRendering
+import io.availe.kreplicadocs.WebApp.ViewModelAttributes as Attributes
 
 @Controller
 class PageController(private val provider: ExampleDataProvider) {
 
-    @HxRequest
-    @GetMapping("/")
-    fun indexHtmx(model: Model): FragmentsRendering {
-        model.addAttribute("currentPage", "index")
-        model.addAttribute("featureExample", provider.getExampleBySlug("user-profile"))
-        return FragmentsRendering
-            .with("partials/content-index")
-            .fragment("fragments/nav-update-oob")
-            .build()
+    private fun prepareIndexModel(model: Model) {
+        model.addAttribute(Attributes.CURRENT_PAGE, "index")
+        model.addAttribute(Attributes.FEATURE_EXAMPLE, provider.getExampleBySlug(ExampleSlug("user-profile")))
     }
 
-    @GetMapping("/")
+    private fun prepareGuidesModel(model: Model, slug: ExampleSlug? = null) {
+        val allExamples = provider.getAllExamples()
+        val activeExample = slug?.let { provider.getExampleBySlug(it) } ?: allExamples.firstOrNull()
+
+        model.addAttribute(Attributes.ALL_EXAMPLES, allExamples)
+        model.addAttribute(Attributes.EXAMPLE, activeExample)
+        model.addAttribute(Attributes.ACTIVE_SLUG, activeExample?.slug)
+        model.addAttribute(Attributes.CURRENT_PAGE, "guides")
+    }
+
+    private fun preparePlaygroundModel(model: Model) {
+        val allExamples = provider.getAllExamples()
+        val defaultExample = allExamples.firstOrNull()
+
+        model.addAttribute(Attributes.ALL_EXAMPLES, allExamples)
+        model.addAttribute(Attributes.EXAMPLE, defaultExample)
+        model.addAttribute(Attributes.ACTIVE_SLUG, defaultExample?.slug)
+        model.addAttribute(Attributes.CURRENT_PAGE, "playground")
+    }
+
+    @GetMapping(Endpoints.Pages.INDEX)
     fun index(model: Model): String {
-        model.addAttribute("currentPage", "index")
-        model.addAttribute("featureExample", provider.getExampleBySlug("user-profile"))
-        return "pages/index"
+        prepareIndexModel(model)
+        return Templates.Pages.INDEX
     }
 
     @HxRequest
-    @GetMapping("/guides")
-    fun guidesHtmx(model: Model): FragmentsRendering {
-        val defaultExample = provider.getAllExamples().firstOrNull()
-        model.addAttribute("allExamples", provider.getAllExamples())
-        model.addAttribute("example", defaultExample)
-        model.addAttribute("currentPage", "guides")
+    @GetMapping(Endpoints.Pages.INDEX)
+    fun indexHtmx(model: Model): FragmentsRendering {
+        prepareIndexModel(model)
         return FragmentsRendering
-            .with("partials/content-examples")
-            .fragment("fragments/nav-update-oob")
+            .with(Templates.Partials.CONTENT_INDEX)
+            .fragment(Templates.Fragments.NAV_UPDATE_OOB)
             .build()
     }
 
-    @GetMapping("/guides")
+    @GetMapping(Endpoints.Pages.GUIDES)
     fun guides(model: Model): String {
-        val defaultExample = provider.getAllExamples().firstOrNull()
-        model.addAttribute("allExamples", provider.getAllExamples())
-        model.addAttribute("example", defaultExample)
-        model.addAttribute("currentPage", "guides")
-        return "pages/guides"
-    }
-
-    @GetMapping("/guides/{slug}")
-    fun guideBySlug(@PathVariable slug: String, model: Model): String {
-        model.addAttribute("allExamples", provider.getAllExamples())
-        model.addAttribute("activeSlug", slug)
-        model.addAttribute("example", provider.getExampleBySlug(slug))
-        model.addAttribute("currentPage", "guides")
-        return "pages/guides"
+        prepareGuidesModel(model)
+        return Templates.Pages.GUIDES
     }
 
     @HxRequest
-    @GetMapping("/playground")
-    fun playgroundHtmx(model: Model): FragmentsRendering {
-        val allExamples = provider.getAllExamples()
-        val defaultExample = allExamples.firstOrNull()
-        model.addAttribute("allExamples", allExamples)
-        model.addAttribute("example", defaultExample)
-        model.addAttribute("activeSlug", defaultExample?.slug)
-        model.addAttribute("currentPage", "playground")
+    @GetMapping(Endpoints.Pages.GUIDES)
+    fun guidesHtmx(model: Model): FragmentsRendering {
+        prepareGuidesModel(model)
         return FragmentsRendering
-            .with("partials/content-playground")
-            .fragment("fragments/nav-update-oob")
+            .with(Templates.Partials.CONTENT_EXAMPLES)
+            .fragment(Templates.Fragments.NAV_UPDATE_OOB)
             .build()
     }
 
-    @GetMapping("/playground")
+    @GetMapping(Endpoints.Pages.GUIDES_BY_SLUG)
+    fun guideBySlug(@PathVariable slug: ExampleSlug, model: Model): String {
+        prepareGuidesModel(model, slug)
+        return Templates.Pages.GUIDES
+    }
+
+    @GetMapping(Endpoints.Pages.PLAYGROUND)
     fun playground(model: Model): String {
-        val allExamples = provider.getAllExamples()
-        val defaultExample = allExamples.firstOrNull()
-        model.addAttribute("allExamples", allExamples)
-        model.addAttribute("example", defaultExample)
-        model.addAttribute("activeSlug", defaultExample?.slug)
-        model.addAttribute("currentPage", "playground")
-        return "pages/playground"
+        preparePlaygroundModel(model)
+        return Templates.Pages.PLAYGROUND
+    }
+
+    @HxRequest
+    @GetMapping(Endpoints.Pages.PLAYGROUND)
+    fun playgroundHtmx(model: Model): FragmentsRendering {
+        preparePlaygroundModel(model)
+        return FragmentsRendering
+            .with(Templates.Partials.CONTENT_PLAYGROUND)
+            .fragment(Templates.Fragments.NAV_UPDATE_OOB)
+            .build()
     }
 }

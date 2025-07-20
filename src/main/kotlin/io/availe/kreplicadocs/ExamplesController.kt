@@ -1,118 +1,93 @@
 package io.availe.kreplicadocs
 
+import io.availe.kreplicadocs.WebApp.Endpoints
+import io.availe.kreplicadocs.WebApp.Templates
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import io.availe.kreplicadocs.WebApp.ViewModelAttributes as Attributes
 
 @Controller
 class ExamplesController(private val provider: ExampleDataProvider) {
 
-    @HxRequest
-    @GetMapping("/examples/{slug}/playground")
-    fun getExamplePlayground(@PathVariable slug: String, model: Model): String {
-        val example = provider.getExampleBySlug(slug)
-        if (example != null) {
-            model.addAttribute("example", example)
-            model.addAttribute("allExamples", provider.getAllExamples())
-            model.addAttribute("activeSlug", slug)
-            return "partials/example-playground-update"
-        }
-        return "fragments/example-not-found"
+    private fun withExample(slug: ExampleSlug, action: (Example) -> String): String {
+        return provider.getExampleBySlug(slug)?.let(action) ?: Templates.Fragments.EXAMPLE_NOT_FOUND
     }
 
     @HxRequest
-    @GetMapping("/examples/{slug}/playground-file-swap/{fileName}")
+    @GetMapping(Endpoints.Examples.PLAYGROUND)
+    fun getExamplePlayground(@PathVariable slug: ExampleSlug, model: Model): String {
+        return withExample(slug) { example ->
+            model.addAttribute(Attributes.EXAMPLE, example)
+            model.addAttribute(Attributes.ALL_EXAMPLES, provider.getAllExamples())
+            model.addAttribute(Attributes.ACTIVE_SLUG, slug.value)
+            Templates.Partials.EXAMPLE_PLAYGROUND_UPDATE
+        }
+    }
+
+    @HxRequest
+    @GetMapping(Endpoints.Examples.PLAYGROUND_FILE_SWAP)
     fun getPlaygroundFileSwap(
-        @PathVariable slug: String,
-        @PathVariable fileName: String,
+        @PathVariable slug: ExampleSlug,
+        @PathVariable fileName: FileName,
         model: Model
     ): String {
-        val example = provider.getExampleBySlug(slug)
-        if (example != null) {
-            val code =
-                if (fileName == "source") example.sourceCode else example.generatedFiles.getOrDefault(fileName, "")
-            val active = if (fileName == "source") "source" else fileName
-
-            model.addAttribute("example", example)
-            model.addAttribute("activeFile", active)
-            model.addAttribute("language", "kotlin")
-            model.addAttribute("code", code)
-            return "fragments/playground-file-swap"
+        return withExample(slug) { example ->
+            model.addAttribute(Attributes.EXAMPLE, example)
+            model.addAttribute(Attributes.ACTIVE_FILE, fileName.value)
+            model.addAttribute(Attributes.LANGUAGE, "kotlin")
+            model.addAttribute(Attributes.CODE, example.getContent(fileName) ?: "")
+            Templates.Fragments.PLAYGROUND_FILE_SWAP
         }
-        return "fragments/example-not-found"
     }
 
     @HxRequest
-    @GetMapping("/examples/{slug}/generated-panel/{fileName}")
+    @GetMapping(Endpoints.Examples.GENERATED_PANEL)
     fun getGeneratedPanelContent(
-        @PathVariable slug: String,
-        @PathVariable fileName: String,
+        @PathVariable slug: ExampleSlug,
+        @PathVariable fileName: FileName,
         model: Model
     ): String {
-        val example = provider.getExampleBySlug(slug)
-        if (example != null) {
-            model.addAttribute("example", example)
-            model.addAttribute("activeFile", fileName)
-            return "fragments/generated-panel-content"
+        return withExample(slug) { example ->
+            model.addAttribute(Attributes.EXAMPLE, example)
+            model.addAttribute(Attributes.ACTIVE_FILE, fileName.value)
+            Templates.Fragments.GENERATED_PANEL_CONTENT
         }
-        return "fragments/example-not-found"
     }
 
     @HxRequest
-    @GetMapping("/examples/{slug}/file/{fileName}")
-    fun getFileContent(
-        @PathVariable slug: String,
-        @PathVariable fileName: String,
-        model: Model
-    ): String {
-        val example = provider.getExampleBySlug(slug)
-        if (example != null) {
-            val code = if (fileName == "source") example.sourceCode else example.generatedFiles[fileName] ?: ""
-            val active = if (fileName == "source") "source" else fileName
-            model.addAttribute("featureExample", example)
-            model.addAttribute("activeFile", active)
-            model.addAttribute("language", "kotlin")
-            model.addAttribute("code", code)
-            return "fragments/feature-playground-swap"
+    @GetMapping(Endpoints.Examples.FILE_CONTENT)
+    fun getFileContent(@PathVariable slug: ExampleSlug, @PathVariable fileName: FileName, model: Model): String {
+        return withExample(slug) { example ->
+            model.addAttribute(Attributes.FEATURE_EXAMPLE, example)
+            model.addAttribute(Attributes.ACTIVE_FILE, fileName.value)
+            model.addAttribute(Attributes.LANGUAGE, "kotlin")
+            model.addAttribute(Attributes.CODE, example.getContent(fileName) ?: "")
+            Templates.Fragments.FEATURE_PLAYGROUND_SWAP
         }
-        return "fragments/example-not-found"
     }
 
     @HxRequest
-    @GetMapping("/examples/{slug}/usage/{fileName}")
-    fun getUsageFileContent(
-        @PathVariable slug: String,
-        @PathVariable fileName: String,
-        model: Model
-    ): String {
-        val example = provider.getExampleBySlug(slug)
-        if (example != null) {
-            val code = example.usageFiles[fileName] ?: ""
-            model.addAttribute("featureExample", example)
-            model.addAttribute("activeFile", fileName)
-            model.addAttribute("language", "kotlin")
-            model.addAttribute("code", code)
-            return "fragments/feature-playground-swap"
+    @GetMapping(Endpoints.Examples.USAGE_CONTENT)
+    fun getUsageFileContent(@PathVariable slug: ExampleSlug, @PathVariable fileName: FileName, model: Model): String {
+        return withExample(slug) { example ->
+            model.addAttribute(Attributes.FEATURE_EXAMPLE, example)
+            model.addAttribute(Attributes.ACTIVE_FILE, fileName.value)
+            model.addAttribute(Attributes.LANGUAGE, "kotlin")
+            model.addAttribute(Attributes.CODE, example.getContent(fileName) ?: "")
+            Templates.Fragments.FEATURE_PLAYGROUND_SWAP
         }
-        return "fragments/example-not-found"
     }
 
     @HxRequest
-    @GetMapping("/examples/{slug}/file-content/{fileName}")
-    fun getFileContentOnly(
-        @PathVariable slug: String,
-        @PathVariable fileName: String,
-        model: Model
-    ): String {
-        val example = provider.getExampleBySlug(slug)
-        if (example != null) {
-            val code = if (fileName == "source") example.sourceCode else example.generatedFiles[fileName] ?: ""
-            model.addAttribute("language", "kotlin")
-            model.addAttribute("code", code)
-            return "fragments/playground-file-content"
+    @GetMapping(Endpoints.Examples.FILE_CONTENT_ONLY)
+    fun getFileContentOnly(@PathVariable slug: ExampleSlug, @PathVariable fileName: FileName, model: Model): String {
+        return withExample(slug) { example ->
+            model.addAttribute(Attributes.LANGUAGE, "kotlin")
+            model.addAttribute(Attributes.CODE, example.getContent(fileName) ?: "")
+            Templates.Fragments.PLAYGROUND_FILE_CONTENT
         }
-        return "fragments/example-not-found"
     }
 }
