@@ -1,5 +1,13 @@
 package io.availe.kreplicadocs
 
+import org.springframework.web.util.UriComponentsBuilder
+
+data class CompletionItem(
+    val label: String,
+    val insertText: String,
+    val kind: String
+)
+
 data class ExampleViewModel(
     val slug: String,
     val sourceCode: String,
@@ -17,11 +25,16 @@ data class FeatureTourStepViewModel(
 
 fun Example.toViewModel(): ExampleViewModel {
     val stepViewModels = this.featureTourSteps.map { step ->
+        val endpointTemplate = WebApp.Endpoints.Examples.FILE_CONTENT
+        val endpoint = UriComponentsBuilder.fromPath(endpointTemplate)
+            .buildAndExpand(mapOf("slug" to this.slug, "fileName" to step.file.value))
+            .toUriString()
+
         FeatureTourStepViewModel(
             title = step.title,
             description = step.description,
             part = step.part,
-            endpoint = step.endpoint,
+            endpoint = endpoint,
             fileName = step.file.value
         )
     }

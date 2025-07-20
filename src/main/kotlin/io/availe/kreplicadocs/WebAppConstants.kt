@@ -15,7 +15,6 @@ object WebApp {
             const val PLAYGROUND_FILE_SWAP = "$BASE/playground-file-swap/{fileName}"
             const val GENERATED_PANEL = "$BASE/generated-panel/{fileName}"
             const val FILE_CONTENT = "$BASE/file/{fileName}"
-            const val USAGE_CONTENT = "$BASE/usage/{fileName}"
             const val FILE_CONTENT_ONLY = "$BASE/file-content/{fileName}"
         }
 

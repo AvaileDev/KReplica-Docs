@@ -7,7 +7,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.core.io.Resource
 import org.springframework.core.io.support.ResourcePatternResolver
 import org.springframework.stereotype.Service
-import org.springframework.web.util.UriComponentsBuilder
 
 @Service
 @EnableConfigurationProperties(AppProperties::class)
@@ -58,19 +57,6 @@ class ExampleDataProvider(
         if (!sourceResource.exists()) return null
         val sourceCode = sourceResource.inputStream.bufferedReader().use { it.readText() }
 
-        val featureTourSteps = metadata.featureTourSteps.onEach { step ->
-            val endpointTemplate = when {
-                step.file.value == "source" -> WebApp.Endpoints.Examples.FILE_CONTENT
-                step.file.value.endsWith("Schema.kt") -> WebApp.Endpoints.Examples.FILE_CONTENT
-                else -> WebApp.Endpoints.Examples.USAGE_CONTENT
-            }
-            step.endpoint = UriComponentsBuilder.fromPath(endpointTemplate)
-                .buildAndExpand(mapOf("slug" to slug.value, "fileName" to step.file.value))
-                .toUriString()
-        }
-
-        val featureTourParts = featureTourSteps.groupBy { it.part }
-
         return Example(
             name = metadata.name,
             slug = slug.value,
@@ -78,8 +64,8 @@ class ExampleDataProvider(
             sourceCode = sourceCode,
             generatedFiles = loadFilesFrom("examples/${slug.value}/generated/*.kt"),
             usageFiles = loadFilesFrom("examples/${slug.value}/usage/*.kt"),
-            featureTourSteps = featureTourSteps,
-            featureTourParts = featureTourParts
+            featureTourSteps = metadata.featureTourSteps,
+            featureTourParts = metadata.featureTourSteps.groupBy { it.part }
         )
     }
 
