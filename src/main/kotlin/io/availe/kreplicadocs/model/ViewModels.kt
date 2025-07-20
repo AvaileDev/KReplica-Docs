@@ -35,7 +35,7 @@ data class FeatureTourStepViewModel(
     val fileName: String
 )
 
-fun io.availe.kreplicadocs.model.Example.toViewModel(): ExampleViewModel {
+fun Example.toViewModel(): ExampleViewModel {
     val stepViewModels = this.featureTourSteps.map { step ->
         val endpointTemplate = WebApp.Endpoints.Examples.FILE_CONTENT
         val endpoint = UriComponentsBuilder.fromPath(endpointTemplate)
