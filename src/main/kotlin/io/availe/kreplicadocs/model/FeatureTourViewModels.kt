@@ -3,18 +3,6 @@ package io.availe.kreplicadocs.model
 import io.availe.kreplicadocs.common.WebApp
 import org.springframework.web.util.UriComponentsBuilder
 
-data class CompletionItem(
-    val label: String,
-    val insertText: String,
-    val kind: String
-)
-
-data class SelectOption(
-    val value: String,
-    val label: String,
-    val selected: Boolean
-)
-
 data class ExampleViewModel(
     val slug: String,
     val sourceCode: String,

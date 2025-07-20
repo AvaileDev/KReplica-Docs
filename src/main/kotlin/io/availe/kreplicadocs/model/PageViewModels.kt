@@ -3,7 +3,7 @@ package io.availe.kreplicadocs.model
 import io.availe.kreplicadocs.config.AppProperties
 
 interface PageViewModel {
-    val navLinks: List<io.availe.kreplicadocs.model.NavLink>
+    val navLinks: List<NavLink>
     val properties: AppProperties
     val currentPage: String
 }
