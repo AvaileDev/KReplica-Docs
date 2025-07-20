@@ -1,6 +1,6 @@
 package io.availe.kreplicadocs.services
 
-import io.availe.kreplicadocs.model.CompletionItem
+import io.availe.kreplicadocs.model.view.CompletionItem
 import org.springframework.stereotype.Service
 
 @Service

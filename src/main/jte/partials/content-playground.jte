@@ -1,4 +1,4 @@
-@param io.availe.kreplicadocs.model.PlaygroundViewModel vm
+@param io.availe.kreplicadocs.model.view.PlaygroundViewModel vm
 
 @template.tags.playground(
 example = vm.getExample(),

@@ -1,4 +1,4 @@
-package io.availe.kreplicadocs.model
+package io.availe.kreplicadocs.model.view
 
 data class CompletionItem(
     val label: String,

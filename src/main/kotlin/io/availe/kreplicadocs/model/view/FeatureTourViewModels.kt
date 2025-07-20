@@ -1,6 +1,7 @@
-package io.availe.kreplicadocs.model
+package io.availe.kreplicadocs.model.view
 
 import io.availe.kreplicadocs.common.WebApp
+import io.availe.kreplicadocs.model.Example
 import org.springframework.web.util.UriComponentsBuilder
 
 data class ExampleViewModel(

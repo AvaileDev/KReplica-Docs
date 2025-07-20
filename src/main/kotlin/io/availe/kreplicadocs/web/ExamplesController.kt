@@ -2,7 +2,11 @@ package io.availe.kreplicadocs.web
 
 import io.availe.kreplicadocs.common.FragmentTemplate
 import io.availe.kreplicadocs.common.WebApp
-import io.availe.kreplicadocs.model.*
+import io.availe.kreplicadocs.model.Example
+import io.availe.kreplicadocs.model.ExampleSlug
+import io.availe.kreplicadocs.model.FileName
+import io.availe.kreplicadocs.model.view.SelectOption
+import io.availe.kreplicadocs.model.view.toViewModel
 import io.availe.kreplicadocs.services.ExampleDataProvider
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest
 import org.springframework.stereotype.Controller

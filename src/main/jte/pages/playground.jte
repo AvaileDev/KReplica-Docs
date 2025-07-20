@@ -1,4 +1,4 @@
-@param io.availe.kreplicadocs.model.PlaygroundViewModel vm
+@param io.availe.kreplicadocs.model.view.PlaygroundViewModel vm
 
 @template.layout.main(
 title = "Playground | KReplica Docs",

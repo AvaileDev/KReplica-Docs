@@ -1,6 +1,8 @@
-package io.availe.kreplicadocs.model
+package io.availe.kreplicadocs.model.view
 
 import io.availe.kreplicadocs.config.AppProperties
+import io.availe.kreplicadocs.model.Example
+import io.availe.kreplicadocs.model.NavLink
 
 interface PageViewModel {
     val navLinks: List<NavLink>

@@ -1,4 +1,4 @@
-@param io.availe.kreplicadocs.model.ExampleViewModel featureExample
+@param io.availe.kreplicadocs.model.view.ExampleViewModel featureExample
 @param String activeFile
 @param String language
 @param String code

@@ -1,7 +1,8 @@
 package io.availe.kreplicadocs.services
 
 import io.availe.kreplicadocs.config.AppProperties
-import io.availe.kreplicadocs.model.*
+import io.availe.kreplicadocs.model.ExampleSlug
+import io.availe.kreplicadocs.model.view.*
 import org.springframework.stereotype.Service
 
 @Service

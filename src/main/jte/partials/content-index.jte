@@ -1,4 +1,4 @@
-@param io.availe.kreplicadocs.model.IndexViewModel vm
+@param io.availe.kreplicadocs.model.view.IndexViewModel vm
 @param String activeFile = "source"
 
 <div class="hero-section">

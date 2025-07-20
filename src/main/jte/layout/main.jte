@@ -1,5 +1,5 @@
 @param gg.jte.Content content
-@param io.availe.kreplicadocs.model.PageViewModel vm
+@param io.availe.kreplicadocs.model.view.PageViewModel vm
 @param String title = "KReplica Docs"
 
 <!DOCTYPE html>
