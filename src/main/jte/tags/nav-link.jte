@@ -1,4 +1,4 @@
-@param io.availe.kreplicadocs.NavLink link
+@param io.availe.kreplicadocs.model.NavLink link
 @param String currentPage
 @param boolean isMobile
 

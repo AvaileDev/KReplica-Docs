@@ -1,4 +1,4 @@
-package io.availe.kreplicadocs
+package io.availe.kreplicadocs.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 

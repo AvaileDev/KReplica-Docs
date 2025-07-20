@@ -1,5 +1,7 @@
-package io.availe.kreplicadocs
+package io.availe.kreplicadocs.services
 
+import io.availe.kreplicadocs.config.AppProperties
+import io.availe.kreplicadocs.model.*
 import org.springframework.stereotype.Service
 
 @Service
@@ -14,10 +16,14 @@ class ViewModelFactory(
 
         val exampleViewModel = featureExample?.toViewModel()
         val tourOptions = exampleViewModel?.featureTourSteps?.map { step ->
-            SelectOption(step.endpoint, step.title, step.fileName == "source")
+            SelectOption(
+                step.endpoint,
+                step.title,
+                step.fileName == "source"
+            )
         } ?: emptyList()
 
-        return IndexViewModel(
+        return _root_ide_package_.io.availe.kreplicadocs.model.IndexViewModel(
             navLinks = navLinks,
             properties = appProperties,
             currentPage = "index",
@@ -26,14 +32,21 @@ class ViewModelFactory(
         )
     }
 
-    private fun createExamplesPageViewModel(pageId: String, activeSlug: ExampleSlug? = null): GuidesViewModel {
+    private fun createExamplesPageViewModel(
+        pageId: String,
+        activeSlug: ExampleSlug? = null
+    ): GuidesViewModel {
         val allExamples = provider.getAllExamples()
         val activeExample = activeSlug?.let { provider.getExampleBySlug(it) } ?: allExamples.firstOrNull()
         val exampleOptions = allExamples.map {
-            SelectOption(it.slug, it.name, it.slug == activeExample?.slug)
+            SelectOption(
+                it.slug,
+                it.name,
+                it.slug == activeExample?.slug
+            )
         }
 
-        return GuidesViewModel(
+        return _root_ide_package_.io.availe.kreplicadocs.model.GuidesViewModel(
             navLinks = provider.getNavLinks(),
             properties = appProperties,
             currentPage = pageId,
@@ -50,7 +63,7 @@ class ViewModelFactory(
 
     fun createPlaygroundViewModel(): PlaygroundViewModel {
         val examplesViewModel = createExamplesPageViewModel("playground")
-        return PlaygroundViewModel(
+        return _root_ide_package_.io.availe.kreplicadocs.model.PlaygroundViewModel(
             navLinks = examplesViewModel.navLinks,
             properties = examplesViewModel.properties,
             currentPage = "playground",

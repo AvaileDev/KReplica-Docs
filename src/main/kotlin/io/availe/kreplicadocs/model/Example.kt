@@ -1,4 +1,4 @@
-package io.availe.kreplicadocs
+package io.availe.kreplicadocs.model
 
 data class Example(
     val name: String,

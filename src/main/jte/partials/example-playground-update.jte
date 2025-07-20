@@ -1,4 +1,4 @@
-@param io.availe.kreplicadocs.Example example
+@param io.availe.kreplicadocs.model.Example example
 @param java.util.List<io.availe.kreplicadocs.Example> allExamples
 @param String activeSlug
 

@@ -1,7 +1,12 @@
-package io.availe.kreplicadocs
+package io.availe.kreplicadocs.services
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import io.availe.kreplicadocs.config.AppProperties
+import io.availe.kreplicadocs.model.Example
+import io.availe.kreplicadocs.model.ExampleSlug
+import io.availe.kreplicadocs.model.FeatureTourStep
+import io.availe.kreplicadocs.model.NavLink
 import jakarta.annotation.PostConstruct
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.core.io.Resource
@@ -57,7 +62,7 @@ class ExampleDataProvider(
         if (!sourceResource.exists()) return null
         val sourceCode = sourceResource.inputStream.bufferedReader().use { it.readText() }
 
-        return Example(
+        return _root_ide_package_.io.availe.kreplicadocs.model.Example(
             name = metadata.name,
             slug = slug.value,
             description = metadata.description,
@@ -71,5 +76,6 @@ class ExampleDataProvider(
 
     fun getAllExamples(): List<Example> = examples
     fun getNavLinks(): List<NavLink> = navLinks
-    fun getExampleBySlug(slug: ExampleSlug): Example? = examples.find { it.slug == slug.value }
+    fun getExampleBySlug(slug: ExampleSlug): Example? =
+        examples.find { it.slug == slug.value }
 }

@@ -1,6 +1,6 @@
 @param String label
 @param String id
-@param java.util.List<io.availe.kreplicadocs.SelectOption> options
+@param java.util.List<io.availe.kreplicadocs.model.SelectOption> options
 @param String hxGet
 @param String hxTarget
 @param String hxPushUrl

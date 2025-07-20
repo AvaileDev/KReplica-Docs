@@ -1,4 +1,4 @@
-package io.availe.kreplicadocs
+package io.availe.kreplicadocs.model
 
 @JvmInline
 value class ExampleSlug(val value: String)

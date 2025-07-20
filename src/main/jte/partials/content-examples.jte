@@ -1,4 +1,4 @@
-@param io.availe.kreplicadocs.GuidesViewModel vm
+@param io.availe.kreplicadocs.model.GuidesViewModel vm
 
 <div class="examples-container">
     <aside class="examples-sidebar">
