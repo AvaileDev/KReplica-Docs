@@ -2,6 +2,10 @@
   "user-profile": {
     "name": "Versioning & Mappers",
     "description": "This example showcases the end-to-end workflow for creating, using, and safely evolving versioned API models with KReplica.",
+    "featureTourPartTitles": {
+      "1": "Core Feature - Compile-Time Safety",
+      "2": "Advanced Pattern - Type-Safe Mappers"
+    },
     "featureTourSteps": [
       {
         "title": "1. Define Interface",

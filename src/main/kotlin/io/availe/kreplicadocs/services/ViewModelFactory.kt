@@ -13,7 +13,7 @@ class ViewModelFactory(
 
     fun createIndexViewModel(): IndexViewModel {
         val navLinks = provider.getNavLinks()
-        val featureExample = provider.getExampleBySlug(ExampleSlug("user-profile"))
+        val featureExample = provider.getExampleBySlug(ExampleSlug(appProperties.featureExampleSlug))
 
         val exampleViewModel = featureExample?.toViewModel()
         val tourOptions = exampleViewModel?.featureTourSteps?.map { step ->

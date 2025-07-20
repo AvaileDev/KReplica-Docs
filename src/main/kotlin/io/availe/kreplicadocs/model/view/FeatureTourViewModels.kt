@@ -40,14 +40,9 @@ fun Example.toViewModel(): ExampleViewModel {
         )
     }
 
-    val tourPartTitles = mapOf(
-        1 to "Core Feature - Compile-Time Safety",
-        2 to "Advanced Pattern - Type-Safe Mappers"
-    )
-
     val partsViewModel = stepViewModels.groupBy { it.part }
         .map { (partNumber, steps) ->
-            val title = "Part $partNumber: ${tourPartTitles.getOrDefault(partNumber, "Extra Part")}"
+            val title = this.featureTourPartTitles.getOrDefault(partNumber, "Part $partNumber")
             FeatureTourPartViewModel(title, steps)
         }
         .sortedBy { it.steps.first().part }

@@ -31,7 +31,8 @@ class ExampleDataProvider(
     private data class ExampleMetadata(
         val name: String,
         val description: String,
-        val featureTourSteps: List<FeatureTourStep> = emptyList()
+        val featureTourSteps: List<FeatureTourStep> = emptyList(),
+        val featureTourPartTitles: Map<Int, String> = emptyMap()
     )
 
     @PostConstruct
@@ -73,7 +74,8 @@ class ExampleDataProvider(
             generatedFiles = loadFilesFrom("examples/${slug.value}/generated/*.kt"),
             usageFiles = loadFilesFrom("examples/${slug.value}/usage/*.kt"),
             featureTourSteps = metadata.featureTourSteps,
-            featureTourParts = metadata.featureTourSteps.groupBy { it.part }
+            featureTourParts = metadata.featureTourSteps.groupBy { it.part },
+            featureTourPartTitles = metadata.featureTourPartTitles
         )
     }
 

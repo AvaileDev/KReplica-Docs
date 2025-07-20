@@ -6,5 +6,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 data class AppProperties(
     val repoUrl: String,
     val issuesUrl: String,
-    val personalUrl: String
+    val personalUrl: String,
+    val featureExampleSlug: String
 )

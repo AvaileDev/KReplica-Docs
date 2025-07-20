@@ -8,7 +8,8 @@ data class Example(
     val generatedFiles: Map<String, String>,
     val usageFiles: Map<String, String>,
     val featureTourSteps: List<FeatureTourStep> = emptyList(),
-    val featureTourParts: Map<Int, List<FeatureTourStep>> = emptyMap()
+    val featureTourParts: Map<Int, List<FeatureTourStep>> = emptyMap(),
+    val featureTourPartTitles: Map<Int, String> = emptyMap()
 ) {
     fun getContent(fileName: FileName): String? {
         val key = fileName.value
