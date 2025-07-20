@@ -18,6 +18,10 @@ object WebApp {
             const val USAGE_CONTENT = "$BASE/usage/{fileName}"
             const val FILE_CONTENT_ONLY = "$BASE/file-content/{fileName}"
         }
+
+        object Api {
+            const val COMPLETIONS = "/api/completions"
+        }
     }
 
     object Templates {
@@ -54,5 +58,6 @@ object WebApp {
         const val ACTIVE_FILE = "activeFile"
         const val LANGUAGE = "language"
         const val CODE = "code"
+        const val PROPERTIES = "properties"
     }
 }

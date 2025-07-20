@@ -32,26 +32,17 @@
                                 hx-target="#feature-playground-content-wrapper .playground-content"
                                 hx-swap="innerHTML"
                                 hx-indicator="#feature-playground-content-wrapper .htmx-indicator">
-                            <option value="/examples/${featureExample.getSlug()}/file/source" selected>1. Define
-                                Interface
-                            </option>
-                            <option value="/examples/${featureExample.getSlug()}/file/UserAccountSchema.kt">2. Generate
-                                DTOs
-                            </option>
-                            <option value="/examples/${featureExample.getSlug()}/usage/WhenStatements.kt">3. Ensure
-                                Exhaustive Handling
-                            </option>
-                            <option value="/examples/${featureExample.getSlug()}/usage/ApiSchemaMapper.kt">4. The
-                                Generic Pattern
-                            </option>
-                            <option value="/examples/${featureExample.getSlug()}/usage/Mapper.kt">5. The
-                                Implementation
-                            </option>
+                            @for(var step : featureExample.getFeatureTourSteps())
+                                <option value="${step.getEndpoint()}"
+                                        selected="${step.getFile().getValue().equals(activeFile)}">
+                                    ${step.getTitle()}
+                                </option>
+                            @endfor
                         </select>
                     </div>
                 </div>
                 <div class="feature-playground-desktop-controls">
-                    @template.fragments.feature-tour-description(activeFile = activeFile)
+                    @template.fragments.feature-tour-description(featureExample = featureExample, activeFile = activeFile)
                     @template.fragments.feature-playground-tabs(featureExample = featureExample, activeFile = activeFile)
                 </div>
             `,

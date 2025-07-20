@@ -3,12 +3,14 @@ package io.availe.kreplicadocs
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.annotation.PostConstruct
+import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.core.io.Resource
 import org.springframework.core.io.support.ResourcePatternResolver
 import org.springframework.stereotype.Service
 import org.springframework.web.util.UriComponentsBuilder
 
 @Service
+@EnableConfigurationProperties(AppProperties::class)
 class ExampleDataProvider(
     private val resourcePatternResolver: ResourcePatternResolver,
     private val objectMapper: ObjectMapper
@@ -21,7 +23,11 @@ class ExampleDataProvider(
         NavLink("/guides", "guides", "Guides")
     )
 
-    private data class ExampleMetadata(val name: String, val description: String)
+    private data class ExampleMetadata(
+        val name: String,
+        val description: String,
+        val featureTourSteps: List<FeatureTourStep> = emptyList()
+    )
 
     @PostConstruct
     fun init() {
@@ -52,11 +58,18 @@ class ExampleDataProvider(
         if (!sourceResource.exists()) return null
         val sourceCode = sourceResource.inputStream.bufferedReader().use { it.readText() }
 
-        val featureTourSteps = if (slug.value == "user-profile") {
-            buildFeatureTourSteps(slug)
-        } else {
-            emptyList()
+        val featureTourSteps = metadata.featureTourSteps.onEach { step ->
+            val endpointTemplate = when {
+                step.file.value == "source" -> WebApp.Endpoints.Examples.FILE_CONTENT
+                step.file.value.endsWith("Schema.kt") -> WebApp.Endpoints.Examples.FILE_CONTENT
+                else -> WebApp.Endpoints.Examples.USAGE_CONTENT
+            }
+            step.endpoint = UriComponentsBuilder.fromPath(endpointTemplate)
+                .buildAndExpand(mapOf("slug" to slug.value, "fileName" to step.file.value))
+                .toUriString()
         }
+
+        val featureTourParts = featureTourSteps.groupBy { it.part }
 
         return Example(
             name = metadata.name,
@@ -65,57 +78,8 @@ class ExampleDataProvider(
             sourceCode = sourceCode,
             generatedFiles = loadFilesFrom("examples/${slug.value}/generated/*.kt"),
             usageFiles = loadFilesFrom("examples/${slug.value}/usage/*.kt"),
-            featureTourSteps = featureTourSteps
-        )
-    }
-
-    private fun buildFeatureTourSteps(slug: ExampleSlug): List<FeatureTourStep> {
-        return listOf(
-            FeatureTourStep(
-                title = "1. Define Interface",
-                description = "Everything starts with a simple Kotlin interface. No boilerplate or complex base classes required.",
-                file = FileName("source"),
-                endpoint = UriComponentsBuilder.fromPath(WebApp.Endpoints.Examples.FILE_CONTENT)
-                    .buildAndExpand(mapOf("slug" to slug.value, "fileName" to "source"))
-                    .toUriString(),
-                part = 1
-            ),
-            FeatureTourStep(
-                title = "2. Generate DTOs",
-                description = "KReplica generates powerful, variant-aware DTOs, including a sealed hierarchy that enables advanced, type-safe patterns.",
-                file = FileName("UserAccountSchema.kt"),
-                endpoint = UriComponentsBuilder.fromPath(WebApp.Endpoints.Examples.FILE_CONTENT)
-                    .buildAndExpand(mapOf("slug" to slug.value, "fileName" to "UserAccountSchema.kt"))
-                    .toUriString(),
-                part = 1
-            ),
-            FeatureTourStep(
-                title = "3. Ensure Exhaustive Handling",
-                description = "The generated sealed hierarchy enables exhaustive `when` expressions, forcing you to handle every version and variant at compile time. This eliminates entire classes of runtime errors as your API evolves.",
-                file = FileName("WhenStatements.kt"),
-                endpoint = UriComponentsBuilder.fromPath(WebApp.Endpoints.Examples.USAGE_CONTENT)
-                    .buildAndExpand(mapOf("slug" to slug.value, "fileName" to "WhenStatements.kt"))
-                    .toUriString(),
-                part = 1
-            ),
-            FeatureTourStep(
-                title = "4. The Generic Pattern",
-                description = "Here is the key: KReplica generates global variant interfaces. You can use them to define a generic, reusable `ApiSchemaMapper` that is type-safe across all your models and versions.",
-                file = FileName("ApiSchemaMapper.kt"),
-                endpoint = UriComponentsBuilder.fromPath(WebApp.Endpoints.Examples.USAGE_CONTENT)
-                    .buildAndExpand(mapOf("slug" to slug.value, "fileName" to "ApiSchemaMapper.kt"))
-                    .toUriString(),
-                part = 2
-            ),
-            FeatureTourStep(
-                title = "5. The Implementation",
-                description = "With the generic pattern in place, implementing a mapper for a specific schema version is clean, simple, and compile-time checked, cleanly decoupling your API layer from your domain models.",
-                file = FileName("Mapper.kt"),
-                endpoint = UriComponentsBuilder.fromPath(WebApp.Endpoints.Examples.USAGE_CONTENT)
-                    .buildAndExpand(mapOf("slug" to slug.value, "fileName" to "Mapper.kt"))
-                    .toUriString(),
-                part = 2
-            )
+            featureTourSteps = featureTourSteps,
+            featureTourParts = featureTourParts
         )
     }
 

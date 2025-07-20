@@ -1,6 +1,38 @@
 {
   "user-profile": {
     "name": "Versioning & Mappers",
-    "description": "This example showcases the end-to-end workflow for creating, using, and safely evolving versioned API models with KReplica."
+    "description": "This example showcases the end-to-end workflow for creating, using, and safely evolving versioned API models with KReplica.",
+    "featureTourSteps": [
+      {
+        "title": "1. Define Interface",
+        "description": "Everything starts with a simple Kotlin interface. No boilerplate or complex base classes required.",
+        "file": "source",
+        "part": 1
+      },
+      {
+        "title": "2. Generate DTOs",
+        "description": "KReplica generates powerful, variant-aware DTOs, including a sealed hierarchy that enables advanced, type-safe patterns.",
+        "file": "UserAccountSchema.kt",
+        "part": 1
+      },
+      {
+        "title": "3. Ensure Exhaustive Handling",
+        "description": "The generated sealed hierarchy enables exhaustive `when` expressions, forcing you to handle every version and variant at compile time. This eliminates entire classes of runtime errors as your API evolves.",
+        "file": "WhenStatements.kt",
+        "part": 1
+      },
+      {
+        "title": "4. The Generic Pattern",
+        "description": "Here is the key: KReplica generates global variant interfaces. You can use them to define a generic, reusable `ApiSchemaMapper` that is type-safe across all your models and versions.",
+        "file": "ApiSchemaMapper.kt",
+        "part": 2
+      },
+      {
+        "title": "5. The Implementation",
+        "description": "With the generic pattern in place, implementing a mapper for a specific schema version is clean, simple, and compile-time checked, cleanly decoupling your API layer from your domain models.",
+        "file": "Mapper.kt",
+        "part": 2
+      }
+    ]
   }
 }

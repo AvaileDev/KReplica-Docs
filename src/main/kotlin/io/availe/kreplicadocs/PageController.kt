@@ -11,10 +11,14 @@ import org.springframework.web.servlet.view.FragmentsRendering
 import io.availe.kreplicadocs.WebApp.ViewModelAttributes as Attributes
 
 @Controller
-class PageController(private val provider: ExampleDataProvider) {
+class PageController(
+    private val provider: ExampleDataProvider,
+    private val appProperties: AppProperties
+) {
 
     private fun addCommonAttributes(model: Model) {
         model.addAttribute(Attributes.NAV_LINKS, provider.getNavLinks())
+        model.addAttribute(Attributes.PROPERTIES, appProperties)
     }
 
     private fun prepareIndexModel(model: Model) {

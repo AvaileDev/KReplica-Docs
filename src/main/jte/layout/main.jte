@@ -2,6 +2,7 @@
 @param String title = "KReplica Docs"
 @param String currentPage = null
 @param java.util.List<io.availe.kreplicadocs.NavLink> navLinks
+@param io.availe.kreplicadocs.AppProperties properties
 
 <!DOCTYPE html>
 <html lang="en">
@@ -66,10 +67,9 @@
                 <p>&copy; ${java.time.Year.now().getValue()} KReplica Project. All rights reserved.</p>
             </div>
             <div class="footer-links">
-                <a href="https://github.com/your-repo/kreplica" target="_blank" rel="noreferrer">GitHub</a>
-                <a href="https://github.com/your-repo/kreplica/issues" target="_blank" rel="noreferrer">Report an
-                    Issue</a>
-                <a href="https://www.availe.io" target="_blank" rel="noreferrer">Personal Website</a>
+                <a href="${properties.getRepoUrl()}" target="_blank" rel="noreferrer">GitHub</a>
+                <a href="${properties.getIssuesUrl()}" target="_blank" rel="noreferrer">Report an Issue</a>
+                <a href="${properties.getPersonalUrl()}" target="_blank" rel="noreferrer">Personal Website</a>
             </div>
         </div>
     </footer>

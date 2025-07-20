@@ -10,6 +10,6 @@ data class FeatureTourStep(
     val title: String,
     val description: String,
     val file: FileName,
-    val endpoint: String,
     val part: Int,
+    var endpoint: String = ""
 )
