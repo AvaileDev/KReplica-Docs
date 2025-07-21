@@ -35,22 +35,6 @@ class ExamplesController(private val provider: ExampleDataProvider) {
     }
 
     @HxRequest
-    @GetMapping(WebApp.Endpoints.Examples.PLAYGROUND_FILE_SWAP)
-    fun getPlaygroundFileSwap(
-        @PathVariable slug: ExampleSlug,
-        @PathVariable fileName: FileName,
-        model: Model
-    ): String {
-        return withExample(slug) { example ->
-            model.addAttribute(WebApp.ViewModelAttributes.EXAMPLE, example)
-            model.addAttribute(WebApp.ViewModelAttributes.ACTIVE_FILE, fileName.value)
-            model.addAttribute(WebApp.ViewModelAttributes.LANGUAGE, "kotlin")
-            model.addAttribute(WebApp.ViewModelAttributes.CODE, example.getContent(fileName) ?: "")
-            FragmentTemplate.PLAYGROUND_FILE_SWAP.path
-        }
-    }
-
-    @HxRequest
     @GetMapping(WebApp.Endpoints.Examples.GENERATED_PANEL)
     fun getGeneratedPanelContent(
         @PathVariable slug: ExampleSlug,
