@@ -41,9 +41,10 @@ function applyHighlight(targetElement) {
 function scrollToActiveExample() {
     const onGuidesPage = document.querySelector('.examples-container');
     const activeExampleLink = document.querySelector('.examples-sidebar a[href^="/guides/"][class="active"]');
+    const interactiveExamplesSection = document.getElementById('examples-main');
 
-    if (onGuidesPage && activeExampleLink) {
-        document.getElementById('interactive-examples')?.scrollIntoView({behavior: 'smooth', block: 'start'});
+    if (onGuidesPage && activeExampleLink && interactiveExamplesSection) {
+        interactiveExamplesSection.scrollIntoView({behavior: 'smooth', block: 'start'});
     }
 }
 
@@ -116,6 +117,11 @@ function initScrollSpy() {
         .map(link => document.querySelector(link.getAttribute('href')))
         .filter(section => section !== null);
 
+    const examplesMainSection = document.getElementById('examples-main');
+    if (examplesMainSection) {
+        sections.push(examplesMainSection);
+    }
+
     if (sections.length === 0) return;
 
     const handleScroll = () => {
@@ -135,7 +141,7 @@ function initScrollSpy() {
 
         if (currentSectionId) {
             let linkToActivate;
-            if (currentSectionId === 'interactive-examples') {
+            if (currentSectionId === 'examples-main') {
                 const pathParts = window.location.pathname.split('/');
                 const slug = pathParts[pathParts.length - 1];
                 if (slug && slug !== 'guides') {

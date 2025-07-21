@@ -7,14 +7,7 @@
     <div class="guide-main-content">
         @template.partials.guide-content(snippets = vm.getGuideSnippets())
 
-        <section id="interactive-examples">
-            <h2 class="section-divider">
-                Interactive Examples
-            </h2>
-            <p>Select an example from the sidebar to explore its implementation and generated code.</p>
-        </section>
-
-        <div id="examples-main">
+        <div id="examples-main" class="section-divider">
             @if (vm.getExample() != null)
                 @template.fragments.example-playground(example = vm.getExample(), activeFile = "source")
             @else
