@@ -9,7 +9,7 @@ object WebApp {
         }
 
         object Playground {
-            const val TEMPLATE_SWAP = "/playground/templates/{slug}"
+            const val TEMPLATE_SWAP = "/playground/templates"
             const val COMPILE = "/playground/compile"
         }
 

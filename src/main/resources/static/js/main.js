@@ -11,6 +11,7 @@ document.body.addEventListener('htmx:beforeSwap', function (evt) {
 
 document.body.addEventListener('htmx:afterSwap', function (e) {
     const editorEl = document.getElementById('kreplica-editor');
+
     if (editorEl && !window.kreplicaEditor && typeof window.initKReplicaPlayground === 'function') {
         window.initKReplicaPlayground();
     }
@@ -22,7 +23,8 @@ document.body.addEventListener('htmx:afterSwap', function (e) {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (document.getElementById('kreplica-editor') && typeof window.initKReplicaPlayground === 'function') {
+    const editorEl = document.getElementById('kreplica-editor');
+    if (editorEl && !window.kreplicaEditor && typeof window.initKReplicaPlayground === 'function') {
         window.initKReplicaPlayground();
     }
 });

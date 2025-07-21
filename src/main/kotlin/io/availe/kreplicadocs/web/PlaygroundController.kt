@@ -9,10 +9,12 @@ import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.view.FragmentsRendering
+
+data class CompileRequest(val source: String)
 
 @Controller
 class PlaygroundController(
@@ -37,7 +39,7 @@ class PlaygroundController(
 
     @HxRequest
     @GetMapping(WebApp.Endpoints.Playground.TEMPLATE_SWAP)
-    fun getPlaygroundTemplate(@PathVariable slug: String, model: Model): String {
+    fun getPlaygroundTemplate(@RequestParam("template-select") slug: String, model: Model): String {
         val sourceCode = provider.getPlaygroundTemplateSource(slug)
         model.addAttribute("code", sourceCode)
         return "fragments/playground-editor-swap"
@@ -45,10 +47,9 @@ class PlaygroundController(
 
     @HxRequest
     @PostMapping(WebApp.Endpoints.Playground.COMPILE)
-    fun compile(@RequestBody sourceCode: String, model: Model): String {
-        // placeholder response
+    fun compile(@ModelAttribute compileRequest: CompileRequest, model: Model): String {
         val generatedFiles = mapOf(
-            "GeneratedFile1.kt" to "/*\n${sourceCode.lines().firstOrNull() ?: ""}\n...was processed\n*/",
+            "GeneratedFile1.kt" to "/*\n${compileRequest.source.lines().firstOrNull() ?: ""}\n...was processed\n*/",
             "Status" to "Compilation successful (simulated)."
         )
         model.addAttribute("files", generatedFiles)

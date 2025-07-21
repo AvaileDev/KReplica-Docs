@@ -6,10 +6,10 @@
         label = "Starter Template:",
         id = "template-select",
         options = vm.getAvailableTemplates(),
-        hxGet = "'/playground/templates/' + this.value",
+        hxGet = "/playground/templates",
         hxTarget = "#editor-source-container",
         hxPushUrl = "false",
-        hxIndicator = ".htmx-indicator",
+        hxIndicator = ".playground-actions .htmx-indicator",
         hxSwap = "innerHTML"
         )
     </div>
@@ -17,7 +17,7 @@
     <form class="playground-form"
           hx-post="/playground/compile"
           hx-target="#playground-output"
-          hx-indicator="#playground-output .htmx-indicator">
+          hx-indicator=".playground-actions .htmx-indicator">
 
         <div class="playground-editor-area">
             <div id="editor-source-container">

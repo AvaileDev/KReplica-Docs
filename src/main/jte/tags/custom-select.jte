@@ -10,6 +10,7 @@
 <div class="custom-select-wrapper">
     <label for="${id}">${label}</label>
     <select id="${id}"
+            name="${id}"
             hx-get="${hxGet}"
             hx-target="${hxTarget}"
             hx-push-url="${hxPushUrl}"
