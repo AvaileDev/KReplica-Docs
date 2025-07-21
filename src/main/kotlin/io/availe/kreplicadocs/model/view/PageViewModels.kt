@@ -18,6 +18,12 @@ data class IndexViewModel(
     val tourSelectOptions: List<SelectOption>
 ) : PageViewModel
 
+data class TocItem(
+    val name: String,
+    val href: String,
+    val slug: String? = null
+)
+
 data class GuidesViewModel(
     override val navLinks: List<NavLink>,
     override val properties: AppProperties,
@@ -27,7 +33,22 @@ data class GuidesViewModel(
     val example: Example?,
     val activeSlug: String?,
     val exampleSelectOptions: List<SelectOption>
-) : PageViewModel
+) : PageViewModel {
+    fun getGuideTocItems(): Map<TocItem, String> {
+        val staticItems = listOf(
+            TocItem("Top", "#top"),
+            TocItem("API Reference", "#api-reference"),
+            TocItem("Generated Code", "#generated-code"),
+            TocItem("Patterns & Recipes", "#patterns")
+        )
+
+        val dynamicItems = allExamples.map {
+            TocItem(it.name, "/guides/${it.slug}", it.slug)
+        }
+
+        return (staticItems + dynamicItems).associateWith { it.name }
+    }
+}
 
 data class PlaygroundViewModel(
     override val navLinks: List<NavLink>,

@@ -76,6 +76,10 @@
     </footer>
 </div>
 
+@if(vm instanceof io.availe.kreplicadocs.model.view.GuidesViewModel)
+    @template.tags.fab-menu(vm = (io.availe.kreplicadocs.model.view.GuidesViewModel)vm)
+@endif
+
 <script src="https://unpkg.com/monaco-editor@0.45.0/min/vs/loader.js" defer></script>
 <script src="/js/playground.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js" defer></script>

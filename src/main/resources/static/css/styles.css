@@ -4,6 +4,7 @@
 @import "components/_code-blocks.css";
 @import "components/_playground.css";
 @import "components/_animations.css";
+@import "components/_fab.css";
 @import "layout/_header.css";
 @import "layout/_footer.css";
 @import "layout/_sidebar.css";
