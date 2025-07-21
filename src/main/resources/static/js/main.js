@@ -85,15 +85,11 @@ function initScrollSpy() {
 
             const unpauseSpy = () => {
                 isScrollSpyPaused = false;
-                clearTimeout(scrollSpyTimeoutId);
+                window.removeEventListener('scroll', unpauseSpy);
             };
 
             window.addEventListener('scroll', unpauseSpy, {once: true});
-
-            scrollSpyTimeoutId = setTimeout(() => {
-                isScrollSpyPaused = false;
-                window.removeEventListener('scroll', unpauseSpy);
-            }, 1000);
+            scrollSpyTimeoutId = setTimeout(unpauseSpy, 1000);
         }
     });
 
@@ -102,32 +98,33 @@ function initScrollSpy() {
     if (interactiveExampleSection) {
         sectionsToObserve.push(interactiveExampleSection);
     }
+
     sidebar.querySelectorAll('a[href^="#"]').forEach(link => {
-        const section = document.querySelector(link.getAttribute('href'));
-        if (section) {
-            sectionsToObserve.push(section.closest('section'));
+        try {
+            const heading = document.querySelector(link.getAttribute('href'));
+            if (heading) {
+                sectionsToObserve.push(heading);
+            }
+        } catch (e) {
+            console.error(`Invalid selector for scroll-spy: ${link.getAttribute('href')}`);
         }
     });
+
 
     if (sectionsToObserve.length === 0) return;
 
     const observer = new IntersectionObserver((entries) => {
         if (isScrollSpyPaused) return;
 
-        let bestVisible = null;
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                if (!bestVisible || entry.intersectionRatio > bestVisible.intersectionRatio) {
-                    bestVisible = entry;
-                }
-            }
-        });
+        const activeEntry = entries
+            .filter(entry => entry.isIntersecting)
+            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
 
-        if (bestVisible) {
+        if (activeEntry) {
             let linkToActivate;
-            const headingInside = bestVisible.target.querySelector('h1, h2, h3, h4');
+            const activeId = activeEntry.target.id;
 
-            if (bestVisible.target.id === 'interactive-examples') {
+            if (activeId === 'interactive-examples') {
                 const pathParts = window.location.pathname.split('/');
                 const slug = pathParts[pathParts.length - 1];
                 if (slug && slug !== 'guides') {
@@ -135,8 +132,8 @@ function initScrollSpy() {
                 } else {
                     linkToActivate = sidebar.querySelector('a[href^="/guides/"]');
                 }
-            } else if (headingInside) {
-                linkToActivate = sidebar.querySelector(`a[href="#${headingInside.id}"]`);
+            } else {
+                linkToActivate = sidebar.querySelector(`a[href="#${activeId}"]`);
             }
 
             if (linkToActivate) {
@@ -144,8 +141,8 @@ function initScrollSpy() {
             }
         }
     }, {
-        threshold: [0, 0.2, 0.4, 0.6, 0.8, 1],
-        rootMargin: "-80px 0px -40% 0px"
+        rootMargin: "-80px 0px -35% 0px",
+        threshold: 0
     });
 
     sectionsToObserve.forEach(section => {
