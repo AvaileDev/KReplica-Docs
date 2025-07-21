@@ -3,7 +3,7 @@ document.body.addEventListener('htmx:afterSwap', function (evt) {
     initScrollSpy();
 
     const requestPath = new URL(evt.detail.xhr.responseURL).pathname;
-    if (requestPath.startsWith('/guides')) {
+    if (requestPath.startsWith('/guides/')) {
         setTimeout(() => scrollToActiveExample(), 0);
     }
 });
