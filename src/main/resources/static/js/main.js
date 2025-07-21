@@ -1,6 +1,11 @@
 document.body.addEventListener('htmx:afterSwap', function (evt) {
     Prism.highlightAllUnder(evt.detail.elt);
     initScrollSpy();
+
+    const requestPath = new URL(evt.detail.xhr.responseURL).pathname;
+    if (requestPath.startsWith('/guides')) {
+        setTimeout(() => scrollToActiveExample(), 0);
+    }
 });
 
 document.body.addEventListener('htmx:beforeSwap', function (evt) {
@@ -23,13 +28,24 @@ document.body.addEventListener('htmx:afterSwap', function (e) {
     }
 });
 
+function scrollToActiveExample() {
+    const onGuidesPage = document.querySelector('.examples-container');
+    const activeExampleLink = document.querySelector('.examples-sidebar a[href^="/guides/"][class="active"]');
+
+    if (onGuidesPage && activeExampleLink) {
+        document.getElementById('interactive-examples')?.scrollIntoView();
+    }
+}
+
 function initScrollSpy() {
     const sidebar = document.getElementById('guide-sidebar-links');
     if (!sidebar) return;
 
-    const links = sidebar.querySelectorAll('a[href^="#"]');
+    const sectionLinks = sidebar.querySelectorAll('a[href^="#"]');
+    const exampleLinks = sidebar.querySelectorAll('a[href^="/guides/"]');
     const sections = [];
-    links.forEach(link => {
+
+    sectionLinks.forEach(link => {
         const section = document.querySelector(link.getAttribute('href'));
         if (section) {
             sections.push(section);
@@ -49,12 +65,16 @@ function initScrollSpy() {
         });
 
         if (bestVisible) {
-            links.forEach(link => {
+            sectionLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href') === `#${bestVisible.target.id}`) {
                     link.classList.add('active');
                 }
             });
+
+            if (bestVisible.target.id !== 'interactive-examples') {
+                exampleLinks.forEach(link => link.classList.remove('active'));
+            }
         }
     }, {
         threshold: [0, 0.25, 0.5, 0.75, 1],
@@ -62,6 +82,11 @@ function initScrollSpy() {
     });
 
     sections.forEach(section => observer.observe(section));
+
+    const anyExampleActive = Array.from(exampleLinks).some(link => link.classList.contains('active'));
+    if (anyExampleActive) {
+        sectionLinks.forEach(link => link.classList.remove('active'));
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -70,4 +95,5 @@ document.addEventListener('DOMContentLoaded', function () {
         window.initKReplicaPlayground();
     }
     initScrollSpy();
+    scrollToActiveExample();
 });

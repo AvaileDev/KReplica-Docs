@@ -37,6 +37,13 @@
     font-weight: 600;
 }
 
+.examples-section-inactive ul:last-of-type a.active {
+    background: transparent;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+
 @media (min-width: 769px) {
     .examples-sidebar {
         display: block;

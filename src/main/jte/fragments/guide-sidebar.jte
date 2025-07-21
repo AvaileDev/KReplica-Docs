@@ -7,10 +7,6 @@
         <li><a href="#api-reference">API Reference</a></li>
         <li><a href="#generated-code">Generated Code</a></li>
         <li><a href="#patterns">Patterns & Recipes</a></li>
-    </ul>
-
-    <h4>Interactive Examples</h4>
-    <ul>
         @for(var item : vm.getAllExamples())
             <li>
                 <a href="/guides/${item.getSlug()}"

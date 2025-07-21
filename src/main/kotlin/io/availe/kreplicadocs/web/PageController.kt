@@ -53,4 +53,14 @@ class PageController(private val viewModelFactory: ViewModelFactory) {
             .fragment(FragmentTemplate.NAV_UPDATE_OOB.path)
             .build()
     }
+
+    @HxRequest
+    @GetMapping("/guides/{slug}")
+    fun guideBySlugHtmx(@PathVariable slug: String, model: Model): FragmentsRendering {
+        model.addAttribute("vm", viewModelFactory.createGuidesViewModel(ExampleSlug(slug)))
+        return FragmentsRendering
+            .with(PartialTemplate.CONTENT_EXAMPLES.path)
+            .fragment(FragmentTemplate.NAV_UPDATE_OOB.path)
+            .build()
+    }
 }

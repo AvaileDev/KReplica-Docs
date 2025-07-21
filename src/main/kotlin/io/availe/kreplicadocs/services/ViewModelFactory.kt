@@ -35,7 +35,9 @@ class ViewModelFactory(
 
     fun createGuidesViewModel(activeSlug: ExampleSlug? = null): GuidesViewModel {
         val allExamples = provider.getAllExamples()
-        val activeExample = activeSlug?.let { slug -> allExamples.find { it.slug == slug.value } }
+        val activeExample = activeSlug?.let { slug ->
+            allExamples.find { it.slug == slug.value }
+        } ?: allExamples.firstOrNull()
 
         val exampleOptions = allExamples.map {
             SelectOption(
