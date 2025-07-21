@@ -1,0 +1,15 @@
+@keyframes highlight-fade {
+    from {
+        background-color: rgba(231, 243, 254, 0.9);
+        outline: 2px solid var(--alert-info-border);
+    }
+    to {
+        background-color: transparent;
+        outline: 2px solid transparent;
+    }
+}
+
+.flash-highlight {
+    animation: highlight-fade 1.5s ease-out;
+    border-radius: 8px;
+}

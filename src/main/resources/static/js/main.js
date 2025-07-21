@@ -5,6 +5,8 @@ document.body.addEventListener('htmx:afterSwap', function (evt) {
     const requestPath = new URL(evt.detail.xhr.responseURL).pathname;
     if (requestPath.startsWith('/guides/')) {
         setTimeout(() => scrollToActiveExample(), 0);
+        const exampleShell = document.querySelector('#examples-main .examples-shell');
+        applyHighlight(exampleShell);
     }
 });
 
@@ -27,6 +29,14 @@ document.body.addEventListener('htmx:afterSwap', function (e) {
         window.kreplicaEditor.setValue(newSource);
     }
 });
+
+function applyHighlight(targetElement) {
+    if (!targetElement) return;
+    targetElement.addEventListener('animationend', () => {
+        targetElement.classList.remove('flash-highlight');
+    }, {once: true});
+    targetElement.classList.add('flash-highlight');
+}
 
 function scrollToActiveExample() {
     const onGuidesPage = document.querySelector('.examples-container');
@@ -55,6 +65,17 @@ function initScrollSpy() {
     if (!sidebar) return;
 
     sidebar.addEventListener('click', function (e) {
+        const anchorLink = e.target.closest('a[href^="#"]');
+        if (anchorLink) {
+            try {
+                const id = anchorLink.getAttribute('href');
+                const targetHeading = document.querySelector(id);
+                applyHighlight(targetHeading?.closest('section'));
+            } catch (err) {
+                console.error("Could not highlight section:", err);
+            }
+        }
+
         const target = e.target.closest('a');
         if (target) {
             setActiveSidebarLink(sidebar, target);
@@ -74,7 +95,7 @@ function initScrollSpy() {
     sidebar.querySelectorAll('a[href^="#"]').forEach(link => {
         const section = document.querySelector(link.getAttribute('href'));
         if (section) {
-            sectionsToObserve.push(section);
+            sectionsToObserve.push(section.closest('section'));
         }
     });
 
@@ -94,6 +115,8 @@ function initScrollSpy() {
 
         if (bestVisible) {
             let linkToActivate;
+            const headingInside = bestVisible.target.querySelector('h1, h2, h3, h4');
+
             if (bestVisible.target.id === 'interactive-examples') {
                 const pathParts = window.location.pathname.split('/');
                 const slug = pathParts[pathParts.length - 1];
@@ -102,9 +125,10 @@ function initScrollSpy() {
                 } else {
                     linkToActivate = sidebar.querySelector('a[href^="/guides/"]');
                 }
-            } else {
-                linkToActivate = sidebar.querySelector(`a[href="#${bestVisible.target.id}"]`);
+            } else if (headingInside) {
+                linkToActivate = sidebar.querySelector(`a[href="#${headingInside.id}"]`);
             }
+
             if (linkToActivate) {
                 setActiveSidebarLink(sidebar, linkToActivate);
             }
@@ -114,7 +138,9 @@ function initScrollSpy() {
         rootMargin: "-80px 0px -40% 0px"
     });
 
-    sectionsToObserve.forEach(section => observer.observe(section));
+    sectionsToObserve.forEach(section => {
+        if (section) observer.observe(section)
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function () {
