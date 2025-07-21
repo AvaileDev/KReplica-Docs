@@ -17,11 +17,20 @@ import org.springframework.web.bind.annotation.PathVariable
 class ExamplesController(private val provider: ExampleDataProvider) {
 
     private fun withExample(slug: ExampleSlug, action: (Example) -> String): String {
-        val tourExample = provider.getFeatureTourExample()
-        return if (tourExample != null && tourExample.slug == slug.value) {
-            action(tourExample)
+        val example = provider.getAllExamples().find { it.slug == slug.value }
+        return if (example != null) {
+            action(example)
         } else {
             FragmentTemplate.EXAMPLE_NOT_FOUND.path
+        }
+    }
+
+    @HxRequest
+    @GetMapping("/examples/{slug}/playground")
+    fun getExamplePlayground(@PathVariable slug: String, model: Model): String {
+        return withExample(ExampleSlug(slug)) { example ->
+            model.addAttribute("example", example)
+            "fragments/example-playground"
         }
     }
 

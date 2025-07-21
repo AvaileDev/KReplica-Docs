@@ -1,6 +1,7 @@
 package io.availe.kreplicadocs.services
 
 import io.availe.kreplicadocs.config.AppProperties
+import io.availe.kreplicadocs.model.ExampleSlug
 import io.availe.kreplicadocs.model.view.*
 import org.springframework.stereotype.Service
 
@@ -32,13 +33,27 @@ class ViewModelFactory(
         )
     }
 
-    fun createGuidesViewModel(): GuidesViewModel {
+    fun createGuidesViewModel(activeSlug: ExampleSlug? = null): GuidesViewModel {
+        val allExamples = provider.getAllExamples()
+        val activeExample = activeSlug?.let { slug -> allExamples.find { it.slug == slug.value } }
+
+        val exampleOptions = allExamples.map {
+            SelectOption(
+                value = it.slug,
+                label = it.name,
+                selected = it.slug == activeExample?.slug
+            )
+        }
+
         return GuidesViewModel(
             navLinks = provider.getNavLinks(),
             properties = appProperties,
             currentPage = "guides",
             allExamples = provider.getAllExamples(),
-            guideSnippets = provider.getGuideSnippets()
+            guideSnippets = provider.getGuideSnippets(),
+            example = activeExample,
+            activeSlug = activeExample?.slug,
+            exampleSelectOptions = exampleOptions
         )
     }
 
