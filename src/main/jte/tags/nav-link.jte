@@ -9,7 +9,7 @@
        hx-target=".main-content"
        hx-push-url="true"
        hx-indicator=".page-progress"
-       hx-on::before-request="${isMobile ? "isOpen = false" : null}"
+       @click="${isMobile ? "isOpen = false" : null}"
        preload="${link.getPageId().equals("playground") ? "mouseover" : null}">
         ${link.getLabel()}
     </a>
