@@ -7,22 +7,11 @@
         <p>${example.getDescription()}</p>
     </div>
     <div class="playground-tabs-wrapper">
-        <div class="playground-tabs" id="playground-tabs-${example.getSlug()}" role="tablist">
-            @template.tags.tab-button(
-            label = "Source",
-            isActive = "source".equals(activeFile),
-            hxGet = "/examples/${example.getSlug()}/playground-file-swap/source",
-            hxTarget = "#playground-content-${example.getSlug()}"
-            )
-            @for(var entry : example.getGeneratedFiles().entrySet())
-                @template.tags.tab-button(
-                label = entry.getKey(),
-                isActive = entry.getKey().equals(activeFile),
-                hxGet = "/examples/${example.getSlug()}/playground-file-swap/${entry.getKey()}",
-                hxTarget = "#playground-content-${example.getSlug()}"
-                )
-            @endfor
-        </div>
+        @template.fragments.playground-tabs(
+        example = example,
+        activeFile = activeFile,
+        useOob = false
+        )
     </div>
     <div class="playground-content" id="playground-content-${example.getSlug()}">
         <div class="htmx-indicator">Loading...</div>
