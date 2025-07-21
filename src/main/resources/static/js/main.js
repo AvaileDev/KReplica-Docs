@@ -156,6 +156,7 @@ function initScrollSpy() {
 
     activeScrollListener = throttle(handleScroll, 100);
     window.addEventListener('scroll', activeScrollListener);
+    handleScroll();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
