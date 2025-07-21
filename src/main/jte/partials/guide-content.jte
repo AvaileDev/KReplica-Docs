@@ -1,8 +1,8 @@
 @param java.util.Map<String, String> snippets
 
 <div class="guide-content">
-    <section>
-        <h1 id="top">KReplica Developer Guide</h1>
+    <section id="top">
+        <h1>KReplica Developer Guide</h1>
         <p>
             This guide provides a detailed reference for KReplica's API and features. It assumes you have already seen
             the
@@ -10,14 +10,14 @@
         </p>
     </section>
 
-    <section>
-        <h2 id="api-reference">Core API Reference</h2>
+    <section id="api-reference">
+        <h2>Core API Reference</h2>
         <p>
             KReplica is configured using a set of annotations. This section serves as a detailed dictionary for every
             available option.
         </p>
 
-        <h3 id="api-model">@Replicate.Model</h3>
+        <h3>@Replicate.Model</h3>
         <p>This is the primary annotation that marks an interface for DTO generation.</p>
         <ul>
             <li>
@@ -43,7 +43,7 @@
             </li>
         </ul>
 
-        <h3 id="api-property">@Replicate.Property</h3>
+        <h3>@Replicate.Property</h3>
         <p>This annotation provides fine-grained control over individual properties within a model, allowing you to
             override the settings from <code>@Replicate.Model</code>.</p>
         <ul>
@@ -68,7 +68,7 @@
             </li>
         </ul>
 
-        <h3 id="api-supporting">Supporting Annotations</h3>
+        <h3>Supporting Annotations</h3>
         <ul>
             <li><strong><code>@Replicate.SchemaVersion(number: Int)</code></strong>: Manually specifies a version
                 number,
@@ -85,11 +85,11 @@
         </ul>
     </section>
 
-    <section>
-        <h2 id="generated-code">Understanding the Generated Code</h2>
+    <section id="generated-code">
+        <h2>Understanding the Generated Code</h2>
         <p>KReplica generates a sealed interface hierarchy that contains different types of variant interfaces.</p>
 
-        <h3 id="variants-local-global">Local vs. Global Variants</h3>
+        <h3>Local vs. Global Variants</h3>
         <p>
             It is crucial to understand the two categories of variant interfaces that KReplica generates, as they serve
             different purposes.
@@ -115,10 +115,10 @@
         </p>
     </section>
 
-    <section>
-        <h2 id="patterns">Advanced Patterns &amp; Recipes</h2>
+    <section id="patterns">
+        <h2>Advanced Patterns &amp; Recipes</h2>
 
-        <h3 id="pattern-mappers">Recipe: Type-Safe Generic Mappers</h3>
+        <h3>Recipe: Type-Safe Generic Mappers</h3>
         <p>
             The primary use case for Global Variants is building a generic, reusable, and type-safe mapping layer
             between
@@ -131,7 +131,7 @@
         </p>
         @template.tags.code(language="kotlin", content=@`${snippets.get("mapper-pattern-example.kt")}`)
 
-        <h3 id="pattern-nested">Pattern: Contextual Nested Models</h3>
+        <h3>Pattern: Contextual Nested Models</h3>
         <p>
             When you use one replicated model as a property inside another, KReplica intelligently maps the
             corresponding

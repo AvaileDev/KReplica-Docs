@@ -7,10 +7,12 @@
     <div class="guide-main-content">
         @template.partials.guide-content(snippets = vm.getGuideSnippets())
 
-        <h2 id="interactive-examples" class="section-divider">
-            Interactive Examples
-        </h2>
-        <p>Select an example from the sidebar to explore its implementation and generated code.</p>
+        <section id="interactive-examples">
+            <h2 class="section-divider">
+                Interactive Examples
+            </h2>
+            <p>Select an example from the sidebar to explore its implementation and generated code.</p>
+        </section>
 
         <div id="examples-main">
             @if (vm.getExample() != null)

@@ -49,6 +49,20 @@ function scrollToActiveExample() {
 
 let scrollSpyTimeoutId;
 let isScrollSpyPaused = false;
+let activeScrollListener = null;
+
+function throttle(func, limit) {
+    let inThrottle;
+    return function () {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    };
+}
 
 function setActiveSidebarLink(sidebar, targetLink) {
     if (!sidebar || !targetLink) return;
@@ -61,6 +75,11 @@ function setActiveSidebarLink(sidebar, targetLink) {
 }
 
 function initScrollSpy() {
+    if (activeScrollListener) {
+        window.removeEventListener('scroll', activeScrollListener);
+        activeScrollListener = null;
+    }
+
     const sidebar = document.getElementById('guide-sidebar-links');
     if (!sidebar) return;
 
@@ -69,8 +88,8 @@ function initScrollSpy() {
         if (anchorLink) {
             try {
                 const id = anchorLink.getAttribute('href');
-                const targetHeading = document.querySelector(id);
-                applyHighlight(targetHeading?.closest('section'));
+                const targetSection = document.querySelector(id);
+                applyHighlight(targetSection);
             } catch (err) {
                 console.error("Could not highlight section:", err);
             }
@@ -93,38 +112,30 @@ function initScrollSpy() {
         }
     });
 
-    const sectionsToObserve = [];
-    const interactiveExampleSection = document.getElementById('interactive-examples');
-    if (interactiveExampleSection) {
-        sectionsToObserve.push(interactiveExampleSection);
-    }
+    const sections = Array.from(sidebar.querySelectorAll('a[href^="#"]'))
+        .map(link => document.querySelector(link.getAttribute('href')))
+        .filter(section => section !== null);
 
-    sidebar.querySelectorAll('a[href^="#"]').forEach(link => {
-        try {
-            const heading = document.querySelector(link.getAttribute('href'));
-            if (heading) {
-                sectionsToObserve.push(heading);
-            }
-        } catch (e) {
-            console.error(`Invalid selector for scroll-spy: ${link.getAttribute('href')}`);
-        }
-    });
+    if (sections.length === 0) return;
 
-
-    if (sectionsToObserve.length === 0) return;
-
-    const observer = new IntersectionObserver((entries) => {
+    const handleScroll = () => {
         if (isScrollSpyPaused) return;
 
-        const activeEntry = entries
-            .filter(entry => entry.isIntersecting)
-            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        const scrollY = window.scrollY;
+        const offset = 85;
+        let currentSectionId = null;
 
-        if (activeEntry) {
+        for (const section of sections) {
+            if (section.offsetTop - offset <= scrollY) {
+                currentSectionId = section.id;
+            } else {
+                break;
+            }
+        }
+
+        if (currentSectionId) {
             let linkToActivate;
-            const activeId = activeEntry.target.id;
-
-            if (activeId === 'interactive-examples') {
+            if (currentSectionId === 'interactive-examples') {
                 const pathParts = window.location.pathname.split('/');
                 const slug = pathParts[pathParts.length - 1];
                 if (slug && slug !== 'guides') {
@@ -133,21 +144,18 @@ function initScrollSpy() {
                     linkToActivate = sidebar.querySelector('a[href^="/guides/"]');
                 }
             } else {
-                linkToActivate = sidebar.querySelector(`a[href="#${activeId}"]`);
+                linkToActivate = sidebar.querySelector(`a[href="#${currentSectionId}"]`);
             }
-
             if (linkToActivate) {
                 setActiveSidebarLink(sidebar, linkToActivate);
             }
+        } else {
+            setActiveSidebarLink(sidebar, sidebar.querySelector('a[href="#top"]'));
         }
-    }, {
-        rootMargin: "-80px 0px -35% 0px",
-        threshold: 0
-    });
+    };
 
-    sectionsToObserve.forEach(section => {
-        if (section) observer.observe(section)
-    });
+    activeScrollListener = throttle(handleScroll, 100);
+    window.addEventListener('scroll', activeScrollListener);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
