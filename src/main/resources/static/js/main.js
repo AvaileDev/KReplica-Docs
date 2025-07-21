@@ -79,10 +79,20 @@ function initScrollSpy() {
         const target = e.target.closest('a');
         if (target) {
             setActiveSidebarLink(sidebar, target);
+
             isScrollSpyPaused = true;
             clearTimeout(scrollSpyTimeoutId);
+
+            const unpauseSpy = () => {
+                isScrollSpyPaused = false;
+                clearTimeout(scrollSpyTimeoutId);
+            };
+
+            window.addEventListener('scroll', unpauseSpy, {once: true});
+
             scrollSpyTimeoutId = setTimeout(() => {
                 isScrollSpyPaused = false;
+                window.removeEventListener('scroll', unpauseSpy);
             }, 1000);
         }
     });
