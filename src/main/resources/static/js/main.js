@@ -33,28 +33,56 @@ function scrollToActiveExample() {
     const activeExampleLink = document.querySelector('.examples-sidebar a[href^="/guides/"][class="active"]');
 
     if (onGuidesPage && activeExampleLink) {
-        document.getElementById('interactive-examples')?.scrollIntoView();
+        document.getElementById('interactive-examples')?.scrollIntoView({behavior: 'smooth', block: 'start'});
     }
+}
+
+let scrollSpyTimeoutId;
+let isScrollSpyPaused = false;
+
+function setActiveSidebarLink(sidebar, targetLink) {
+    if (!sidebar || !targetLink) return;
+    const currentActive = sidebar.querySelector('a.active');
+    if (currentActive === targetLink) return;
+
+    const allLinks = sidebar.querySelectorAll('a');
+    allLinks.forEach(link => link.classList.remove('active'));
+    targetLink.classList.add('active');
 }
 
 function initScrollSpy() {
     const sidebar = document.getElementById('guide-sidebar-links');
     if (!sidebar) return;
 
-    const sectionLinks = sidebar.querySelectorAll('a[href^="#"]');
-    const exampleLinks = sidebar.querySelectorAll('a[href^="/guides/"]');
-    const sections = [];
-
-    sectionLinks.forEach(link => {
-        const section = document.querySelector(link.getAttribute('href'));
-        if (section) {
-            sections.push(section);
+    sidebar.addEventListener('click', function (e) {
+        const target = e.target.closest('a');
+        if (target) {
+            setActiveSidebarLink(sidebar, target);
+            isScrollSpyPaused = true;
+            clearTimeout(scrollSpyTimeoutId);
+            scrollSpyTimeoutId = setTimeout(() => {
+                isScrollSpyPaused = false;
+            }, 1000);
         }
     });
 
-    if (sections.length === 0) return;
+    const sectionsToObserve = [];
+    const interactiveExampleSection = document.getElementById('interactive-examples');
+    if (interactiveExampleSection) {
+        sectionsToObserve.push(interactiveExampleSection);
+    }
+    sidebar.querySelectorAll('a[href^="#"]').forEach(link => {
+        const section = document.querySelector(link.getAttribute('href'));
+        if (section) {
+            sectionsToObserve.push(section);
+        }
+    });
+
+    if (sectionsToObserve.length === 0) return;
 
     const observer = new IntersectionObserver((entries) => {
+        if (isScrollSpyPaused) return;
+
         let bestVisible = null;
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -65,28 +93,28 @@ function initScrollSpy() {
         });
 
         if (bestVisible) {
-            sectionLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href') === `#${bestVisible.target.id}`) {
-                    link.classList.add('active');
+            let linkToActivate;
+            if (bestVisible.target.id === 'interactive-examples') {
+                const pathParts = window.location.pathname.split('/');
+                const slug = pathParts[pathParts.length - 1];
+                if (slug && slug !== 'guides') {
+                    linkToActivate = sidebar.querySelector(`a[href="/guides/${slug}"]`);
+                } else {
+                    linkToActivate = sidebar.querySelector('a[href^="/guides/"]');
                 }
-            });
-
-            if (bestVisible.target.id !== 'interactive-examples') {
-                exampleLinks.forEach(link => link.classList.remove('active'));
+            } else {
+                linkToActivate = sidebar.querySelector(`a[href="#${bestVisible.target.id}"]`);
+            }
+            if (linkToActivate) {
+                setActiveSidebarLink(sidebar, linkToActivate);
             }
         }
     }, {
-        threshold: [0, 0.25, 0.5, 0.75, 1],
-        rootMargin: "-65px 0px -40% 0px"
+        threshold: [0, 0.2, 0.4, 0.6, 0.8, 1],
+        rootMargin: "-80px 0px -40% 0px"
     });
 
-    sections.forEach(section => observer.observe(section));
-
-    const anyExampleActive = Array.from(exampleLinks).some(link => link.classList.contains('active'));
-    if (anyExampleActive) {
-        sectionLinks.forEach(link => link.classList.remove('active'));
-    }
+    sectionsToObserve.forEach(section => observer.observe(section));
 }
 
 document.addEventListener('DOMContentLoaded', function () {
