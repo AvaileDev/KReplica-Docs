@@ -16,8 +16,7 @@
 
     <form class="playground-form"
           hx-post="/playground/compile"
-          hx-target="#playground-output"
-          hx-indicator=".playground-actions .htmx-indicator">
+          hx-target="#playground-output">
 
         <div class="playground-editor-area" data-template-slug="${vm.getActiveTemplateSlug()}">
             <div id="editor-source-container">
@@ -32,7 +31,7 @@
             <div class="split-button-container" x-data="{ isOpen: false }">
                 <button type="button" class="button-reset split-button"
                         @click="$dispatch('reset-template')">
-                    <span class="split-button-label">Reset&nbsp;All</span>
+                    <span class="split-button-label">Reset All</span>
                     <span class="split-button-arrow" @click.stop="isOpen = !isOpen">
                         <svg :class="{'rotate-180': isOpen}" xmlns="http://www.w3.org/2000/svg"
                              width="18" height="18" viewBox="0 0 24 24">
@@ -43,15 +42,13 @@
 
                 <div x-show="isOpen" @click.outside="isOpen = false" class="dropdown-menu" x-cloak>
                     <button type="button" class="dropdown-item" @click="$dispatch('reset-template'); isOpen = false">
-                        Reset&nbsp;All
+                        Reset All
                     </button>
                     <button type="button" id="clear-output-btn" class="dropdown-item" @click="isOpen = false">
-                        Clear&nbsp;Output
+                        Clear Output
                     </button>
                 </div>
             </div>
-
-            <div class="htmx-indicator">Compiling...</div>
         </div>
     </form>
 
