@@ -42,6 +42,7 @@ class PlaygroundController(
     fun getPlaygroundTemplate(@RequestParam("template-select") slug: String, model: Model): String {
         val sourceCode = provider.getPlaygroundTemplateSource(slug)
         model.addAttribute("code", sourceCode)
+        model.addAttribute("slug", slug)
         return "fragments/playground-editor-swap"
     }
 

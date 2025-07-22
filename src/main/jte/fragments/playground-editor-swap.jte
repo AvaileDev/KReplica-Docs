@@ -1,3 +1,6 @@
 @param String code
+@param String slug
 
-<textarea name="source" hidden>${code}</textarea>
+<div data-template-slug="${slug}">
+    <textarea name="source" hidden>${code}</textarea>
+</div>
