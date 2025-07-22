@@ -1,90 +1,18 @@
-.button-primary {
-    display: inline-block;
-    background-color: var(--secondary-color);
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: 700;
-    transition: background-color .2s ease-in-out;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    line-height: 1.5;
-}
-
-.button-primary:hover {
-    background-color: #2980b9;
-    text-decoration: none;
-    color: #fff;
-}
-
-.button-secondary {
-    display: inline-block;
-    font-weight: 500;
-    color: var(--primary-color);
-    text-decoration: none;
-    padding: 12px 24px;
-    border-radius: 5px;
-    border: 1px solid var(--border-color);
-    background-color: var(--surface-color);
-    transition: all .2s ease-in-out;
-    cursor: pointer;
-    font-size: 1rem;
-    line-height: 1.5;
-}
-
-.button-secondary:hover {
-    background-color: var(--bg-color);
-    border-color: #ced4da;
-    text-decoration: none;
-}
-
-.copy-code-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #4a4a4a;
-    color: #ccc;
-    border: 1px solid #666;
-    border-radius: 4px;
-    padding: 4px 8px;
-    font-family: var(--font-sans);
-    font-size: 0.8rem;
-    cursor: pointer;
-    opacity: 0.7;
-    transition: opacity .2s ease-in-out;
-}
-
-.copy-code-button:hover {
-    opacity: 1;
-}
-
-.copy-code-button:disabled {
-    opacity: 1;
-    cursor: default;
-    background-color: var(--secondary-color);
-    border-color: var(--secondary-color);
-    color: #fff;
-}
-
 .button-run,
 .button-reset {
     display: inline-block;
-    width: 140px;
     height: 48px;
-    padding: 12px 24px;
-    border-radius: 5px;
-    font-weight: 700;
-    text-decoration: none;
+    padding: 0;
     border: none;
-    cursor: pointer;
     font-size: 1rem;
-    line-height: 1.5;
+    font-weight: 700;
+    cursor: pointer;
     transition: background-color .2s ease-in-out;
+    border-radius: 5px;
 }
 
 .button-run {
+    width: 140px;
     background-color: var(--success-color);
     color: #fff;
 }
@@ -100,4 +28,75 @@
 
 .button-reset:hover {
     background-color: #c0392b;
+}
+
+/* split‑button */
+.split-button-container {
+    position: relative;
+    display: inline-block;
+}
+
+.split-button {
+    display: flex;
+    width: 140px;
+    overflow: hidden;
+}
+
+.split-button-label {
+    flex: 0 0 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.split-button-arrow {
+    flex: 1 1 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    border-left: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.split-button-arrow svg {
+    transition: transform .2s ease-in-out;
+}
+
+.rotate-180 {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu {
+    position: absolute;
+    bottom: 100%;
+    right: 0;
+    margin-bottom: 8px;
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .1);
+    z-index: 10;
+    min-width: 180px;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.dropdown-item {
+    width: 100%;
+    text-align: left;
+    padding: 8px 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: .95rem;
+    border-radius: 4px;
+    color: var(--primary-color);
+}
+
+.dropdown-item:hover {
+    background-color: var(--bg-color);
+    color: var(--secondary-color);
 }

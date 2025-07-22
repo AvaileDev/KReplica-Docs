@@ -28,7 +28,29 @@
 
         <div class="playground-actions">
             <button type="submit" id="run-btn" class="button-run">Run</button>
-            <button type="button" id="reset-template-btn" class="button-reset">Reset</button>
+
+            <div class="split-button-container" x-data="{ isOpen: false }">
+                <button type="button" class="button-reset split-button"
+                        @click="$dispatch('reset-template')">
+                    <span class="split-button-label">Reset&nbsp;All</span>
+                    <span class="split-button-arrow" @click.stop="isOpen = !isOpen">
+                        <svg :class="{'rotate-180': isOpen}" xmlns="http://www.w3.org/2000/svg"
+                             width="18" height="18" viewBox="0 0 24 24">
+                            <path d="M7 10l5 5 5-5z" fill="currentColor"/>
+                        </svg>
+                    </span>
+                </button>
+
+                <div x-show="isOpen" @click.outside="isOpen = false" class="dropdown-menu" x-cloak>
+                    <button type="button" class="dropdown-item" @click="$dispatch('reset-template'); isOpen = false">
+                        Reset&nbsp;All
+                    </button>
+                    <button type="button" id="clear-output-btn" class="dropdown-item" @click="isOpen = false">
+                        Clear&nbsp;Output
+                    </button>
+                </div>
+            </div>
+
             <div class="htmx-indicator">Compiling...</div>
         </div>
     </form>
