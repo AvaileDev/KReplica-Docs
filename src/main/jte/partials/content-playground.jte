@@ -27,29 +27,8 @@
         </div>
 
         <div class="playground-actions">
-            <div class="split-button-container">
-                <div class="split-button-group">
-                    <button type="submit" class="button-primary split-button-main">Run</button>
-                </div>
-            </div>
-
-            <div class="split-button-container" x-data="{ isOpen: false }" @keydown.escape.window="isOpen = false">
-                <div class="split-button-group">
-                    <button type="button" id="reset-template-btn" class="button-primary split-button-main">Reset All
-                    </button>
-                    <button type="button" @click="isOpen = !isOpen" class="button-primary split-button-toggle"
-                            aria-label="More actions">
-                        <svg :class="{'rotate-180': isOpen}" class="split-button-icon"
-                             xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 0 24 24" width="20px">
-                            <path d="M7 10l5 5 5-5z" fill="currentColor"/>
-                        </svg>
-                    </button>
-                </div>
-                <div x-show="isOpen" @click.outside="isOpen = false" class="dropdown-menu" x-cloak>
-                    <button type="button" id="clear-output-btn" class="dropdown-item">Clear Output</button>
-                </div>
-            </div>
-
+            <button type="submit" id="run-btn" class="button-run">Run</button>
+            <button type="button" id="reset-template-btn" class="button-reset">Reset</button>
             <div class="htmx-indicator">Compiling...</div>
         </div>
     </form>

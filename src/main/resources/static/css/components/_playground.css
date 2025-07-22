@@ -1,45 +1,8 @@
-.button-primary {
-    display: inline-block;
-    background-color: var(--secondary-color);
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: 700;
-    margin-top: 20px;
-    transition: background-color .2s ease-in-out;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    line-height: 1.5;
-}
-
-.button-primary:hover {
-    background-color: #2980b9;
-    text-decoration: none;
-    color: #fff;
-}
-
-.button-secondary {
-    display: inline-block;
-    font-weight: 500;
-    color: var(--primary-color);
-    text-decoration: none;
-    padding: 12px 24px;
-    border-radius: 5px;
-    border: 1px solid var(--border-color);
-    background-color: var(--surface-color);
-    transition: all .2s ease-in-out;
-    cursor: pointer;
-    font-size: 1rem;
-    line-height: 1.5;
-    margin-top: 20px;
-}
-
-.button-secondary:hover {
-    background-color: var(--bg-color);
-    border-color: #ced4da;
-    text-decoration: none;
+.playground-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .copy-code-button {
@@ -68,60 +31,4 @@
     background-color: var(--secondary-color);
     border-color: var(--secondary-color);
     color: #fff;
-}
-
-.split-button-container {
-    position: relative;
-    display: inline-flex;
-}
-
-.split-button-main {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: none;
-}
-
-.split-button-toggle {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    padding: 12px;
-}
-
-.split-button-toggle svg {
-    display: block;
-}
-
-.dropdown-menu {
-    position: absolute;
-    bottom: 100%;
-    right: 0;
-    margin-bottom: 8px;
-    background-color: var(--surface-color);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-    width: max-content;
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.dropdown-item {
-    display: block;
-    width: 100%;
-    text-align: left;
-    padding: 8px 16px;
-    border: none;
-    background: none;
-    cursor: pointer;
-    font-size: 0.95rem;
-    border-radius: 4px;
-    color: var(--primary-color);
-}
-
-.dropdown-item:hover {
-    background-color: var(--bg-color);
-    color: var(--secondary-color);
 }

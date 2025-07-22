@@ -12,4 +12,6 @@
     --alert-info-border: #b3d7f9;
     --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
     --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    --success-color: #2ecc71;
+    --danger-color: #e74c3c;
 }
