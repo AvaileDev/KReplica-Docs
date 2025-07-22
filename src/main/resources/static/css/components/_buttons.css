@@ -11,36 +11,31 @@
     border-radius: 8px;
     transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s ease;
     position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button-run:active,
+.button-reset:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .button-run {
     padding: 0 32px;
     background-color: var(--success-color);
     color: #fff;
-    box-shadow: 0 4px #27ae60;
 }
 
 .button-run:hover {
     background-color: #38d67a;
 }
 
-.button-run:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px #27ae60;
-}
-
 .button-reset {
     background-color: var(--danger-color);
     color: #fff;
     padding: 0;
-    box-shadow: 0 4px #c0392b;
 }
 
 .button-reset:hover {
     background-color: #ef5f50;
-}
-
-.button-reset:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px #c0392b;
 }
