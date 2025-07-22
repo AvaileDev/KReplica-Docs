@@ -26,8 +26,8 @@
 }
 
 #kreplica-editor {
-    flex-grow: 1;
-    min-height: 300px;
+    width: 100%;
+    max-height: 70vh;
 }
 
 .playground-output-area {
@@ -86,7 +86,7 @@
     display: flex;
     height: 100%;
     overflow: hidden;
-    border-radius: 6px;
+    border-radius: 8px;
 }
 
 .split-button-label {
