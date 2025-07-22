@@ -4,38 +4,36 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    border: none;
+    border: 1px solid var(--border-color);
+    background-color: var(--surface-color);
     font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
     border-radius: 8px;
-    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s ease;
+    transition: all 0.1s ease-out;
     position: relative;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+    user-select: none;
+}
+
+.button-run:hover,
+.button-reset:hover {
+    transform: translateY(-2px);
+    box-shadow: 5px 5px 10px var(--shadow-dark), -5px -5px 10px var(--shadow-light);
 }
 
 .button-run:active,
 .button-reset:active {
-    transform: translateY(2px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: translateY(1px);
+    box-shadow: inset 2px 2px 4px var(--shadow-dark), inset -2px -2px 4px var(--shadow-light);
 }
 
 .button-run {
     padding: 0 32px;
-    background-color: var(--success-color);
-    color: #fff;
-}
-
-.button-run:hover {
-    background-color: #38d67a;
+    color: var(--success-color);
 }
 
 .button-reset {
-    background-color: var(--danger-color);
-    color: #fff;
+    color: var(--danger-color);
     padding: 0;
-}
-
-.button-reset:hover {
-    background-color: #ef5f50;
 }

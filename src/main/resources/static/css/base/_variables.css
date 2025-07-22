@@ -14,4 +14,6 @@
     --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
     --success-color: #2ecc71;
     --danger-color: #e74c3c;
+    --shadow-light: rgba(255, 255, 255, 0.9);
+    --shadow-dark: rgba(0, 0, 0, 0.12);
 }
