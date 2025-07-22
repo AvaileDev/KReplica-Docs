@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.view.FragmentsRendering
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 data class CompileRequestForm(val source: String)
 
@@ -52,20 +53,23 @@ class PlaygroundController(
     @HxRequest
     @PostMapping(WebApp.Endpoints.Playground.COMPILE)
     fun compile(@ModelAttribute compileRequest: CompileRequestForm, model: Model): String {
-        try {
+        return try {
             val future = compilationBroker.submitJob(compileRequest.source)
-            val response = future.get(15, TimeUnit.SECONDS)
+            val response = future.get(30, TimeUnit.SECONDS)
 
             if (response.success) {
                 model.addAttribute("files", response.generatedFiles)
-                return "fragments/playground-results"
+                "fragments/playground-results"
             } else {
                 model.addAttribute("message", response.message)
-                return "fragments/playground-error"
+                "fragments/playground-error"
             }
+        } catch (e: TimeoutException) {
+            model.addAttribute("message", "Compilation timed out. The request may be too complex.")
+            "fragments/playground-error"
         } catch (e: Exception) {
-            model.addAttribute("message", "Error: ${e.message ?: "An unknown error occurred."}")
-            return "fragments/playground-error"
+            model.addAttribute("message", "An unexpected error occurred: ${e.message}")
+            "fragments/playground-error"
         }
     }
 }
