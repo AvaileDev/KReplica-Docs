@@ -1,3 +1,45 @@
+.playground-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 24px;
+    min-height: 0;
+}
+
+.playground-form {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 16px;
+    min-height: 0;
+}
+
+.playground-editor-area {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#kreplica-editor {
+    flex-grow: 1;
+    min-height: 300px;
+}
+
+.playground-output-area {
+    border-top: 1px solid var(--border-color);
+    padding-top: 24px;
+}
+
+#playground-output .playground-content {
+    max-height: 40vh;
+    overflow-y: auto;
+}
+
 .playground-actions {
     display: flex;
     gap: 16px;
