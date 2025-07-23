@@ -58,4 +58,24 @@
                 });
         });
     };
+
+    window.clearPlaygroundOutput = function() {
+        const output = document.getElementById('playground-output');
+        if (output) {
+            output.innerHTML = '<div class="placeholder-text">Click "Run" to see the generated code.</div>';
+        }
+    };
+
+    window.resetPlayground = function() {
+        clearPlaygroundOutput();
+
+        const editorArea = document.querySelector('.playground-editor-area');
+        if (!editorArea) return;
+
+        const slug = editorArea.dataset.templateSlug;
+        if (!slug) return;
+
+        const url = `/playground/templates?template-select=${slug}`;
+        htmx.ajax('GET', url, { target: '#editor-source-container', swap: 'innerHTML' });
+    };
 })();
