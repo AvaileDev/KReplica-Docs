@@ -33,33 +33,33 @@ class PageController(private val viewModelFactory: ViewModelFactory) {
     }
 
     @GetMapping(WebApp.Endpoints.Pages.GUIDES)
-    fun guides(model: Model): String {
-        model.addAttribute("vm", viewModelFactory.createGuidesViewModel())
-        return PageTemplate.GUIDES.path
+    fun guide(model: Model): String {
+        model.addAttribute("vm", viewModelFactory.createGuideViewModel())
+        return PageTemplate.GUIDE.path
     }
 
-    @GetMapping("/guides/{slug}")
+    @GetMapping("/guide/{slug}")
     fun guideBySlug(@PathVariable slug: String, model: Model): String {
-        model.addAttribute("vm", viewModelFactory.createGuidesViewModel(ExampleSlug(slug)))
-        return PageTemplate.GUIDES.path
+        model.addAttribute("vm", viewModelFactory.createGuideViewModel(ExampleSlug(slug)))
+        return PageTemplate.GUIDE.path
     }
 
     @HxRequest
     @GetMapping(WebApp.Endpoints.Pages.GUIDES)
-    fun guidesHtmx(model: Model): FragmentsRendering {
-        model.addAttribute("vm", viewModelFactory.createGuidesViewModel())
+    fun guideHtmx(model: Model): FragmentsRendering {
+        model.addAttribute("vm", viewModelFactory.createGuideViewModel())
         return FragmentsRendering
-            .with(PartialTemplate.CONTENT_EXAMPLES.path)
+            .with(PartialTemplate.CONTENT_GUIDE.path)
             .fragment(FragmentTemplate.NAV_UPDATE_OOB.path)
             .build()
     }
 
     @HxRequest
-    @GetMapping("/guides/{slug}")
+    @GetMapping("/guide/{slug}")
     fun guideBySlugHtmx(@PathVariable slug: String, model: Model): FragmentsRendering {
-        model.addAttribute("vm", viewModelFactory.createGuidesViewModel(ExampleSlug(slug)))
+        model.addAttribute("vm", viewModelFactory.createGuideViewModel(ExampleSlug(slug)))
         return FragmentsRendering
-            .with(PartialTemplate.CONTENT_EXAMPLES.path)
+            .with(PartialTemplate.CONTENT_GUIDE.path)
             .fragment(FragmentTemplate.NAV_UPDATE_OOB.path)
             .build()
     }

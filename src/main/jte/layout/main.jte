@@ -76,8 +76,8 @@
     </footer>
 </div>
 
-@if(vm instanceof io.availe.kreplicadocs.model.view.GuidesViewModel)
-    @template.tags.fab-menu(vm = (io.availe.kreplicadocs.model.view.GuidesViewModel)vm)
+@if(vm instanceof io.availe.kreplicadocs.model.view.GuideViewModel)
+    @template.tags.fab-menu(vm = (io.availe.kreplicadocs.model.view.GuideViewModel)vm)
 @endif
 
 <script src="https://unpkg.com/monaco-editor@0.45.0/min/vs/loader.js" defer></script>

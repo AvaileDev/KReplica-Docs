@@ -2,13 +2,13 @@ package io.availe.kreplicadocs.common
 
 enum class PageTemplate(val path: String) {
     INDEX("pages/index"),
-    GUIDES("pages/guides"),
+    GUIDE("pages/guide"),
     PLAYGROUND("pages/playground")
 }
 
 enum class PartialTemplate(val path: String) {
     CONTENT_INDEX("partials/content-index"),
-    CONTENT_EXAMPLES("partials/content-examples"),
+    CONTENT_GUIDE("partials/content-guide"),
     CONTENT_PLAYGROUND("partials/content-playground"),
     EXAMPLE_PLAYGROUND_UPDATE("partials/example-playground-update")
 }

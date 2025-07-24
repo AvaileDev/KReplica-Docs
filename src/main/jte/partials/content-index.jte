@@ -61,12 +61,12 @@
         </div>
 
         <div class="tour-cta">
-            <a href="/guides"
+            <a href="/guide"
                class="button-primary"
-               hx-get="/guides"
+               hx-get="/guide"
                hx-target=".main-content"
-               hx-push-url="/guides"
-               hx-indicator=".page-progress">See More in the Guides</a>
+               hx-push-url="/guide"
+               hx-indicator=".page-progress">See More in the Guide</a>
         </div>
     </div>
 @endif

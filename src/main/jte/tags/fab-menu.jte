@@ -1,5 +1,5 @@
 @import gg.jte.support.ForSupport
-@param io.availe.kreplicadocs.model.view.GuidesViewModel vm
+@param io.availe.kreplicadocs.model.view.GuideViewModel vm
 
 <div class="fab-container"
      x-data="{ isOpen: false }"

@@ -4,7 +4,7 @@ object WebApp {
     object Endpoints {
         object Pages {
             const val INDEX = "/"
-            const val GUIDES = "/guides"
+            const val GUIDES = "/guide"
             const val PLAYGROUND = "/playground"
         }
 

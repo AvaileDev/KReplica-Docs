@@ -21,7 +21,7 @@ class ExampleDataProvider(
     private val navLinks = listOf(
         NavLink("/", "index", "Home"),
         NavLink("/playground", "playground", "Playground"),
-        NavLink("/guides", "guides", "Guides")
+        NavLink("/guide", "guide", "Guide")
     )
 
     private data class TourMetadata(
@@ -36,6 +36,7 @@ class ExampleDataProvider(
         loadFeatureTourExample()
         loadPlaygroundTemplates()
         guideSnippets.putAll(loadFilesFrom("guide-snippets/*.kt"))
+        guideSnippets.putAll(loadFilesFrom("guide-snippets/*.kts"))
     }
 
     private fun loadFeatureTourExample() {
@@ -65,7 +66,7 @@ class ExampleDataProvider(
         return resourcePatternResolver.getResources("classpath:$path")
             .filter(Resource::exists)
             .associate { resource ->
-                val filename = resource.filename ?: "unknown.kt"
+                val filename = resource.filename ?: "unknown"
                 val content = resource.inputStream.bufferedReader().use { it.readText() }
                 filename to content
             }

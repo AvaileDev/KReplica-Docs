@@ -24,7 +24,7 @@ data class TocItem(
     val slug: String? = null
 )
 
-data class GuidesViewModel(
+data class GuideViewModel(
     override val navLinks: List<NavLink>,
     override val properties: AppProperties,
     override val currentPage: String,
@@ -36,14 +36,16 @@ data class GuidesViewModel(
 ) : PageViewModel {
     fun getGuideTocItems(): Map<TocItem, String> {
         val staticItems = listOf(
-            TocItem("Top", "#top"),
-            TocItem("API Reference", "#api-reference"),
+            TocItem("Quick Start", "#quick-start"),
+            TocItem("Core Concept", "#core-concept"),
             TocItem("Generated Code", "#generated-code"),
-            TocItem("Patterns & Recipes", "#patterns")
+            TocItem("Configuration API", "#api-reference"),
+            TocItem("Core Patterns", "#patterns"),
+            TocItem("FAQ", "#faq")
         )
 
         val dynamicItems = allExamples.map {
-            TocItem(it.name, "/guides/${it.slug}", it.slug)
+            TocItem(it.name, "/guide/${it.slug}", it.slug)
         }
 
         return (staticItems + dynamicItems).associateWith { it.name }

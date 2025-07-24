@@ -1,4 +1,4 @@
-@param io.availe.kreplicadocs.model.view.GuidesViewModel vm
+@param io.availe.kreplicadocs.model.view.GuideViewModel vm
 
 <div id="guide-sidebar-links">
     <h4>Guide Sections</h4>
@@ -9,9 +9,9 @@
         <li><a href="#patterns">Patterns & Recipes</a></li>
         @for(var item : vm.getAllExamples())
             <li>
-                <a href="/guides/${item.getSlug()}"
+                <a href="/guide/${item.getSlug()}"
                    class="${item.getSlug().equals(vm.getActiveSlug()) ? "active" : ""}"
-                   hx-get="/guides/${item.getSlug()}"
+                   hx-get="/guide/${item.getSlug()}"
                    hx-target=".main-content"
                    hx-push-url="true"
                    hx-indicator=".page-progress">
