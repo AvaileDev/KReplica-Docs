@@ -8,8 +8,11 @@
         <li><a href="#core-concept">Core Concept</a></li>
         <li><a href="#generated-code">Generated Code</a></li>
         <li><a href="#api-reference">API Reference</a></li>
-        <li><a href="#patterns">Patterns & Recipes</a></li>
+        <li><a href="#patterns">Core Patterns</a></li>
         <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <h4>Interactive Examples</h4>
+    <ul>
         @for(var item : vm.getAllExamples())
             <li>
                 <a href="/guide/${item.getSlug()}"

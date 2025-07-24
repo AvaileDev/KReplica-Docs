@@ -4,7 +4,9 @@
     <section id="top">
         <h1>KReplica Developer Guide</h1>
         <p>This guide provides a detailed reference for KReplica's API and features, walking through core concepts and
-            common patterns to help you get the most out of the library.</p>
+            common patterns to help you get the most out of the library. KReplica is a DTO generator that eliminates
+            boilerplate for Create, Read, and Update operations by generating type-safe Kotlin data classes from simple
+            interfaces.</p>
     </section>
 
     <section id="quick-start">
@@ -28,27 +30,59 @@
     <section id="generated-code">
         <h2>Understanding the Generated Code</h2>
         <p>The code KReplica generates is designed for maximum safety and flexibility. It's built on two key concepts
-            you'll work with.</p>
+            you'll work with: sealed hierarchies and variant interfaces.</p>
 
         <h4>Sealed Hierarchies for Bulletproof APIs</h4>
-        <p>Tired of `if (dto.version == 1)` checks that break when you add a `V3`? KReplica solves this with **sealed
-            hierarchies**. This lets you use Kotlin's exhaustive `when` expressions, forcing you to handle every DTO
-            variant at compile time. If you add a new version, your code won't compile until you handle it—no more
-            runtime surprises.</p>
+        <p>Tired of runtime errors because you forgot to handle a new API version? KReplica solves this with <strong>sealed
+                hierarchies</strong>. This lets you use Kotlin's exhaustive <code>when</code> expressions, forcing you
+            to handle every DTO
+            variant at compile time. If you add a new version or variant, your code won't compile until you handle it—no
+            more
+            runtime surprises.
+        </p>
 
-        <h4>Local vs. Global Variants</h4>
+        <div class="workflow-container" x-data="{ activeTab: 'all' }">
+            <div class="workflow-tabs" role="tablist">
+                <button role="tab" :class="{ 'active': activeTab === 'all' }" @click="activeTab = 'all'">Handle
+                    Everything
+                </button>
+                <button role="tab" :class="{ 'active': activeTab === 'version' }" @click="activeTab = 'version'">Handle
+                    by Version
+                </button>
+                <button role="tab" :class="{ 'active': activeTab === 'variant' }" @click="activeTab = 'variant'">Handle
+                    by Variant
+                </button>
+            </div>
+            <div class="workflow-content" x-show="activeTab === 'all'" x-cloak>
+                <p>By using the top-level schema interface, your <code>when</code> expression must exhaustively handle
+                    every version and variant.</p>
+                @template.tags.code(language="kotlin", content=@`${snippets.get("when-expression-all.kt")}`)
+            </div>
+            <div class="workflow-content" x-show="activeTab === 'version'" x-cloak>
+                <p>By typing a parameter as a specific version (e.g., <code>UserAccountSchema.V2</code>), the compiler
+                    ensures you handle all variants within that version only.</p>
+                @template.tags.code(language="kotlin", content=@`${snippets.get("when-expression-by-version.kt")}`)
+            </div>
+            <div class="workflow-content" x-show="activeTab === 'variant'" x-cloak>
+                <p>By using a local variant interface (e.g., <code>UserAccountSchema.DataVariant</code>), you can handle
+                    all DTOs of a specific kind, across all versions.</p>
+                @template.tags.code(language="kotlin", content=@`${snippets.get("when-expression-by-variant.kt")}`)
+            </div>
+        </div>
+
+        <h4 style="margin-top: 2rem;">Local vs. Global Variants</h4>
         <p>KReplica generates two categories of interfaces for different use cases:</p>
         <ul>
             <li><strong>Local Variants</strong> (e.g., <code>UserAccountSchema.PatchRequestVariant</code>): Use these
-                when working *within a single model's world*. They are perfect for handling all patch requests, but only
-                for the `UserAccount` model.
+                when working <em>within a single model's world</em>. They are perfect for handling all patch requests,
+                but only
+                for the <code>UserAccount</code> model, as shown in the examples above.
             </li>
             <li><strong>Global Variants</strong> (e.g., <code>KReplicaPatchVariant&lt;V&gt;</code>): This is the key to
                 writing reusable code. Use these to create patterns that work *across any KReplica model*, such as a
-                generic API mapper.
+                generic API mapper, which we'll explore in the Core Patterns section.
             </li>
         </ul>
-        @template.tags.code(language="kotlin", content=@`${snippets.get("local-variants-example.kt")}`)
     </section>
 
     <section id="api-reference">
@@ -91,11 +125,11 @@
 
         <h3>Supporting Annotations</h3>
         <ul>
-            <li><strong><code>@Replicate.SchemaVersion(number: Int)</code></strong>: Manually specifies a version number
-                for versioned schemas if you don't use the `V1`, `V2` naming convention.
-            </li>
             <li><strong><code>@Replicate.Apply(annotations: Array&lt;KClass&gt;)</code></strong>: Applies other
                 annotations (like <code>@Serializable</code>) to the generated DTOs.
+            </li>
+            <li><strong><code>@Replicate.SchemaVersion(number: Int)</code></strong>: Manually specifies a version number
+                for versioned schemas if you don't use the `V1`, `V2` naming convention.
             </li>
             <li><strong><code>@Replicate.Hide</code></strong>: Disables code generation for the annotated model, useful
                 for temporarily testing the impact of removing a schema.
@@ -115,7 +149,8 @@
         <h3>Contextual Variant Nesting</h3>
         <p>When you have an `AdminAccount` that contains a `UserAccount`, how do you ensure the
             `AdminAccount.CreateRequest` correctly uses the `UserAccount.CreateRequest`? KReplica handles this
-            automatically.</p>
+            automatically.
+        </p>
         <div class="workflow-container" x-data="{ activeTab: 'auto' }">
             <div class="workflow-tabs" role="tablist">
                 <button role="tab" :class="{ 'active': activeTab === 'auto' }" @click="activeTab = 'auto'">The Smart Way
@@ -139,15 +174,55 @@
             </div>
         </div>
 
-        <h3>Recipe: Type-Safe API Mappers</h3>
-        <p>Now let's use the Global Variant Interfaces to build a completely reusable bridge between your DTOs and your
-            internal domain models, which contain your business logic. This pattern allows you to define one generic
-            `ApiSchemaMapper` for your entire application.</p>
-        @template.tags.code(language="kotlin", content=@`${snippets.get("mapper-pattern-example.kt")}`)
+        <h3 style="margin-top: 2rem;">Recipe: Type-Safe API Mappers</h3>
+        <p>Let's use the Global Variant Interfaces to build a completely reusable bridge between your DTOs and your
+            internal domain models. This pattern allows you to define one generic `ApiSchemaMapper` for your entire
+            application, ensuring compile-time safety when converting between layers.</p>
+        <div class="workflow-container" x-data="{ activeTab: 'pattern' }">
+            <div class="workflow-tabs" role="tablist">
+                <button role="tab" :class="{ 'active': activeTab === 'pattern' }" @click="activeTab = 'pattern'">1. The
+                    Reusable Pattern
+                </button>
+                <button role="tab" :class="{ 'active': activeTab === 'domain' }" @click="activeTab = 'domain'">2. The
+                    Domain Model
+                </button>
+                <button role="tab" :class="{ 'active': activeTab === 'interface' }" @click="activeTab = 'interface'">3.
+                    The KReplica Interface
+                </button>
+                <button role="tab" :class="{ 'active': activeTab === 'mapper' }" @click="activeTab = 'mapper'">4. The
+                    Implementation
+                </button>
+            </div>
+            <div class="workflow-content" x-show="activeTab === 'pattern'" x-cloak>
+                <p>Define this generic interface once in your project. It uses KReplica's <strong>Global Variant
+                        Interfaces</strong>
+                    (e.g., <code>KReplicaDataVariant</code>) as generic constraints, making it compatible with any model
+                    KReplica generates.</p>
+                @template.tags.code(language="kotlin", content=@`${snippets.get("mapper-pattern-example.kt")}`)
+            </div>
+            <div class="workflow-content" x-show="activeTab === 'domain'" x-cloak>
+                <p>This is your internal domain model. It contains business logic, validation, and is completely
+                    decoupled from the API layer.</p>
+                @template.tags.code(language="kotlin", content=@`${snippets.get("mapper-pattern-domain-model.kt")}`)
+            </div>
+            <div class="workflow-content" x-show="activeTab === 'interface'" x-cloak>
+                <p>This is the simple KReplica interface you write. It defines the data contract for the <code>UserAccount</code>.
+                </p>
+                @template.tags.code(language="kotlin", content=@`${snippets.get("mapper-pattern-kreplica-interface.kt")}`)
+            </div>
+            <div class="workflow-content" x-show="activeTab === 'mapper'" x-cloak>
+                <p>Finally, implement the generic mapper for your specific model. The Kotlin compiler, guided by the
+                    generic constraints,
+                    ensures you correctly map between the domain model and the specific DTO variants (<code>Data</code>,
+                    <code>CreateRequest</code>, <code>PatchRequest</code>).</p>
+                @template.tags.code(language="kotlin", content=@`${snippets.get("mapper-pattern-implementation.kt")}`)
+            </div>
+        </div>
 
-        <h3>Integrating with kotlinx.serialization</h3>
+        <h3 style="margin-top: 2rem;">Integrating with kotlinx.serialization</h3>
         <p>Use <code>@Replicate.Apply([Serializable::class])</code> to make all generated DTOs serializable. For complex
-            types like `Instant` or generics, KReplica's `autoContextual = ENABLED` setting will automatically add the
+            types like `Instant` or generics, KReplica's <code>autoContextual = ENABLED</code> setting will
+            automatically add the
             <code>@Contextual</code> annotation where needed, preventing common serialization errors.</p>
     </section>
 
