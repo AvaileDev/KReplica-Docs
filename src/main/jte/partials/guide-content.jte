@@ -11,7 +11,7 @@
         <h2>Quick Start</h2>
         <p>Add the KSP and KReplica plugins to your module's <code>build.gradle.kts</code> file to start generating DTOs
             automatically.</p>
-        @template.tags.code(language = "kotlin", content = @`${snippets.get("build.gradle.kts.template")}`)
+        @template.tags.code(language = "kotlin", content = @`${snippets.get("quickstart-build.kts")}`)
     </section>
 
     <section id="core-concept">

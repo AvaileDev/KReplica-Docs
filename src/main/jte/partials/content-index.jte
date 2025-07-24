@@ -9,12 +9,7 @@
 <p>Add the KSP and KReplica plugins to your module's <code>build.gradle.kts</code> file to start generating DTOs
     automatically.</p>
 
-@template.tags.code(language = "kotlin", content = @`
-    plugins {
-    id("com.google.devtools.ksp") version "..."
-    id("io.availe.kreplica") version "5.0.0"
-    }
-`)
+@template.tags.code(language = "kotlin", content = @`${vm.getQuickStartSnippet()}`)
 
 @if(vm.getFeatureExample() != null)
     <div class="feature-highlight">

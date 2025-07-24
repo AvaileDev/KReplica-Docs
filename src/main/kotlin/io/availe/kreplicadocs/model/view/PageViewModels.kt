@@ -15,7 +15,8 @@ data class IndexViewModel(
     override val properties: AppProperties,
     override val currentPage: String,
     val featureExample: ExampleViewModel?,
-    val tourSelectOptions: List<SelectOption>
+    val tourSelectOptions: List<SelectOption>,
+    val quickStartSnippet: String
 ) : PageViewModel
 
 data class TocItem(

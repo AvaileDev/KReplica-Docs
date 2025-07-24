@@ -12,7 +12,7 @@ pre[class*="language-"] {
     margin: 0;
 }
 
-:not(pre) > code[class*="language-"] {
+:not(pre) > code {
     background: #e9ecef;
     color: var(--primary-color);
     padding: .2em .4em;

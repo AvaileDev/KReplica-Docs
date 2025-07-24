@@ -22,19 +22,24 @@ class ViewModelFactory(
                 step.fileName == "source"
             )
         } ?: emptyList()
+        val quickStartSnippet = provider.getGuideSnippets()["quickstart-build.kts"]
+            ?: "Error: Snippet not found."
 
         return IndexViewModel(
             navLinks = navLinks,
             properties = appProperties,
             currentPage = "index",
             featureExample = exampleViewModel,
-            tourSelectOptions = tourOptions
+            tourSelectOptions = tourOptions,
+            quickStartSnippet = quickStartSnippet
         )
     }
 
     fun createGuideViewModel(activeSlug: ExampleSlug? = null): GuideViewModel {
         val allExamples = provider.getAllExamples()
-        val activeExample = activeSlug?.let { slug ->
+        val effectiveSlug = activeSlug ?: allExamples.firstOrNull()?.let { ExampleSlug(it.slug) }
+
+        val activeExample = effectiveSlug?.let { slug ->
             allExamples.find { it.slug == slug.value }
         }
 
