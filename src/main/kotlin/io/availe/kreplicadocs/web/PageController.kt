@@ -32,7 +32,7 @@ class PageController(private val viewModelFactory: ViewModelFactory) {
             .build()
     }
 
-    @GetMapping(WebApp.Endpoints.Pages.GUIDES)
+    @GetMapping(WebApp.Endpoints.Pages.GUIDE)
     fun guide(model: Model): String {
         model.addAttribute("vm", viewModelFactory.createGuideViewModel())
         return PageTemplate.GUIDE.path
@@ -45,7 +45,7 @@ class PageController(private val viewModelFactory: ViewModelFactory) {
     }
 
     @HxRequest
-    @GetMapping(WebApp.Endpoints.Pages.GUIDES)
+    @GetMapping(WebApp.Endpoints.Pages.GUIDE)
     fun guideHtmx(model: Model): FragmentsRendering {
         model.addAttribute("vm", viewModelFactory.createGuideViewModel())
         return FragmentsRendering
