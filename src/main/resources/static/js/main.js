@@ -1,9 +1,9 @@
 document.body.addEventListener('htmx:afterSwap', function (evt) {
     Prism.highlightAllUnder(evt.detail.elt);
-    initScrollSpy();
+    initScrollSpy(false);
 
     const requestPath = new URL(evt.detail.xhr.responseURL).pathname;
-    if (requestPath.startsWith('/guides/')) {
+    if (requestPath.startsWith('/guide/')) {
         setTimeout(() => scrollToActiveExample(), 0);
         const exampleShell = document.querySelector('#examples-main .examples-shell');
         applyHighlight(exampleShell);
@@ -39,18 +39,33 @@ function applyHighlight(targetElement) {
 }
 
 function scrollToActiveExample() {
-    const onGuidesPage = document.querySelector('.examples-container');
-    const activeExampleLink = document.querySelector('.examples-sidebar a[href^="/guides/"][class="active"]');
     const interactiveExamplesSection = document.getElementById('examples-main');
+    if (interactiveExamplesSection) {
+        const headerOffset = 85;
+        const elementPosition = interactiveExamplesSection.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
-    if (onGuidesPage && activeExampleLink && interactiveExamplesSection) {
-        interactiveExamplesSection.scrollIntoView({behavior: 'smooth', block: 'start'});
+        const endProgrammaticScroll = () => {
+            isProgrammaticScroll = false;
+            window.removeEventListener('wheel', endProgrammaticScroll);
+        };
+
+        isProgrammaticScroll = true;
+
+        window.addEventListener('wheel', endProgrammaticScroll, {once: true});
+        setTimeout(endProgrammaticScroll, 1000);
+
+        window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+        });
     }
 }
 
 let scrollSpyTimeoutId;
 let isScrollSpyPaused = false;
 let activeScrollListener = null;
+let isProgrammaticScroll = false;
 
 function throttle(func, limit) {
     let inThrottle;
@@ -75,7 +90,7 @@ function setActiveSidebarLink(sidebar, targetLink) {
     targetLink.classList.add('active');
 }
 
-function initScrollSpy() {
+function initScrollSpy(runImmediately = true) {
     if (activeScrollListener) {
         window.removeEventListener('scroll', activeScrollListener);
         activeScrollListener = null;
@@ -125,7 +140,7 @@ function initScrollSpy() {
     if (sections.length === 0) return;
 
     const handleScroll = () => {
-        if (isScrollSpyPaused) return;
+        if (isProgrammaticScroll || isScrollSpyPaused) return;
 
         const scrollY = window.scrollY;
         const offset = 85;
@@ -144,10 +159,10 @@ function initScrollSpy() {
             if (currentSectionId === 'examples-main') {
                 const pathParts = window.location.pathname.split('/');
                 const slug = pathParts[pathParts.length - 1];
-                if (slug && slug !== 'guides') {
-                    linkToActivate = sidebar.querySelector(`a[href="/guides/${slug}"]`);
+                if (slug && slug !== 'guide') {
+                    linkToActivate = sidebar.querySelector(`a[href="/guide/${slug}"]`);
                 } else {
-                    linkToActivate = sidebar.querySelector('a[href^="/guides/"]');
+                    linkToActivate = sidebar.querySelector('a[href^="/guide/"]');
                 }
             } else {
                 linkToActivate = sidebar.querySelector(`a[href="#${currentSectionId}"]`);
@@ -162,7 +177,10 @@ function initScrollSpy() {
 
     activeScrollListener = throttle(handleScroll, 100);
     window.addEventListener('scroll', activeScrollListener);
-    handleScroll();
+
+    if (runImmediately) {
+        handleScroll();
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function () {
