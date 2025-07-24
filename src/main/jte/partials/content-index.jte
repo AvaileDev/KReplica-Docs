@@ -2,9 +2,8 @@
 @param String activeFile = "source"
 
 <div class="hero-section">
-    <h1>Evolve Your Kotlin DTOs with Confidence</h1>
-    <p>KReplica is a DTO generator that creates robust, versioned, and variant-aware data transfer objects from simple
-        Kotlin interfaces, eliminating boilerplate and ensuring compile-time safety for your APIs.</p>
+    <h1>DTO generation for Kotlin CRUD APIs</h1>
+    <p>KReplica generates Kotlin code from interfaces, with explicit control over Create, Data, and Patch variants.</p>
 </div>
 
 <h2>Get Started in 60 Seconds</h2>
@@ -20,7 +19,7 @@
 
 @if(vm.getFeatureExample() != null)
     <div class="feature-highlight">
-        <h2>Take the Interactive Tour</h2>
+        <h2>See It in Action</h2>
         <div class="feature-playground-wrapper">
             @template.tags.feature-tour(
             controls = @`
@@ -51,7 +50,7 @@
                hx-get="/guides"
                hx-target=".main-content"
                hx-push-url="/guides"
-               hx-indicator=".page-progress">Explore More Examples</a>
+               hx-indicator=".page-progress">See More in the Guides</a>
         </div>
     </div>
 @endif
