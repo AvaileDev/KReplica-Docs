@@ -87,57 +87,53 @@
 
     <section id="generated-code">
         <h2>Understanding the Generated Code</h2>
-        <p>KReplica generates a sealed interface hierarchy that contains different types of variant interfaces.</p>
+        <p>KReplica generates sealed interfaces, which allow you to leverage exhaustive <code>when</code> expressions
+            for robust and type-safe code. This ensures you handle every version and variant at compile time. The
+            generator creates two categories of interfaces for different use cases.</p>
 
-        <h3>Local vs. Global Variants</h3>
-        <p>
-            It is crucial to understand the two categories of variant interfaces that KReplica generates, as they serve
-            different purposes.
-        </p>
-        <h4>Local Variants</h4>
+        <h4>Local Variant Interfaces</h4>
         <p>
             Inside every generated schema (e.g., <code>UserAccountSchema</code>), KReplica creates nested interfaces
             like
             <code>DataVariant</code>, <code>CreateRequestVariant</code>, and <code>PatchRequestVariant</code>. These are
-            "local" because they only group together variants from within that single schema. They are perfect for when
+            "local" because they group together variants only from within that single schema. They are perfect for when
             you
             need to handle all patch requests, but only for the <code>UserAccount</code> model.
         </p>
         @template.tags.code(language="kotlin", content=@`${snippets.get("local-variants-example.kt")}`)
 
-        <h4>Global Variants</h4>
+        <h4>Global Variant Interfaces</h4>
         <p>
-            KReplica also provides top-level, generic interfaces: s<code>KReplicaDataVariant&lt;V&gt;</code>, <code>KReplicaCreateVariant&lt;V&gt;</code>,
-            and <code>KReplicaPatchVariant&lt;V&gt;</code>. These are "global" because they are not tied to any one
-            schema.
-            Their purpose is to enable powerful, generic, <strong>cross-schema patterns</strong>, as you'll see in the
-            recipes below.
+            KReplica also provides top-level, generic interfaces: <code>KReplicaDataVariant&lt;V&gt;</code>, <code>KReplicaCreateVariant&lt;V&gt;</code>,
+            and <code>KReplicaPatchVariant&lt;V&gt;</code>. These are not tied to any one schema.
+            Their purpose is to enable powerful, generic, <strong>cross-schema patterns</strong>, which are essential
+            for building reusable components like API mappers.
         </p>
     </section>
 
     <section id="patterns">
-        <h2>Advanced Patterns &amp; Recipes</h2>
+        <h2>Advanced Patterns & Recipes</h2>
+
+        <h3>Feature: Automatic Variant Nesting</h3>
+        <p>
+            When using one replicated model as a property inside another, a common need is to map the variants
+            contextually: the parent's <code>CREATE</code> variant should use the child's <code>CREATE</code> variant,
+            `DATA` should use `DATA`, and so on. Instead of configuring this manually with
+            <code>@Replicate.Property</code> for each variant, KReplica handles this for you automatically.
+        </p>
+        @template.tags.code(language="kotlin", content=@`${snippets.get("nested-model-pattern.kt")}`)
 
         <h3>Recipe: Type-Safe Generic Mappers</h3>
         <p>
-            The primary use case for Global Variants is building a generic, reusable, and type-safe mapping layer
+            A primary use case for the Global Variant interfaces is building a generic, reusable, and type-safe mapping
+            layer
             between
-            your API DTOs and your internal domain models.
-        </p>
-        <p>
-            By using the global interfaces as generic constraints, you can define a single <code>ApiSchemaMapper</code>
+            your API DTOs and your internal domain models. By using the global interfaces as generic constraints, you
+            can define a single <code>ApiSchemaMapper</code>
             that
             works for any KReplica-generated model.
         </p>
         @template.tags.code(language="kotlin", content=@`${snippets.get("mapper-pattern-example.kt")}`)
 
-        <h3>Pattern: Contextual Nested Models</h3>
-        <p>
-            When you use one replicated model as a property inside another, KReplica intelligently maps the
-            corresponding
-            variants. For example, the <code>CREATE</code> variant of a parent model will automatically use the
-            <code>CREATE</code> variant of the nested child model.
-        </p>
-        @template.tags.code(language="kotlin", content=@`${snippets.get("nested-model-pattern.kt")}`)
     </section>
 </div>

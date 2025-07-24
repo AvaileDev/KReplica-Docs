@@ -19,7 +19,7 @@
 
 @if(vm.getFeatureExample() != null)
     <div class="feature-highlight">
-        <h2>See It in Action</h2>
+        <h2>The Core Workflow</h2>
         <div class="feature-playground-wrapper">
             @template.tags.feature-tour(
             controls = @`
