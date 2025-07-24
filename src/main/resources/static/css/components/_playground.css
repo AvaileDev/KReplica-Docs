@@ -395,19 +395,20 @@
 }
 
 .sub-workflow-container .playground-tabs {
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px dashed var(--border-color);
     margin-left: -1rem;
     margin-right: -1rem;
     padding: 0 1rem;
+    margin-bottom: 1rem;
 }
 
 .sub-step-description {
     font-size: 0.95rem;
     color: var(--text-light);
     margin-top: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     padding-left: 1rem;
-    border-left: 3px solid var(--border-color);
+    border-left: 3px solid var(--secondary-color);
 }
 
 @media (min-width: 992px) {
