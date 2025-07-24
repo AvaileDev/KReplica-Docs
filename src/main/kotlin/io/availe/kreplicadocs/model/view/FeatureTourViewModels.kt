@@ -4,11 +4,19 @@ import io.availe.kreplicadocs.common.WebApp
 import io.availe.kreplicadocs.model.Example
 import org.springframework.web.util.UriComponentsBuilder
 
-data class ExampleViewModel(
-    val slug: String,
-    val sourceCode: String,
-    val featureTourParts: List<FeatureTourPartViewModel>,
-    val featureTourSteps: List<FeatureTourStepViewModel>
+data class FeatureTourSubStepViewModel(
+    val title: String,
+    val description: String,
+    val fileName: String
+)
+
+data class FeatureTourStepViewModel(
+    val title: String,
+    val description: String,
+    val part: Int,
+    val fileName: String?,
+    val endpoint: String,
+    val subSteps: List<FeatureTourSubStepViewModel> = emptyList()
 )
 
 data class FeatureTourPartViewModel(
@@ -16,41 +24,60 @@ data class FeatureTourPartViewModel(
     val steps: List<FeatureTourStepViewModel>
 )
 
-data class FeatureTourStepViewModel(
-    val title: String,
-    val description: String,
-    val part: Int,
-    val endpoint: String,
-    val fileName: String
-)
+data class ExampleViewModel(
+    val slug: String,
+    val sourceCode: String,
+    val featureTourParts: List<FeatureTourPartViewModel>,
+    val featureTourSteps: List<FeatureTourStepViewModel>,
+    private val allContent: Map<String, String>
+) {
+    fun getContent(fileName: String?): String? = fileName?.let(allContent::get)
+}
 
 fun Example.toViewModel(): ExampleViewModel {
-    val stepViewModels = this.featureTourSteps.map { step ->
-        val endpointTemplate = WebApp.Endpoints.Examples.FILE_CONTENT
-        val endpoint = UriComponentsBuilder.fromPath(endpointTemplate)
-            .buildAndExpand(mapOf("slug" to this.slug, "fileName" to step.file.value))
-            .toUriString()
+    val content = buildMap<String, String> {
+        put("source", sourceCode)
+        generatedFiles.forEach { (k, v) -> put(k, v) }
+        usageFiles.forEach { (k, v) -> put(k, v) }
+    }
+
+    val stepVMs = featureTourSteps.map { step ->
+        val endpoint = step.file?.let { file ->
+            UriComponentsBuilder.fromPath(WebApp.Endpoints.Examples.FILE_CONTENT)
+                .buildAndExpand(mapOf("slug" to slug, "fileName" to file.value))
+                .toUriString()
+        } ?: ""
+
+        val subVMs = step.subSteps.map {
+            FeatureTourSubStepViewModel(
+                title = it.title,
+                description = it.description,
+                fileName = it.file.value
+            )
+        }
 
         FeatureTourStepViewModel(
             title = step.title,
             description = step.description,
             part = step.part,
+            fileName = step.file?.value,
             endpoint = endpoint,
-            fileName = step.file.value
+            subSteps = subVMs
         )
     }
 
-    val partsViewModel = stepViewModels.groupBy { it.part }
-        .map { (partNumber, steps) ->
-            val title = this.featureTourPartTitles.getOrDefault(partNumber, "Part $partNumber")
+    val partsVM = stepVMs.groupBy { it.part }
+        .map { (part, steps) ->
+            val title = featureTourPartTitles.getOrDefault(part, "Part $part")
             FeatureTourPartViewModel(title, steps)
         }
         .sortedBy { it.steps.first().part }
 
     return ExampleViewModel(
-        slug = this.slug,
-        sourceCode = this.sourceCode,
-        featureTourParts = partsViewModel,
-        featureTourSteps = stepViewModels
+        slug = slug,
+        sourceCode = sourceCode,
+        featureTourParts = partsVM,
+        featureTourSteps = stepVMs,
+        allContent = content
     )
 }

@@ -10,19 +10,38 @@
         "title": "1. Define Interface",
         "description": "Everything starts with a simple Kotlin interface. No boilerplate or complex base classes are required.",
         "file": "source",
-        "part": 1
+        "part": 1,
+        "subSteps": []
       },
       {
         "title": "2. Generate DTOs",
         "description": "KReplica generates powerful, variant-aware DTOs, including a sealed hierarchy that enables advanced, type-safe patterns.",
         "file": "UserAccountSchema.kt",
-        "part": 1
+        "part": 2,
+        "subSteps": []
       },
       {
         "title": "3. Ensure Exhaustive Handling",
         "description": "The generated sealed hierarchy enables exhaustive `when` expressions, forcing you to handle every version and variant at compile time. This eliminates entire classes of runtime errors as your API evolves.",
-        "file": "WhenStatements.kt",
-        "part": 1
+        "file": null,
+        "part": 3,
+        "subSteps": [
+          {
+            "title": "By Specific Version",
+            "description": "By typing the function parameter as `UserAccountSchema.V1`, the compiler ensures you handle all variants *only within that version*.",
+            "file": "WhenByVersion.kt"
+          },
+          {
+            "title": "By Variant Type",
+            "description": "By using a local variant interface like `PatchRequestVariant`, you can handle all patch requests *across all versions*.",
+            "file": "WhenByVariant.kt"
+          },
+          {
+            "title": "Handle Everything",
+            "description": "Using the top-level schema interface forces the `when` expression to be fully exhaustive, guaranteeing that you handle *every possible version and variant*.",
+            "file": "WhenAll.kt"
+          }
+        ]
       }
     ]
   }

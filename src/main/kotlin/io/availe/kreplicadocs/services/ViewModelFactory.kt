@@ -14,8 +14,7 @@ class ViewModelFactory(
     fun createIndexViewModel(): IndexViewModel {
         val navLinks = provider.getNavLinks()
         val featureExample = provider.getFeatureTourExample()
-
-        val exampleViewModel = featureExample?.toViewModel()
+        val exampleViewModel: ExampleViewModel? = featureExample?.toViewModel()
         val tourOptions = exampleViewModel?.featureTourSteps?.map { step ->
             SelectOption(
                 step.endpoint,
