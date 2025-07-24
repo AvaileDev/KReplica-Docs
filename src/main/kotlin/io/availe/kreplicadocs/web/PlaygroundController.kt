@@ -3,8 +3,9 @@ package io.availe.kreplicadocs.web
 import io.availe.kreplicadocs.common.FragmentTemplate
 import io.availe.kreplicadocs.common.PartialTemplate
 import io.availe.kreplicadocs.common.WebApp
-import io.availe.kreplicadocs.services.CompilationBrokerService
+import io.availe.kreplicadocs.model.CompileRequest
 import io.availe.kreplicadocs.services.ExampleDataProvider
+import io.availe.kreplicadocs.services.SandboxService
 import io.availe.kreplicadocs.services.ViewModelFactory
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest
 import org.springframework.stereotype.Controller
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.view.FragmentsRendering
-import java.util.concurrent.TimeUnit
+import java.util.*
 import java.util.concurrent.TimeoutException
 
 data class CompileRequestForm(val source: String)
@@ -23,7 +24,7 @@ data class CompileRequestForm(val source: String)
 class PlaygroundController(
     private val viewModelFactory: ViewModelFactory,
     private val provider: ExampleDataProvider,
-    private val compilationBroker: CompilationBrokerService
+    private val sandboxService: SandboxService
 ) {
 
     @GetMapping("/playground")
@@ -54,8 +55,9 @@ class PlaygroundController(
     @PostMapping(WebApp.Endpoints.Playground.COMPILE)
     fun compile(@ModelAttribute compileRequest: CompileRequestForm, model: Model): String {
         return try {
-            val future = compilationBroker.submitJob(compileRequest.source)
-            val response = future.get(30, TimeUnit.SECONDS)
+            val jobId = UUID.randomUUID().toString()
+            val request = CompileRequest(jobId, compileRequest.source)
+            val response = sandboxService.compile(request)
 
             if (response.success) {
                 model.addAttribute("files", response.generatedFiles)
@@ -65,7 +67,7 @@ class PlaygroundController(
                 "fragments/playground-error"
             }
         } catch (e: TimeoutException) {
-            model.addAttribute("message", "Compilation timed out. The request may be too complex.")
+            model.addAttribute("message", "Compilation timed out or the server is busy. Please try again shortly.")
             "fragments/playground-error"
         } catch (e: Exception) {
             model.addAttribute("message", "An unexpected error occurred: ${e.message}")

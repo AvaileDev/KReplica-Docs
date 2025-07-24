@@ -1,3 +1,11 @@
+repositories {
+    mavenCentral()
+    maven {
+        name = "Gradle Releases"
+        url = uri("https://repo.gradle.org/gradle/libs-releases")
+    }
+}
+
 plugins {
     val kotlinVersion = "2.2.0"
     kotlin("jvm") version kotlinVersion
@@ -28,6 +36,7 @@ dependencies {
     implementation("gg.jte:jte-spring-boot-starter-3:3.2.1")
     implementation("io.github.wimdeblauwe:htmx-spring-boot:4.0.1")
     implementation("org.springframework.boot:spring-boot-starter-websocket")
+    implementation("org.gradle:gradle-tooling-api:8.14.3")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
