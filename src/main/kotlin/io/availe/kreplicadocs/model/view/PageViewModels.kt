@@ -21,7 +21,8 @@ data class GuideViewModel(
     override val navLinks: List<NavLink>,
     override val properties: AppProperties,
     override val currentPage: String,
-    val snippets: Map<CodeSnippet, String>
+    val snippets: Map<CodeSnippet, String>,
+    val guideNav: List<GuideSection>
 ) : PageViewModel
 
 data class PlaygroundViewModel(

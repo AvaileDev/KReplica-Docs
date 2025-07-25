@@ -91,7 +91,7 @@
         <p>KReplica is configured using a set of annotations. This section serves as a detailed dictionary for every
             available option.</p>
 
-        <h3>@Replicate.Model</h3>
+        <h3 id="api-ref-replicate-model">@Replicate.Model</h3>
         <p>This is the primary annotation that marks an interface for DTO generation.</p>
         <ul>
             <li><strong><code>variants: Array&lt;DtoVariant&gt;</code></strong> (Required)<br>Specifies which DTO
@@ -108,7 +108,7 @@
             </li>
         </ul>
 
-        <h3>@Replicate.Property</h3>
+        <h3 id="api-ref-replicate-property">@Replicate.Property</h3>
         <p>This annotation provides fine-grained control over individual properties, allowing you to override the
             settings from <code>@Replicate.Model</code>.</p>
         <ul>
@@ -124,7 +124,7 @@
             </li>
         </ul>
 
-        <h3>Supporting Annotations</h3>
+        <h3 id="api-ref-supporting-annotations">Supporting Annotations</h3>
         <ul>
             <li><strong><code>@Replicate.Apply(annotations: Array&lt;KClass&gt;)</code></strong>: Applies other
                 annotations (like <code>@Serializable</code>) to the generated DTOs.
@@ -142,13 +142,13 @@
         <h2>Core Patterns & Use Cases</h2>
         <p>Learn how to apply KReplica's features to solve common development challenges.</p>
 
-        <h3>Schema Versioning</h3>
+        <h3 id="patterns-schema-versioning">Schema Versioning</h3>
         <p>Your API needs to evolve without breaking existing clients. To do this safely, you can create a
             <code>V2</code> of your
             interface. KReplica will add it to the sealed hierarchy, ensuring you handle both old and new clients
             correctly at compile-time.</p>
 
-        <h3>Contextual Variant Nesting</h3>
+        <h3 id="patterns-contextual-nesting">Contextual Variant Nesting</h3>
         <p>When you have an <code>AdminAccount</code> that contains a <code>UserAccount</code>, how do you ensure the
             <code>AdminAccount.CreateRequest</code> correctly uses the <code>UserAccount.CreateRequest</code>? KReplica
             handles this
@@ -180,7 +180,7 @@
             </div>
         </div>
 
-        <h3 style="margin-top: 2rem;">Recipe: Type-Safe API Mappers</h3>
+        <h3 id="patterns-api-mappers" style="margin-top: 2rem;">Recipe: Type-Safe API Mappers</h3>
         <p>Let's use the Global Variant Interfaces to build a completely reusable bridge between your DTOs and your
             internal domain models. This pattern allows you to define one generic <code>ApiSchemaMapper</code> for your
             entire
@@ -226,7 +226,7 @@
             </div>
         </div>
 
-        <h3 style="margin-top: 2rem;">Integrating with kotlinx.serialization</h3>
+        <h3 id="patterns-kotlinx-serialization" style="margin-top: 2rem;">Integrating with kotlinx.serialization</h3>
         <p>Use <code>@Replicate.Apply([Serializable::class])</code> to make all generated DTOs serializable. For complex
             types like <code>Instant</code> or generics, KReplica's <code>autoContextual = ENABLED</code> setting will
             automatically add the
