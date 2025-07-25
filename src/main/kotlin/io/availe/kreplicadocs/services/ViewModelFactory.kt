@@ -24,7 +24,14 @@ class ViewModelFactory(
             GuideSection(id = "top", title = "Top"),
             GuideSection(id = "quick-start", title = "Quick Start"),
             GuideSection(id = "core-concept", title = "The Core Concept"),
-            GuideSection(id = "generated-code", title = "Understanding the Generated Code"),
+            GuideSection(
+                id = "generated-code",
+                title = "Understanding the Generated Code",
+                subsections = listOf(
+                    GuideSubSection(id = "generated-code-sealed", title = "Sealed Hierarchies"),
+                    GuideSubSection(id = "generated-code-variants", title = "Local vs. Global Variants")
+                )
+            ),
             GuideSection(
                 id = "api-reference",
                 title = "Configuration API Reference",
@@ -47,7 +54,15 @@ class ViewModelFactory(
                     )
                 )
             ),
-            GuideSection(id = "faq", title = "Frequently Asked Questions")
+            GuideSection(
+                id = "faq",
+                title = "Frequently Asked Questions",
+                subsections = listOf(
+                    GuideSubSection(id = "faq-property-scope", title = "Broader Property Replication?"),
+                    GuideSubSection(id = "faq-compilation-order", title = "Compilation Order"),
+                    GuideSubSection(id = "faq-private-keyword", title = "Use of `private` Keyword")
+                )
+            )
         )
 
         return GuideViewModel(

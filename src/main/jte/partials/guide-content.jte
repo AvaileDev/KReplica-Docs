@@ -33,7 +33,7 @@
         <p>The code KReplica generates is designed for maximum safety and flexibility. It's built on two key concepts
             you'll work with: sealed hierarchies and variant interfaces.</p>
 
-        <h4>Sealed Hierarchies for Bulletproof APIs</h4>
+        <h4 id="generated-code-sealed">Sealed Hierarchies for Bulletproof APIs</h4>
         <p>Tired of runtime errors because you forgot to handle a new API version? KReplica solves this with <strong>sealed
                 hierarchies</strong>. This lets you use Kotlin's exhaustive <code>when</code> expressions, forcing you
             to handle every DTO
@@ -71,7 +71,7 @@
             </div>
         </div>
 
-        <h4 style="margin-top: 2rem;">Local vs. Global Variants</h4>
+        <h4 id="generated-code-variants" style="margin-top: 2rem;">Local vs. Global Variants</h4>
         <p>KReplica generates two categories of interfaces for different use cases:</p>
         <ul>
             <li><strong>Local Variants</strong> (e.g., <code>UserAccountSchema.PatchRequestVariant</code>): Use these
@@ -235,19 +235,20 @@
 
     <section id="faq">
         <h2>Frequently Asked Questions</h2>
-        <h3>Can a <code>Replication.Property</code> have a broader replication than its <code>Replication.Model</code>?
+        <h3 id="faq-property-scope">Can a <code>Replication.Property</code> have a broader replication than its <code>Replication.Model</code>?
         </h3>
         <p>No. The replication of all properties must be a subset of the parent model’s variants. This rule ensures
             fail-fast feedback. If you restrict a parent’s replication but forget to update a child property, you’ll get
             an immediate build-time error instead of a silent failure.</p>
 
-        <h3>If a <code>Replicate.Model</code> has another <code>Replicate.Model</code> as a field, does the order of
+        <h3 id="faq-compilation-order">If a <code>Replicate.Model</code> has another <code>Replicate.Model</code> as a
+            field, does the order of
             compilation matter?</h3>
         <p>No. KReplica uses a two-pass compilation strategy. It first generates stub files for all <code>@Replicate.Model</code>
             declarations to make their types known, then performs the main compilation. This ensures that nested models
             resolve correctly regardless of file order.</p>
 
-        <h3>Why do the examples use the private keyword?</h3>
+        <h3 id="faq-private-keyword">Why do the examples use the private keyword?</h3>
         <p>The <code>private</code> keyword is not required, but it's a recommended practice. The source interfaces are
             only for
             KReplica's use; your application code will interact with the generated DTOs. Making them private prevents
