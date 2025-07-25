@@ -1,0 +1,28 @@
+@param files: Map<String, String>
+
+@if(files.isNotEmpty())
+    <div x-data="{ activeTab: '${files.keys.first()}' }">
+        <div class="playground-tabs" role="tablist">
+            @for((filename, _) in files)
+                <button role="tab"
+                        :class="activeTab === '${filename}' ? 'active' : ''"
+                        @click="activeTab = '${filename}'">
+                    ${filename}
+                </button>
+            @endfor
+        </div>
+
+        <div class="playground-content">
+            @for((filename, code) in files)
+                <div x-show="activeTab === '${filename}'" x-cloak>
+                    @template.tags.code(language="kotlin", content=@`${code}`)
+                </div>
+            @endfor
+        </div>
+    </div>
+@else
+    <div class="placeholder-text">
+        <p>Compilation successful, but no files were generated.</p>
+        <p>This can happen if no interfaces are annotated for replication.</p>
+    </div>
+@endif

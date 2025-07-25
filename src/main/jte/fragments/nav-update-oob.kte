@@ -1,4 +1,4 @@
-@param io.availe.kreplicadocs.model.view.PageViewModel vm
+@param vm: io.availe.kreplicadocs.model.view.PageViewModel
 
 <div hx-swap-oob="innerHTML:#mobile-nav-links">
     @template.fragments.nav-links(vm = vm, isMobile = true)

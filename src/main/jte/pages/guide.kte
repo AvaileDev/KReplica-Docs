@@ -1,4 +1,4 @@
-@param io.availe.kreplicadocs.model.view.GuideViewModel vm
+@param vm: io.availe.kreplicadocs.model.view.GuideViewModel
 
 @template.layout.main(
 title = "Guide | KReplica Docs",

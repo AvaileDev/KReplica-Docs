@@ -1,6 +1,6 @@
-@param gg.jte.Content content
-@param io.availe.kreplicadocs.model.view.PageViewModel vm
-@param String title = "KReplica Docs"
+@param content: gg.jte.Content
+@param vm: io.availe.kreplicadocs.model.view.PageViewModel
+@param title: String = "KReplica Docs"
 
 <!DOCTYPE html>
 <html lang="en">
@@ -65,19 +65,19 @@
         <div class="footer-content">
             <div class="footer-brand">
                 <a href="/" class="nav-logo">KReplica</a>
-                <p>&copy; ${java.time.Year.now().getValue()} KReplica Project. All rights reserved.</p>
+                <p>&copy; ${java.time.Year.now().value} KReplica Project. All rights reserved.</p>
             </div>
             <div class="footer-links">
-                <a href="${vm.getProperties().getRepoUrl()}" target="_blank" rel="noreferrer">GitHub</a>
-                <a href="${vm.getProperties().getIssuesUrl()}" target="_blank" rel="noreferrer">Report an Issue</a>
-                <a href="${vm.getProperties().getPersonalUrl()}" target="_blank" rel="noreferrer">Personal Website</a>
+                <a href="${vm.properties.repoUrl}" target="_blank" rel="noreferrer">GitHub</a>
+                <a href="${vm.properties.issuesUrl}" target="_blank" rel="noreferrer">Report an Issue</a>
+                <a href="${vm.properties.personalUrl}" target="_blank" rel="noreferrer">Personal Website</a>
             </div>
         </div>
     </footer>
 </div>
 
-@if(vm instanceof io.availe.kreplicadocs.model.view.GuideViewModel)
-    @template.tags.fab-menu(vm = (io.availe.kreplicadocs.model.view.GuideViewModel)vm)
+@if(vm is io.availe.kreplicadocs.model.view.GuideViewModel)
+    @template.tags.fab-menu(vm = vm)
 @endif
 
 <script src="https://unpkg.com/monaco-editor@0.45.0/min/vs/loader.js" defer></script>

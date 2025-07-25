@@ -1,0 +1,21 @@
+@param vm: io.availe.kreplicadocs.model.view.GuideViewModel
+
+<div id="guide-sidebar-links">
+    <h4>Guide Sections</h4>
+    <ul>
+        @for(section in vm.guideNav)
+            <li>
+                <a href="#${section.id}">${section.title}</a>
+                @if(section.subsections.isNotEmpty())
+                    <ul>
+                        @for(subsection in section.subsections)
+                            <li>
+                                <a href="#${subsection.id}">${subsection.title}</a>
+                            </li>
+                        @endfor
+                    </ul>
+                @endif
+            </li>
+        @endfor
+    </ul>
+</div>

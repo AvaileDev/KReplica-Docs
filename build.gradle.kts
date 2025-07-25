@@ -35,6 +35,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("gg.jte:jte-spring-boot-starter-3:3.2.1")
+    compileOnly("gg.jte:jte-kotlin:3.2.1")
     implementation("io.github.wimdeblauwe:htmx-spring-boot:4.0.1")
     implementation("org.springframework.boot:spring-boot-starter-websocket")
     implementation("org.gradle:gradle-tooling-api:8.14.3")

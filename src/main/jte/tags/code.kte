@@ -1,5 +1,5 @@
-@param String language
-@param gg.jte.Content content
+@param language: String
+@param content: gg.jte.Content
 
 <div class="code-block-wrapper" x-data="{ copied: false }">
     <button class="copy-code-button"

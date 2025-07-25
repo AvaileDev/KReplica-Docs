@@ -1,5 +1,5 @@
-@param gg.jte.Content controls
-@param gg.jte.Content content
+@param controls: gg.jte.Content
+@param content: gg.jte.Content
 
 <div class="examples-shell feature-playground" id="feature-playground">
     <div class="feature-playground-controls">

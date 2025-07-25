@@ -1,11 +1,11 @@
-@param io.availe.kreplicadocs.model.view.PlaygroundViewModel vm
+@param vm: io.availe.kreplicadocs.model.view.PlaygroundViewModel
 
 <div class="playground-container">
     <div class="playground-controls">
         @template.tags.custom-select(
         label = "Starter Template:",
         id = "template-select",
-        options = vm.getAvailableTemplates(),
+        options = vm.availableTemplates,
         hxGet = "/playground/templates",
         hxTarget = "#editor-source-container",
         hxPushUrl = "false",
@@ -18,9 +18,9 @@
           hx-post="/playground/compile"
           hx-target="#playground-output">
 
-        <div class="playground-editor-area" data-template-slug="${vm.getActiveTemplateSlug()}">
+        <div class="playground-editor-area" data-template-slug="${vm.activeTemplateSlug}">
             <div id="editor-source-container">
-                <textarea name="source" hidden>${vm.getInitialSourceCode()}</textarea>
+                <textarea name="source" hidden>${vm.initialSourceCode}</textarea>
             </div>
             <div id="kreplica-editor"></div>
         </div>
@@ -44,7 +44,8 @@
                     <button type="button" class="dropdown-item" @click="resetPlayground(); isOpen = false">
                         Reset All
                     </button>
-                    <button type="button" id="clear-output-btn" class="dropdown-item" @click="clearPlaygroundOutput(); isOpen = false">
+                    <button type="button" id="clear-output-btn" class="dropdown-item"
+                            @click="clearPlaygroundOutput(); isOpen = false">
                         Clear Output
                     </button>
                 </div>

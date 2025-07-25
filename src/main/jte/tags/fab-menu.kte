@@ -1,5 +1,4 @@
-@import gg.jte.support.ForSupport
-@param io.availe.kreplicadocs.model.view.GuideViewModel vm
+@param vm: io.availe.kreplicadocs.model.view.GuideViewModel
 
 <div class="fab-container"
      x-data="{ isOpen: false, openSection: null }"
@@ -11,30 +10,29 @@
     <div class="fab-menu">
         <h4 class="fab-menu-header">Guide Sections</h4>
         <ul>
-            @for (var sectionLoop : ForSupport.of(vm.getGuideNav()))
-                !{ var section = sectionLoop.get(); }
-                <li style="--stagger-delay: ${sectionLoop.getIndex() * 30}ms;">
-                    @if(section.getSubsections().isEmpty())
-                        <a href="#${section.getId()}" @click="isOpen = false">${section.getTitle()}</a>
+            @for ((index, section) in vm.guideNav.withIndex())
+                <li style="--stagger-delay: ${index * 30}ms;">
+                    @if(section.subsections.isEmpty())
+                        <a href="#${section.id}" @click="isOpen = false">${section.title}</a>
                     @else
                         <div class="fab-parent-item">
-                            <a href="#${section.getId()}" @click="isOpen = false"
-                               class="fab-parent-link">${section.getTitle()}</a>
+                            <a href="#${section.id}" @click="isOpen = false"
+                               class="fab-parent-link">${section.title}</a>
                             <button type="button" class="fab-toggle-button" aria-label="Toggle subsection"
-                                    @click="openSection = openSection === '${section.getId()}' ? null : '${section.getId()}'">
+                                    @click="openSection = openSection === '${section.id}' ? null : '${section.id}'">
                                 <svg class="fab-toggle-icon"
-                                     :class="{ 'is-open': openSection === '${section.getId()}' }"
+                                     :class="{ 'is-open': openSection === '${section.id}' }"
                                      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
                                 </svg>
                             </button>
                         </div>
-                        <ul x-show="openSection === '${section.getId()}'" class="fab-submenu"
+                        <ul x-show="openSection === '${section.id}'" class="fab-submenu"
                             x-transition.opacity.duration.200ms>
-                            @for (var subsection : section.getSubsections())
+                            @for (subsection in section.subsections)
                                 <li>
-                                    <a href="#${subsection.getId()}"
-                                       @click="isOpen = false">${subsection.getTitle()}</a>
+                                    <a href="#${subsection.id}"
+                                       @click="isOpen = false">${subsection.title}</a>
                                 </li>
                             @endfor
                         </ul>
