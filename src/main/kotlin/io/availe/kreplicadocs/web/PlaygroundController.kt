@@ -7,13 +7,9 @@ import io.availe.kreplicadocs.model.CompileRequest
 import io.availe.kreplicadocs.services.CodeSnippetProvider
 import io.availe.kreplicadocs.services.SandboxService
 import io.availe.kreplicadocs.services.ViewModelFactory
-import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.view.FragmentsRendering
 import java.util.*
 import java.util.concurrent.TimeoutException
@@ -28,21 +24,17 @@ class PlaygroundController(
 ) {
 
     @GetMapping("/playground")
-    fun playground(model: Model): String {
+    fun playground(model: Model, @RequestHeader(name = "HX-Request", required = false) hxRequest: String?): Any {
         model.addAttribute("vm", viewModelFactory.createPlaygroundViewModel())
-        return "pages/playground"
+        return if (hxRequest != null) {
+            FragmentsRendering.with(PartialTemplate.CONTENT_PLAYGROUND.path)
+                .fragment(FragmentTemplate.NAV_UPDATE_OOB.path)
+                .build()
+        } else {
+            "pages/playground"
+        }
     }
 
-    @HxRequest
-    @GetMapping("/playground")
-    fun playgroundHtmx(model: Model): FragmentsRendering {
-        model.addAttribute("vm", viewModelFactory.createPlaygroundViewModel())
-        return FragmentsRendering.with(PartialTemplate.CONTENT_PLAYGROUND.path)
-            .fragment(FragmentTemplate.NAV_UPDATE_OOB.path)
-            .build()
-    }
-
-    @HxRequest
     @GetMapping(WebApp.Endpoints.Playground.TEMPLATE_SWAP)
     fun getPlaygroundTemplate(@RequestParam("template-select") slug: String, model: Model): String {
         val sourceCode = snippetProvider.getPlaygroundTemplateSource(slug)
@@ -51,7 +43,6 @@ class PlaygroundController(
         return "fragments/playground-editor-swap"
     }
 
-    @HxRequest
     @PostMapping(WebApp.Endpoints.Playground.COMPILE)
     fun compile(@ModelAttribute compileRequest: CompileRequestForm, model: Model): String {
         return try {

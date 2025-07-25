@@ -3,7 +3,6 @@ package io.availe.kreplicadocs.services
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.availe.kreplicadocs.common.CodeSnippet
-import io.availe.kreplicadocs.model.NavLink
 import io.availe.kreplicadocs.model.PlaygroundTemplate
 import jakarta.annotation.PostConstruct
 import org.slf4j.LoggerFactory
@@ -19,11 +18,6 @@ class CodeSnippetProvider(
     private val log = LoggerFactory.getLogger(CodeSnippetProvider::class.java)
     private val snippets = mutableMapOf<CodeSnippet, String>()
     private val playgroundTemplates = mutableListOf<PlaygroundTemplate>()
-    private val navLinks = listOf(
-        NavLink("/", "index", "Home"),
-        NavLink("/playground", "playground", "Playground"),
-        NavLink("/guide", "guide", "Guide")
-    )
 
     @PostConstruct
     fun init() {
@@ -67,6 +61,4 @@ class CodeSnippetProvider(
         if (!resource.exists()) throw FileNotFoundException("Playground template not found: $slug")
         return resource.inputStream.bufferedReader().use { it.readText() }
     }
-
-    fun getNavLinks(): List<NavLink> = navLinks
 }

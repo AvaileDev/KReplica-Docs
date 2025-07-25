@@ -1,0 +1,108 @@
+{
+  "mainNav": [
+    {
+      "href": "/",
+      "pageId": "index",
+      "label": "Home"
+    },
+    {
+      "href": "/playground",
+      "pageId": "playground",
+      "label": "Playground"
+    },
+    {
+      "href": "/guide",
+      "pageId": "guide",
+      "label": "Guide"
+    }
+  ],
+  "guideNav": [
+    {
+      "id": "top",
+      "title": "Top",
+      "subsections": []
+    },
+    {
+      "id": "quick-start",
+      "title": "Quick Start",
+      "subsections": []
+    },
+    {
+      "id": "core-concept",
+      "title": "The Core Concept",
+      "subsections": []
+    },
+    {
+      "id": "generated-code",
+      "title": "Understanding the Generated Code",
+      "subsections": [
+        {
+          "id": "generated-code-sealed",
+          "title": "Sealed Hierarchies"
+        },
+        {
+          "id": "generated-code-variants",
+          "title": "Local vs. Global Variants"
+        }
+      ]
+    },
+    {
+      "id": "api-reference",
+      "title": "Configuration API Reference",
+      "subsections": [
+        {
+          "id": "api-ref-replicate-model",
+          "title": "@Replicate.Model"
+        },
+        {
+          "id": "api-ref-replicate-property",
+          "title": "@Replicate.Property"
+        },
+        {
+          "id": "api-ref-supporting-annotations",
+          "title": "Supporting Annotations"
+        }
+      ]
+    },
+    {
+      "id": "patterns",
+      "title": "Core Patterns & Use Cases",
+      "subsections": [
+        {
+          "id": "patterns-schema-versioning",
+          "title": "Schema Versioning"
+        },
+        {
+          "id": "patterns-contextual-nesting",
+          "title": "Contextual Variant Nesting"
+        },
+        {
+          "id": "patterns-api-mappers",
+          "title": "Recipe: Type-Safe API Mappers"
+        },
+        {
+          "id": "patterns-kotlinx-serialization",
+          "title": "Integrating with kotlinx.serialization"
+        }
+      ]
+    },
+    {
+      "id": "faq",
+      "title": "Frequently Asked Questions",
+      "subsections": [
+        {
+          "id": "faq-property-scope",
+          "title": "Broader Property Replication?"
+        },
+        {
+          "id": "faq-compilation-order",
+          "title": "Compilation Order"
+        },
+        {
+          "id": "faq-private-keyword",
+          "title": "Use of `private` Keyword"
+        }
+      ]
+    }
+  ]
+}
