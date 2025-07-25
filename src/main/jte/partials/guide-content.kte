@@ -41,34 +41,11 @@
             runtime surprises.
         </p>
 
-        <div class="workflow-container" x-data="{ activeTab: 'all' }">
-            <div class="workflow-tabs" role="tablist">
-                <button role="tab" :class="{ 'active': activeTab === 'all' }" @click="activeTab = 'all'">Handle
-                    Everything
-                </button>
-                <button role="tab" :class="{ 'active': activeTab === 'version' }" @click="activeTab = 'version'">Handle
-                    by Version
-                </button>
-                <button role="tab" :class="{ 'active': activeTab === 'variant' }" @click="activeTab = 'variant'">Handle
-                    by Variant
-                </button>
-            </div>
-            <div class="workflow-content" x-show="activeTab === 'all'" x-cloak>
-                <p>By using the top-level schema interface, your <code>when</code> expression must exhaustively handle
-                    every version and variant.</p>
-                @template.tags.code(language="kotlin", content=@`${snippets[io.availe.kreplicadocs.common.CodeSnippet.WHEN_EXPRESSION_ALL]}`)
-            </div>
-            <div class="workflow-content" x-show="activeTab === 'version'" x-cloak>
-                <p>By typing a parameter as a specific version (e.g., <code>UserAccountSchema.V2</code>), the compiler
-                    ensures you handle all variants within that version only.</p>
-                @template.tags.code(language="kotlin", content=@`${snippets[io.availe.kreplicadocs.common.CodeSnippet.WHEN_EXPRESSION_BY_VERSION]}`)
-            </div>
-            <div class="workflow-content" x-show="activeTab === 'variant'" x-cloak>
-                <p>By using a local variant interface (e.g., <code>UserAccountSchema.DataVariant</code>), you can handle
-                    all DTOs of a specific kind, across all versions.</p>
-                @template.tags.code(language="kotlin", content=@`${snippets[io.availe.kreplicadocs.common.CodeSnippet.WHEN_EXPRESSION_BY_VARIANT]}`)
-            </div>
-        </div>
+        @template.tags.when-tabs(
+        allSnippet = snippets[io.availe.kreplicadocs.common.CodeSnippet.WHEN_EXPRESSION_ALL],
+        byVersionSnippet = snippets[io.availe.kreplicadocs.common.CodeSnippet.WHEN_EXPRESSION_BY_VERSION],
+        byVariantSnippet = snippets[io.availe.kreplicadocs.common.CodeSnippet.WHEN_EXPRESSION_BY_VARIANT]
+        )
 
         <h4 id="generated-code-variants" style="margin-top: 2rem;">Local vs. Global Variants</h4>
         <p>KReplica generates two categories of interfaces for different use cases:</p>

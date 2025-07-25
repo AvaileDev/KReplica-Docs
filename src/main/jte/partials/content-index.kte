@@ -17,33 +17,11 @@
     <p>KReplica uses sealed hierarchies to enable exhaustive <code>when</code> expressions. If you add a new API
         version, your code won't compile until you handle it—no more runtime surprises.</p>
 
-    <div class="workflow-container" x-data="{ activeTab: 'all' }">
-        <div class="workflow-tabs" role="tablist">
-            <button role="tab" :class="{ 'active': activeTab === 'all' }" @click="activeTab = 'all'">Handle Everything
-            </button>
-            <button role="tab" :class="{ 'active': activeTab === 'version' }" @click="activeTab = 'version'">Handle by
-                Version
-            </button>
-            <button role="tab" :class="{ 'active': activeTab === 'variant' }" @click="activeTab = 'variant'">Handle by
-                Variant
-            </button>
-        </div>
-        <div class="workflow-content" x-show="activeTab === 'all'" x-cloak>
-            <p>By using the top-level schema interface, your <code>when</code> expression must exhaustively handle every
-                version and variant.</p>
-            @template.tags.code(language="kotlin", content=@`${vm.snippets[CodeSnippet.WHEN_EXPRESSION_ALL]}`)
-        </div>
-        <div class="workflow-content" x-show="activeTab === 'version'" x-cloak>
-            <p>By typing a parameter as a specific version (e.g., <code>UserAccountSchema.V2</code>), the compiler
-                ensures you handle all variants within that version only.</p>
-            @template.tags.code(language="kotlin", content=@`${vm.snippets[CodeSnippet.WHEN_EXPRESSION_BY_VERSION]}`)
-        </div>
-        <div class="workflow-content" x-show="activeTab === 'variant'" x-cloak>
-            <p>By using a local variant interface (e.g., <code>UserAccountSchema.DataVariant</code>), you can handle all
-                DTOs of a specific kind, across all versions.</p>
-            @template.tags.code(language="kotlin", content=@`${vm.snippets[CodeSnippet.WHEN_EXPRESSION_BY_VARIANT]}`)
-        </div>
-    </div>
+    @template.tags.when-tabs(
+    allSnippet = vm.snippets[CodeSnippet.WHEN_EXPRESSION_ALL],
+    byVersionSnippet = vm.snippets[CodeSnippet.WHEN_EXPRESSION_BY_VERSION],
+    byVariantSnippet = vm.snippets[CodeSnippet.WHEN_EXPRESSION_BY_VARIANT]
+    )
 
     <div class="tour-cta">
         <a href="/guide"
