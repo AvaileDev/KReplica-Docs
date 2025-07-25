@@ -78,6 +78,7 @@
     transform: translateY(15px);
     transition: opacity .3s ease, transform .3s ease;
     transition-delay: var(--stagger-delay, 0ms);
+    margin: 0;
 }
 
 .fab-menu a {
@@ -99,6 +100,43 @@
     background: var(--secondary-color);
     color: #fff;
     font-weight: 600;
+}
+
+.fab-parent-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.fab-parent-link {
+    flex-grow: 1;
+}
+
+.fab-toggle-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fab-toggle-icon {
+    width: 20px;
+    height: 20px;
+    fill: var(--text-light);
+    transition: transform 0.2s ease-in-out;
+}
+
+.fab-toggle-icon.is-open {
+    transform: rotate(180deg);
+}
+
+.fab-submenu {
+    padding: 4px 0 4px 20px;
+    margin: 0;
 }
 
 .fab-container.is-open .fab-button {

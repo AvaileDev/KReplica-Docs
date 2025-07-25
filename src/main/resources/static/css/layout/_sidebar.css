@@ -49,11 +49,6 @@
     font-weight: 600;
 }
 
-.examples-sidebar ul ul a.active {
-    background: transparent;
-    color: var(--secondary-color);
-}
-
 .examples-section-inactive ul:last-of-type a.active {
     background: transparent;
     color: var(--text-color);

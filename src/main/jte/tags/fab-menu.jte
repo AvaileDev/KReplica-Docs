@@ -1,7 +1,8 @@
+@import gg.jte.support.ForSupport
 @param io.availe.kreplicadocs.model.view.GuideViewModel vm
 
 <div class="fab-container"
-     x-data="{ isOpen: false }"
+     x-data="{ isOpen: false, openSection: null }"
      :class="{ 'is-open': isOpen }"
      @keydown.escape.window="isOpen = false"
      @click.outside="isOpen = false"
@@ -10,13 +11,36 @@
     <div class="fab-menu">
         <h4 class="fab-menu-header">Guide Sections</h4>
         <ul>
-            <li style="--stagger-delay: 0ms;"><a href="#top" @click="isOpen = false">Top</a></li>
-            <li style="--stagger-delay: 30ms;"><a href="#quick-start" @click="isOpen = false">Quick Start</a></li>
-            <li style="--stagger-delay: 60ms;"><a href="#core-concept" @click="isOpen = false">Core Concept</a></li>
-            <li style="--stagger-delay: 90ms;"><a href="#generated-code" @click="isOpen = false">Generated Code</a></li>
-            <li style="--stagger-delay: 120ms;"><a href="#api-reference" @click="isOpen = false">API Reference</a></li>
-            <li style="--stagger-delay: 150ms;"><a href="#patterns" @click="isOpen = false">Core Patterns</a></li>
-            <li style="--stagger-delay: 180ms;"><a href="#faq" @click="isOpen = false">FAQ</a></li>
+            @for (var sectionLoop : ForSupport.of(vm.getGuideNav()))
+                !{ var section = sectionLoop.get(); }
+                <li style="--stagger-delay: ${sectionLoop.getIndex() * 30}ms;">
+                    @if(section.getSubsections().isEmpty())
+                        <a href="#${section.getId()}" @click="isOpen = false">${section.getTitle()}</a>
+                    @else
+                        <div class="fab-parent-item">
+                            <a href="#${section.getId()}" @click="isOpen = false"
+                               class="fab-parent-link">${section.getTitle()}</a>
+                            <button type="button" class="fab-toggle-button" aria-label="Toggle subsection"
+                                    @click="openSection = openSection === '${section.getId()}' ? null : '${section.getId()}'">
+                                <svg class="fab-toggle-icon"
+                                     :class="{ 'is-open': openSection === '${section.getId()}' }"
+                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                    <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <ul x-show="openSection === '${section.getId()}'" class="fab-submenu"
+                            x-transition.opacity.duration.200ms>
+                            @for (var subsection : section.getSubsections())
+                                <li>
+                                    <a href="#${subsection.getId()}"
+                                       @click="isOpen = false">${subsection.getTitle()}</a>
+                                </li>
+                            @endfor
+                        </ul>
+                    @endif
+                </li>
+            @endfor
         </ul>
     </div>
 
@@ -24,11 +48,6 @@
             class="fab-button"
             @click="isOpen = !isOpen"
             aria-label="Toggle Table of Contents">
-        <svg class="fab-icon-menu" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path>
-        </svg>
-        <svg class="fab-icon-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path>
-        </svg>
+        ...
     </button>
 </div>

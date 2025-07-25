@@ -80,14 +80,37 @@ function throttle(func, limit) {
     };
 }
 
-function setActiveSidebarLink(sidebar, targetLink) {
-    if (!sidebar || !targetLink) return;
-    const currentActive = sidebar.querySelector('a.active');
-    if (currentActive === targetLink) return;
+function updateActiveNav(targetId) {
+    const navContainers = document.querySelectorAll('#guide-sidebar-links, .fab-menu');
+    if (!navContainers.length) return;
 
-    const allLinks = sidebar.querySelectorAll('a');
-    allLinks.forEach(link => link.classList.remove('active'));
-    targetLink.classList.add('active');
+    navContainers.forEach(container => {
+        container.querySelectorAll('a.active').forEach(link => link.classList.remove('active'));
+    });
+
+    if (!targetId) {
+        targetId = "top";
+    }
+    ;
+
+    const targetLinks = document.querySelectorAll(`#guide-sidebar-links a[href="#${targetId}"], .fab-menu a[href="#${targetId}"]`);
+
+    targetLinks.forEach(link => {
+        link.classList.add('active');
+
+        const fabSubmenu = link.closest('.fab-submenu');
+        if (fabSubmenu) {
+            const fabContainer = fabSubmenu.closest('.fab-container');
+            const parentLi = fabSubmenu.closest('li');
+            if (fabContainer && parentLi && fabContainer.__x) {
+                const parentLink = parentLi.querySelector('.fab-parent-link');
+                if (parentLink) {
+                    const parentId = parentLink.getAttribute('href').substring(1);
+                    fabContainer.__x.getUnwrappedData().openSection = parentId;
+                }
+            }
+        }
+    });
 }
 
 function initScrollSpy(runImmediately = true) {
@@ -102,27 +125,21 @@ function initScrollSpy(runImmediately = true) {
     sidebar.addEventListener('click', function (e) {
         const anchorLink = e.target.closest('a[href^="#"]');
         if (anchorLink) {
+            const id = anchorLink.getAttribute('href');
             try {
-                const id = anchorLink.getAttribute('href');
                 const targetSection = document.querySelector(id);
                 applyHighlight(targetSection);
+                updateActiveNav(id.substring(1));
             } catch (err) {
                 console.error("Could not highlight section:", err);
             }
-        }
-
-        const target = e.target.closest('a');
-        if (target) {
-            setActiveSidebarLink(sidebar, target);
 
             isScrollSpyPaused = true;
             clearTimeout(scrollSpyTimeoutId);
-
             const unpauseSpy = () => {
                 isScrollSpyPaused = false;
                 window.removeEventListener('scroll', unpauseSpy);
             };
-
             window.addEventListener('scroll', unpauseSpy, {once: true});
             scrollSpyTimeoutId = setTimeout(unpauseSpy, 1000);
         }
@@ -154,24 +171,16 @@ function initScrollSpy(runImmediately = true) {
             }
         }
 
-        if (currentSectionId) {
-            let linkToActivate;
-            if (currentSectionId === 'examples-main') {
-                const pathParts = window.location.pathname.split('/');
-                const slug = pathParts[pathParts.length - 1];
-                if (slug && slug !== 'guide') {
-                    linkToActivate = sidebar.querySelector(`a[href="/guide/${slug}"]`);
-                } else {
-                    linkToActivate = sidebar.querySelector('a[href^="/guide/"]');
-                }
-            } else {
-                linkToActivate = sidebar.querySelector(`a[href="#${currentSectionId}"]`);
+        updateActiveNav(currentSectionId);
+
+        if (sidebar && sidebar.scrollHeight > sidebar.clientHeight) {
+            const activeLinkInSidebar = sidebar.querySelector('a.active');
+            if (activeLinkInSidebar) {
+                activeLinkInSidebar.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest'
+                });
             }
-            if (linkToActivate) {
-                setActiveSidebarLink(sidebar, linkToActivate);
-            }
-        } else {
-            setActiveSidebarLink(sidebar, sidebar.querySelector('a[href="#top"]'));
         }
     };
 
