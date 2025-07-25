@@ -1,4 +1,3 @@
-@import gg.jte.support.ForSupport
 @param io.availe.kreplicadocs.model.view.GuideViewModel vm
 
 <div class="fab-container"
@@ -11,24 +10,13 @@
     <div class="fab-menu">
         <h4 class="fab-menu-header">Guide Sections</h4>
         <ul>
-            @for(var entryLoop : ForSupport.of(vm.getGuideTocItems().entrySet()))
-                <li style="--stagger-delay: ${entryLoop.getIndex() * 30}ms;">
-                    @if(entryLoop.get().getKey().getSlug() == null)
-                        <a href="${entryLoop.get().getKey().getHref()}"
-                           @click="isOpen = false">${entryLoop.get().getKey().getName()}</a>
-                    @else
-                        <a href="${entryLoop.get().getKey().getHref()}"
-                           class="${entryLoop.get().getKey().getSlug().equals(vm.getActiveSlug()) ? "active" : ""}"
-                           hx-get="${entryLoop.get().getKey().getHref()}"
-                           hx-target=".main-content"
-                           hx-push-url="true"
-                           hx-indicator=".page-progress"
-                           @click="isOpen = false">
-                            ${entryLoop.get().getKey().getName()}
-                        </a>
-                    @endif
-                </li>
-            @endfor
+            <li style="--stagger-delay: 0ms;"><a href="#top" @click="isOpen = false">Top</a></li>
+            <li style="--stagger-delay: 30ms;"><a href="#quick-start" @click="isOpen = false">Quick Start</a></li>
+            <li style="--stagger-delay: 60ms;"><a href="#core-concept" @click="isOpen = false">Core Concept</a></li>
+            <li style="--stagger-delay: 90ms;"><a href="#generated-code" @click="isOpen = false">Generated Code</a></li>
+            <li style="--stagger-delay: 120ms;"><a href="#api-reference" @click="isOpen = false">API Reference</a></li>
+            <li style="--stagger-delay: 150ms;"><a href="#patterns" @click="isOpen = false">Core Patterns</a></li>
+            <li style="--stagger-delay: 180ms;"><a href="#faq" @click="isOpen = false">FAQ</a></li>
         </ul>
     </div>
 

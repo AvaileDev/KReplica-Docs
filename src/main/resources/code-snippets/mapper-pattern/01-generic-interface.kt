@@ -1,5 +1,7 @@
-// This generic interface is defined once in your application.
-// It uses Global Variants as type constraints.
+import io.availe.models.KReplicaCreateVariant
+import io.availe.models.KReplicaDataVariant
+import io.availe.models.KReplicaPatchVariant
+
 interface ApiSchemaMapper<
         M,
         ID,

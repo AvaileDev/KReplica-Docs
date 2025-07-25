@@ -33,6 +33,10 @@
     flex-direction: column;
 }
 
+.guide-content section + section {
+    margin-top: 2.5rem;
+}
+
 .examples-container {
     display: grid;
     grid-template-columns: 1fr;

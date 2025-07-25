@@ -1,4 +1,5 @@
-@param java.util.Map<String, String> snippets
+@import io.availe.kreplicadocs.common.CodeSnippet
+@param java.util.Map<CodeSnippet, String> snippets
 
 <div class="guide-content">
     <section id="top">
@@ -13,7 +14,7 @@
         <h2>Quick Start</h2>
         <p>Add the KSP and KReplica plugins to your module's <code>build.gradle.kts</code> file to start generating DTOs
             automatically.</p>
-        @template.tags.code(language = "kotlin", content = @`${snippets.get("quickstart-build.kts")}`)
+        @template.tags.code(language = "kotlin", content = @`${snippets.get(CodeSnippet.QUICKSTART_BUILD)}`)
     </section>
 
     <section id="core-concept">
@@ -21,7 +22,7 @@
         <p>Instead of writing and maintaining boilerplate data classes for Create, Read, and Update operations, you
             define your data contract <strong>once</strong> in a simple Kotlin interface. KReplica takes it from there.
         </p>
-        @template.tags.code(language="kotlin", content=@`${snippets.get("property-example.kt")}`)
+        @template.tags.code(language="kotlin", content=@`${snippets.get(CodeSnippet.PROPERTY_EXAMPLE)}`)
         <p>This simple definition instructs KReplica to generate a sealed hierarchy containing <code>Data</code>, <code>CreateRequest</code>,
             and <code>PatchRequest</code> classes, with the <code>id</code> property correctly excluded from the <code>CreateRequest</code>.
         </p>
@@ -56,17 +57,17 @@
             <div class="workflow-content" x-show="activeTab === 'all'" x-cloak>
                 <p>By using the top-level schema interface, your <code>when</code> expression must exhaustively handle
                     every version and variant.</p>
-                @template.tags.code(language="kotlin", content=@`${snippets.get("when-expression-all.kt")}`)
+                @template.tags.code(language="kotlin", content=@`${snippets.get(CodeSnippet.WHEN_EXPRESSION_ALL)}`)
             </div>
             <div class="workflow-content" x-show="activeTab === 'version'" x-cloak>
                 <p>By typing a parameter as a specific version (e.g., <code>UserAccountSchema.V2</code>), the compiler
                     ensures you handle all variants within that version only.</p>
-                @template.tags.code(language="kotlin", content=@`${snippets.get("when-expression-by-version.kt")}`)
+                @template.tags.code(language="kotlin", content=@`${snippets.get(CodeSnippet.WHEN_EXPRESSION_BY_VERSION)}`)
             </div>
             <div class="workflow-content" x-show="activeTab === 'variant'" x-cloak>
                 <p>By using a local variant interface (e.g., <code>UserAccountSchema.DataVariant</code>), you can handle
                     all DTOs of a specific kind, across all versions.</p>
-                @template.tags.code(language="kotlin", content=@`${snippets.get("when-expression-by-variant.kt")}`)
+                @template.tags.code(language="kotlin", content=@`${snippets.get(CodeSnippet.WHEN_EXPRESSION_BY_VARIANT)}`)
             </div>
         </div>
 
@@ -142,13 +143,15 @@
         <p>Learn how to apply KReplica's features to solve common development challenges.</p>
 
         <h3>Schema Versioning</h3>
-        <p>Your API needs to evolve without breaking existing clients. To do this safely, you can create a `V2` of your
+        <p>Your API needs to evolve without breaking existing clients. To do this safely, you can create a
+            <code>V2</code> of your
             interface. KReplica will add it to the sealed hierarchy, ensuring you handle both old and new clients
             correctly at compile-time.</p>
 
         <h3>Contextual Variant Nesting</h3>
-        <p>When you have an `AdminAccount` that contains a `UserAccount`, how do you ensure the
-            `AdminAccount.CreateRequest` correctly uses the `UserAccount.CreateRequest`? KReplica handles this
+        <p>When you have an <code>AdminAccount</code> that contains a <code>UserAccount</code>, how do you ensure the
+            <code>AdminAccount.CreateRequest</code> correctly uses the <code>UserAccount.CreateRequest</code>? KReplica
+            handles this
             automatically.
         </p>
         <div class="workflow-container" x-data="{ activeTab: 'auto' }">
@@ -161,22 +164,26 @@
                 </button>
             </div>
             <div class="workflow-content" x-show="activeTab === 'auto'" x-cloak>
-                <p>Let KReplica handle the complexity. Simply nest the base interface of the child model (`V1`).
-                    KReplica automatically ensures that the `Create` variant of the parent uses the `Create` variant of
+                <p>Let KReplica handle the complexity. Simply nest the base interface of the child model
+                    (<code>V1</code>).
+                    KReplica automatically ensures that the <code>Create</code> variant of the parent uses the <code>Create</code>
+                    variant of
                     the child, and so on.</p>
-                @template.tags.code(language="kotlin", content=@`${snippets.get("nested-model-pattern.kt")}`)
+                @template.tags.code(language="kotlin", content=@`${snippets.get(CodeSnippet.NESTING_AUTOMATIC)}`)
             </div>
             <div class="workflow-content" x-show="activeTab === 'manual'" x-cloak>
                 <p>To appreciate the automatic approach, here is how you would have to do it manually. Notice how you
-                    need to explicitly reference generated types and use `@Replicate.Property` to wire up each variant.
+                    need to explicitly reference generated types and use <code>@Replicate.Property</code> to wire up
+                    each variant.
                     This is verbose and error-prone.</p>
-                @template.tags.code(language="kotlin", content=@`${snippets.get("nested-model-manual-pattern.kt")}`)
+                @template.tags.code(language="kotlin", content=@`${snippets.get(CodeSnippet.NESTING_MANUAL)}`)
             </div>
         </div>
 
         <h3 style="margin-top: 2rem;">Recipe: Type-Safe API Mappers</h3>
         <p>Let's use the Global Variant Interfaces to build a completely reusable bridge between your DTOs and your
-            internal domain models. This pattern allows you to define one generic `ApiSchemaMapper` for your entire
+            internal domain models. This pattern allows you to define one generic <code>ApiSchemaMapper</code> for your
+            entire
             application, ensuring compile-time safety when converting between layers.</p>
         <div class="workflow-container" x-data="{ activeTab: 'pattern' }">
             <div class="workflow-tabs" role="tablist">
@@ -198,51 +205,55 @@
                         Interfaces</strong>
                     (e.g., <code>KReplicaDataVariant</code>) as generic constraints, making it compatible with any model
                     KReplica generates.</p>
-                @template.tags.code(language="kotlin", content=@`${snippets.get("mapper-pattern-example.kt")}`)
+                @template.tags.code(language="kotlin", content=@`${snippets.get(CodeSnippet.MAPPER_PATTERN_INTERFACE)}`)
             </div>
             <div class="workflow-content" x-show="activeTab === 'domain'" x-cloak>
                 <p>This is your internal domain model. It contains business logic, validation, and is completely
                     decoupled from the API layer.</p>
-                @template.tags.code(language="kotlin", content=@`${snippets.get("mapper-pattern-domain-model.kt")}`)
+                @template.tags.code(language="kotlin", content=@`${snippets.get(CodeSnippet.MAPPER_PATTERN_DOMAIN_MODEL)}`)
             </div>
             <div class="workflow-content" x-show="activeTab === 'interface'" x-cloak>
                 <p>This is the simple KReplica interface you write. It defines the data contract for the <code>UserAccount</code>.
                 </p>
-                @template.tags.code(language="kotlin", content=@`${snippets.get("mapper-pattern-kreplica-interface.kt")}`)
+                @template.tags.code(language="kotlin", content=@`${snippets.get(CodeSnippet.MAPPER_PATTERN_KREPLICA_INTERFACE)}`)
             </div>
             <div class="workflow-content" x-show="activeTab === 'mapper'" x-cloak>
                 <p>Finally, implement the generic mapper for your specific model. The Kotlin compiler, guided by the
                     generic constraints,
                     ensures you correctly map between the domain model and the specific DTO variants (<code>Data</code>,
                     <code>CreateRequest</code>, <code>PatchRequest</code>).</p>
-                @template.tags.code(language="kotlin", content=@`${snippets.get("mapper-pattern-implementation.kt")}`)
+                @template.tags.code(language="kotlin", content=@`${snippets.get(CodeSnippet.MAPPER_PATTERN_IMPLEMENTATION)}`)
             </div>
         </div>
 
         <h3 style="margin-top: 2rem;">Integrating with kotlinx.serialization</h3>
         <p>Use <code>@Replicate.Apply([Serializable::class])</code> to make all generated DTOs serializable. For complex
-            types like `Instant` or generics, KReplica's <code>autoContextual = ENABLED</code> setting will
+            types like <code>Instant</code> or generics, KReplica's <code>autoContextual = ENABLED</code> setting will
             automatically add the
             <code>@Contextual</code> annotation where needed, preventing common serialization errors.</p>
     </section>
 
     <section id="faq">
         <h2>Frequently Asked Questions</h2>
-        <h3>Can a `Replication.Property` have a broader replication than its `Replication.Model`?</h3>
+        <h3>Can a <code>Replication.Property</code> have a broader replication than its <code>Replication.Model</code>?
+        </h3>
         <p>No. The replication of all properties must be a subset of the parent model’s variants. This rule ensures
             fail-fast feedback. If you restrict a parent’s replication but forget to update a child property, you’ll get
             an immediate build-time error instead of a silent failure.</p>
 
-        <h3>If a `Replicate.Model` has another `Replicate.Model` as a field, does the order of compilation matter?</h3>
-        <p>No. KReplica uses a two-pass compilation strategy. It first generates stub files for all `@Replicate.Model`
+        <h3>If a <code>Replicate.Model</code> has another <code>Replicate.Model</code> as a field, does the order of
+            compilation matter?</h3>
+        <p>No. KReplica uses a two-pass compilation strategy. It first generates stub files for all <code>@Replicate.Model</code>
             declarations to make their types known, then performs the main compilation. This ensures that nested models
             resolve correctly regardless of file order.</p>
 
         <h3>Why do the examples use the private keyword?</h3>
-        <p>The `private` keyword is not required, but it's a recommended practice. The source interfaces are only for
+        <p>The <code>private</code> keyword is not required, but it's a recommended practice. The source interfaces are
+            only for
             KReplica's use; your application code will interact with the generated DTOs. Making them private prevents
             them from polluting the global namespace. This is especially useful for versioned schemas, as it allows you
-            to nest versions (e.g., `private interface V1 : UserAccount`) inside a parent scope, avoiding naming
+            to nest versions (e.g., <code>private interface V1 : UserAccount</code>) inside a parent scope, avoiding
+            naming
             collisions.</p>
     </section>
 </div>

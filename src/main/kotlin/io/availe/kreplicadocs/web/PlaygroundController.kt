@@ -4,7 +4,7 @@ import io.availe.kreplicadocs.common.FragmentTemplate
 import io.availe.kreplicadocs.common.PartialTemplate
 import io.availe.kreplicadocs.common.WebApp
 import io.availe.kreplicadocs.model.CompileRequest
-import io.availe.kreplicadocs.services.ExampleDataProvider
+import io.availe.kreplicadocs.services.CodeSnippetProvider
 import io.availe.kreplicadocs.services.SandboxService
 import io.availe.kreplicadocs.services.ViewModelFactory
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HxRequest
@@ -23,7 +23,7 @@ data class CompileRequestForm(val source: String)
 @Controller
 class PlaygroundController(
     private val viewModelFactory: ViewModelFactory,
-    private val provider: ExampleDataProvider,
+    private val snippetProvider: CodeSnippetProvider,
     private val sandboxService: SandboxService
 ) {
 
@@ -45,7 +45,7 @@ class PlaygroundController(
     @HxRequest
     @GetMapping(WebApp.Endpoints.Playground.TEMPLATE_SWAP)
     fun getPlaygroundTemplate(@RequestParam("template-select") slug: String, model: Model): String {
-        val sourceCode = provider.getPlaygroundTemplateSource(slug)
+        val sourceCode = snippetProvider.getPlaygroundTemplateSource(slug)
         model.addAttribute("code", sourceCode)
         model.addAttribute("slug", slug)
         return "fragments/playground-editor-swap"

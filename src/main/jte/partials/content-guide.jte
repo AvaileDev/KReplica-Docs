@@ -5,18 +5,6 @@
         @template.fragments.guide-sidebar(vm = vm)
     </aside>
     <div class="guide-main-content">
-        @template.partials.guide-content(snippets = vm.getGuideSnippets())
-
-        <div id="examples-main" class="section-divider">
-            <h2>Interactive Examples</h2>
-            <p>Select an example from the sidebar to see it in action and explore the generated code.</p>
-            @if (vm.getExample() != null)
-                @template.fragments.example-playground(example = vm.getExample(), activeFile = "source")
-            @else
-                <div class="placeholder-text">
-                    <p>Select an example to get started.</p>
-                </div>
-            @endif
-        </div>
+        @template.partials.guide-content(snippets = vm.getSnippets())
     </div>
 </div>

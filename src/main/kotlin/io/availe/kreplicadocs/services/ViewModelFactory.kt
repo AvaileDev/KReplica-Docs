@@ -1,74 +1,42 @@
 package io.availe.kreplicadocs.services
 
 import io.availe.kreplicadocs.config.AppProperties
-import io.availe.kreplicadocs.model.ExampleSlug
-import io.availe.kreplicadocs.model.view.*
+import io.availe.kreplicadocs.model.view.GuideViewModel
+import io.availe.kreplicadocs.model.view.IndexViewModel
+import io.availe.kreplicadocs.model.view.PlaygroundViewModel
+import io.availe.kreplicadocs.model.view.SelectOption
 import org.springframework.stereotype.Service
 
 @Service
 class ViewModelFactory(
-    private val provider: ExampleDataProvider,
+    private val snippetProvider: CodeSnippetProvider,
     private val appProperties: AppProperties,
 ) {
 
     fun createIndexViewModel(): IndexViewModel {
-        val navLinks = provider.getNavLinks()
-        val featureExample = provider.getFeatureTourExample()
-        val exampleViewModel: ExampleViewModel? = featureExample?.toViewModel()
-        val tourOptions = exampleViewModel?.featureTourSteps?.map { step ->
-            SelectOption(
-                step.endpoint,
-                step.title,
-                step.fileName == "source"
-            )
-        } ?: emptyList()
-        val quickStartSnippet = provider.getGuideSnippets()["quickstart-build.kts"]
-            ?: "Error: Snippet not found."
-
         return IndexViewModel(
-            navLinks = navLinks,
+            navLinks = snippetProvider.getNavLinks(),
             properties = appProperties,
             currentPage = "index",
-            featureExample = exampleViewModel,
-            tourSelectOptions = tourOptions,
-            quickStartSnippet = quickStartSnippet
+            snippets = snippetProvider.getSnippets()
         )
     }
 
-    fun createGuideViewModel(activeSlug: ExampleSlug? = null): GuideViewModel {
-        val allExamples = provider.getAllExamples()
-        val effectiveSlug = activeSlug ?: allExamples.firstOrNull()?.let { ExampleSlug(it.slug) }
-
-        val activeExample = effectiveSlug?.let { slug ->
-            allExamples.find { it.slug == slug.value }
-        }
-
-        val exampleOptions = allExamples.map {
-            SelectOption(
-                value = it.slug,
-                label = it.name,
-                selected = it.slug == activeExample?.slug
-            )
-        }
-
+    fun createGuideViewModel(): GuideViewModel {
         return GuideViewModel(
-            navLinks = provider.getNavLinks(),
+            navLinks = snippetProvider.getNavLinks(),
             properties = appProperties,
             currentPage = "guide",
-            allExamples = provider.getAllExamples(),
-            guideSnippets = provider.getGuideSnippets(),
-            example = activeExample,
-            activeSlug = activeExample?.slug,
-            exampleSelectOptions = exampleOptions
+            snippets = snippetProvider.getSnippets()
         )
     }
 
     fun createPlaygroundViewModel(): PlaygroundViewModel {
-        val templates = provider.getPlaygroundTemplates()
+        val templates = snippetProvider.getPlaygroundTemplates()
         val activeTemplate = templates.firstOrNull()
             ?: throw IllegalStateException("No playground templates found")
 
-        val initialSource = provider.getPlaygroundTemplateSource(activeTemplate.slug)
+        val initialSource = snippetProvider.getPlaygroundTemplateSource(activeTemplate.slug)
         val templateOptions = templates.map {
             SelectOption(
                 value = it.slug,
@@ -78,7 +46,7 @@ class ViewModelFactory(
         }
 
         return PlaygroundViewModel(
-            navLinks = provider.getNavLinks(),
+            navLinks = snippetProvider.getNavLinks(),
             properties = appProperties,
             currentPage = "playground",
             availableTemplates = templateOptions,
