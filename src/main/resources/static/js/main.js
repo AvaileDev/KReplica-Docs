@@ -1,6 +1,6 @@
 document.body.addEventListener('htmx:afterSwap', function (evt) {
     Prism.highlightAllUnder(evt.detail.elt);
-    initScrollSpy(false);
+    initScrollSpy();
 
     const requestPath = new URL(evt.detail.xhr.responseURL).pathname;
     if (requestPath.startsWith('/guide/')) {
@@ -45,16 +45,6 @@ function scrollToActiveExample() {
         const elementPosition = interactiveExamplesSection.getBoundingClientRect().top;
         const offsetPosition = elementPosition + window.scrollY - headerOffset;
 
-        const endProgrammaticScroll = () => {
-            isProgrammaticScroll = false;
-            window.removeEventListener('wheel', endProgrammaticScroll);
-        };
-
-        isProgrammaticScroll = true;
-
-        window.addEventListener('wheel', endProgrammaticScroll, {once: true});
-        setTimeout(endProgrammaticScroll, 1000);
-
         window.scrollTo({
             top: offsetPosition,
             behavior: "smooth"
@@ -88,16 +78,12 @@ function updateActiveNav(targetId) {
         container.querySelectorAll('a.active').forEach(link => link.classList.remove('active'));
     });
 
-    if (!targetId) {
-        targetId = "top";
-    }
-    ;
+    if (!targetId) return;
 
     const targetLinks = document.querySelectorAll(`#guide-sidebar-links a[href="#${targetId}"], .fab-menu a[href="#${targetId}"]`);
 
     targetLinks.forEach(link => {
         link.classList.add('active');
-
         const fabSubmenu = link.closest('.fab-submenu');
         if (fabSubmenu) {
             const fabContainer = fabSubmenu.closest('.fab-container');
@@ -113,83 +99,98 @@ function updateActiveNav(targetId) {
     });
 }
 
-function initScrollSpy(runImmediately = true) {
+function initScrollSpy() {
     if (activeScrollListener) {
         window.removeEventListener('scroll', activeScrollListener);
-        activeScrollListener = null;
     }
 
-    const sidebar = document.getElementById('guide-sidebar-links');
-    if (!sidebar) return;
+    const sidebarLinksContainer = document.getElementById('guide-sidebar-links');
+    if (!sidebarLinksContainer) return;
 
-    sidebar.addEventListener('click', function (e) {
-        const anchorLink = e.target.closest('a[href^="#"]');
-        if (anchorLink) {
-            const id = anchorLink.getAttribute('href');
-            try {
-                const targetSection = document.querySelector(id);
-                applyHighlight(targetSection);
-                updateActiveNav(id.substring(1));
-            } catch (err) {
-                console.error("Could not highlight section:", err);
-            }
-
-            isScrollSpyPaused = true;
-            clearTimeout(scrollSpyTimeoutId);
-            const unpauseSpy = () => {
-                isScrollSpyPaused = false;
-                window.removeEventListener('scroll', unpauseSpy);
-            };
-            window.addEventListener('scroll', unpauseSpy, {once: true});
-            scrollSpyTimeoutId = setTimeout(unpauseSpy, 1000);
-        }
-    });
-
-    const sections = Array.from(sidebar.querySelectorAll('a[href^="#"]'))
-        .map(link => document.querySelector(link.getAttribute('href')))
+    let sections = Array.from(sidebarLinksContainer.querySelectorAll('a[href^="#"]'))
+        .map(link => document.getElementById(link.getAttribute('href').substring(1)))
         .filter(section => section !== null);
 
-    const examplesMainSection = document.getElementById('examples-main');
-    if (examplesMainSection) {
-        sections.push(examplesMainSection);
-    }
-
     if (sections.length === 0) return;
+
+    sections.sort((a, b) => a.offsetTop - b.offsetTop);
+
+    let lastActiveId = null;
 
     const handleScroll = () => {
         if (isProgrammaticScroll || isScrollSpyPaused) return;
 
-        const scrollY = window.scrollY;
-        const offset = 85;
-        let currentSectionId = null;
+        let newActiveId = null;
+        const scrollBottom = Math.ceil(window.innerHeight + window.scrollY);
+        const docHeight = document.documentElement.scrollHeight;
 
-        for (const section of sections) {
-            if (section.offsetTop - offset <= scrollY) {
-                currentSectionId = section.id;
-            } else {
-                break;
+        if (scrollBottom >= docHeight) {
+            newActiveId = sections[sections.length - 1].id;
+        } else {
+            const scrollY = window.scrollY;
+            const offset = 85;
+            for (const section of sections) {
+                if (section.offsetTop - offset <= scrollY) {
+                    newActiveId = section.id;
+                } else {
+                    break;
+                }
             }
         }
 
-        updateActiveNav(currentSectionId);
+        if (newActiveId === null && sections.length > 0) {
+            newActiveId = sections[0].id;
+        }
 
-        if (sidebar && sidebar.scrollHeight > sidebar.clientHeight) {
-            const activeLinkInSidebar = sidebar.querySelector('a.active');
-            if (activeLinkInSidebar) {
-                activeLinkInSidebar.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'nearest'
-                });
+        if (newActiveId !== lastActiveId) {
+            lastActiveId = newActiveId;
+            updateActiveNav(newActiveId);
+
+            const scrollContainer = document.querySelector('.examples-sidebar');
+            if (scrollContainer && scrollContainer.scrollHeight > scrollContainer.clientHeight) {
+                const activeLinkInSidebar = scrollContainer.querySelector('a.active');
+                if (activeLinkInSidebar) {
+                    activeLinkInSidebar.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'nearest'
+                    });
+                }
             }
         }
     };
 
+    sidebarLinksContainer.addEventListener('click', function (e) {
+        const anchorLink = e.target.closest('a[href^="#"]');
+        if (anchorLink) {
+            e.preventDefault();
+            const id = anchorLink.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(id);
+            if (targetSection) {
+                isScrollSpyPaused = true;
+                const headerOffset = 80;
+                const elementPosition = targetSection.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+
+                applyHighlight(targetSection);
+                updateActiveNav(id);
+                lastActiveId = id;
+
+                clearTimeout(scrollSpyTimeoutId);
+                scrollSpyTimeoutId = setTimeout(() => {
+                    isScrollSpyPaused = false;
+                }, 1000);
+            }
+        }
+    });
+
     activeScrollListener = throttle(handleScroll, 100);
     window.addEventListener('scroll', activeScrollListener);
-
-    if (runImmediately) {
-        handleScroll();
-    }
+    handleScroll();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
